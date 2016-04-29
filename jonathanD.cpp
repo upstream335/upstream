@@ -15,6 +15,7 @@ extern "C" {
 struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 //defined types
+
 void createLily(const int n, Game *game)
 {
     //if (game->nlily >= 1) return;

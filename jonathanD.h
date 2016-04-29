@@ -20,9 +20,6 @@ struct Lilypad {
     //Ppmimage *lillyImage[3];
     GLuint lillyTexture[3];
     Lilypad() {
-        //lillyImage[0] = ppm6GetImage("./images/lillypad.ppm");
-        //lillyImage[1] = ppm6GetImage("./images/lillypad1.ppm");
-        //lillyImage[2] = ppm6GetImage("./images/lillypad2.ppm");
         next = NULL;
         prev = NULL;
     }

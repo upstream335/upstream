@@ -15,12 +15,10 @@ void check_mouse(XEvent *e, Game *game)
 	static int savex = 0;
 	static int savey = 0;
 	static int n = 0;
-	if (e->type == ButtonRelease)
-	{
+	if (e->type == ButtonRelease) {
 		return;
 	}
-	if (e->type == ButtonPress)
-	{
+	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1)
 		{
 			//Left button was pressed
@@ -33,23 +31,20 @@ void check_mouse(XEvent *e, Game *game)
 				else
 					playMusic();
 			}
-			if (!game->c.isJumping)
-			{
+			if (!game->c.isJumping) {
 				game->c.isJumping = true;
 				game->c.isStanding = false;
 				game->c.velocity[1] = 15.0;
 			}
 			return;
 		}
-		if (e->xbutton.button==3)
-		{
+		if (e->xbutton.button==3) {
 			//Right button was pressed
 			return;
 		}
 	}
 	//Did the mouse move?
-	if (savex != e->xbutton.x || savey != e->xbutton.y)
-	{
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		savex = e->xbutton.x;
 		savey = game->windowHeight - e->xbutton.y;
 		if (++n < 10)
@@ -62,11 +57,9 @@ void check_mouse(XEvent *e, Game *game)
 int check_keys(XEvent *e, Game *game)
 {
 	//Was there input from the keyboard?
-	if (e->type == KeyPress)
-	{
+	if (e->type == KeyPress) {
 		int key = XLookupKeysym(&e->xkey, 0);
-		switch (key)
-		{
+		switch (key) {
 			case XK_f:
 				break;
 			case XK_b:

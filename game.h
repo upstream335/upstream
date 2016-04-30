@@ -38,7 +38,7 @@ struct Game
 	int n;
 	Frog *frog;
 	Gator *gator;
-	Log *log;
+	Log *log[4];
 	Water *water[3];
 	Bridge *bridge;
 	Splash *splash;

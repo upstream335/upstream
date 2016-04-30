@@ -69,29 +69,45 @@ void collision(Game *game)
 	}
 	// ========================================
 	// collision frog with log
-	if (game->c.center[0] <= game->log->getXpos()+10 &&
-			game->c.center[0] >= game->log->getXpos()-10 &&
-			game->c.center[1] <= game->log->getYpos()+40 &&
-			game->c.center[1] >= game->log->getYpos()-40) {
-		game->c.velocity[1]=game->log->getYvel()+15;
+	for(int i=0;i<4;i++)
+	{
+	if (game->c.center[0] <= game->log[i]->getXpos()+15 &&
+			game->c.center[0] >= game->log[i]->getXpos()-15 &&
+			game->c.center[1] <= game->log[i]->getYpos()+50 &&
+			game->c.center[1] >= game->log[i]->getYpos()-50) {
+		game->c.velocity[1]=game->log[i]->getYvel()+15;
 		playSounds("./wav/tick.wav",1.0f, false, game->muted);
 		game->score+=2;
 
+        }
 	}
-	// collision frog with gator
-	if (game->c.center[0] <= game->gator->getXpos()+50 &&
+	// collision frog with gator head
+	if (game->c.center[0] <= game->gator->getXpos()-5 &&
 			game->c.center[0] >= game->gator->getXpos()-50 &&
 			game->c.center[1] <= game->gator->getYpos()+20 &&
 			game->c.center[1] >= game->gator->getYpos()-20) {
 		gameOver(game);
 	}
+	// collision frog with gator back
+	if (game->c.center[0] <= game->gator->getXpos()+50 &&
+			game->c.center[0] >= game->gator->getXpos()-6 &&
+			game->c.center[1] <= game->gator->getYpos()+20 &&
+			game->c.center[1] >= game->gator->getYpos()-20) {
+                game->c.isJumping = true;
+				game->c.velocity[1] = 15.0;
+				playSounds("./wav/boing.wav",1.0f, false,game->muted);
+				game->score+=30;
+	}
 	// collision gator with log
-	if (game->gator->getXpos() <= game->log->getXpos()+80 &&
-			game->gator->getXpos() >= game->log->getXpos()-20 &&
-			game->gator->getYpos() >= game->log->getYpos()-50 &&
-			game->gator->getYpos() <= game->log->getYpos()+50) {
+	for(int i=0;i<4;i++)
+	{
+	if (game->gator->getXpos() <= game->log[i]->getXpos()+80 &&
+			game->gator->getXpos() >= game->log[i]->getXpos()-20 &&
+			game->gator->getYpos() >= game->log[i]->getYpos()-50 &&
+			game->gator->getYpos() <= game->log[i]->getYpos()+50) {
 		game->gator->move(game->gator->getXpos()+45,game->gator->getYpos()+15,
 				game->gator->getXvel(),game->gator->getYvel());
+        }
 	}
 	//fell down
 	if (game->c.center[1]<40 &&  game->bridge->getYpos()<140) {
@@ -121,8 +137,12 @@ void screenUpdate(Game *game)
 				game->water[2]->getXvel(), game->water[2]->getYvel() );
 		game->gator->move(game->gator->getXpos(), game->gator->getYpos()-5,
 				game->gator->getXvel(), game->gator->getYvel() );
-		game->log->move(game->log->getXpos(), game->log->getYpos()-5,
-				game->log->getXvel(), game->log->getYvel() );
+
+				for(int i=0;i<4;i++)
+        {
+            game->log[i]->move(game->log[i]->getXpos(), game->log[i]->getYpos()-5,
+				game->log[i]->getXvel(), game->log[i]->getYvel() );
+		}
 		game->bridge->move(game->bridge->getXpos(), game->bridge->getYpos()-5,
 				game->bridge->getXvel(), game->bridge->getYvel() );
 		//shift lilies
@@ -142,7 +162,10 @@ void gameOver(Game *game)
 	if (game->playing==true) {
 
 		game->frog->move(-100,-100,0,0);
-		game->log->move(-100,-100,0,0);
+		for(int i=0;i<4;i++)
+        {
+            game->log[i]->move(-100*i,-100,0,0);
+		}
 		game->gator->move(-100,-100,0,0);
 
 		game->splash->move(game->c.center[0],game->c.center[1],0,0);
@@ -156,7 +179,10 @@ void gameOver(Game *game)
 	}
 	if (game->playing==false) {
 		game->bridge->move(300,150,game->bridge->getXvel(),game->bridge->getYvel());
-		game->log->move(200,-100,-.25,-1);
+		for(int i=0;i<4;i++)
+        {
+            game->log[i]->move(50*i,-100*i,-.25,-1);
+		}
 		game->gator->move(-300,400,-2,-.5);
 		game->frog->move(-100,-800,0,0);
 		game->c.center[1]=-10;

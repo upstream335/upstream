@@ -1,20 +1,19 @@
-// author: Jonathan Dinh
-// cs335 project
-// This file is responsible for all lilypads related functions such
+// Author: Jonathan Dinh
+// Date written: 4/18/2016
+// Last Modified: 5/02/2016
+// Purpose: This file is responsible for all lilypads related functions such
 // as spawning lilypads, deleting lilypads, and behaviors of lilypads
+//
 
 #include <GL/glx.h>
-#include "log.h"
 #include "jonathanD.h"
 #include "ppm.h"
 #include "game.h"
-#include <iostream>
 extern "C" {
 #include "fonts.h"
 }
 struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
-//defined types
 
 void createLily(const int n, Game *game)
 {
@@ -29,7 +28,6 @@ void createLily(const int n, Game *game)
         node->next = NULL;
         int random = rand() % (game->windowWidth - 120) + 60;
         node->pos[0] = game->windowWidth - random;
-        std::cout << game->windowWidth << " - " << random << " = " << node->pos[0] << std::endl;
         node->pos[1] = game->lilyspawnpoint;
         node->vel[1] = -2.0f;
         //node->s.width = 10.0;
@@ -139,11 +137,10 @@ void drawLilies(Game *game)
             check++;
         }
         if (check >= 80) {
-            if(r<=1)
+            if (r<=1)
                 glBindTexture(GL_TEXTURE_2D, node->lillyTexture[2]);
             check++;
         }
-
         if (check>100)
             check =0;
 

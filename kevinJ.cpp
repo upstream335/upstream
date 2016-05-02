@@ -1,5 +1,6 @@
 //Author: Kevin Jenkin
 //Project: Upstream
+//May 2016
 //Basic Function: Play and Cleanup sound files && how to score the game
 
 #include "kevinJ.h"
@@ -64,13 +65,10 @@ void playMusic()
 void maxScore(Game *game)
 {
 	 int max = game->highscore[0];
-	 for (int i = 0; i < game->scoreCount; i++)
-	 {
-		  if (game->highscore[i] > max)
-		  {
+	 for (int i = 0; i < game->scoreCount; i++) {
+		  if (game->highscore[i] > max) {
 				max = game->highscore[i];
 		  }
 	 }
 	 game->highscore[0] = max;
-	 //return max;
 }

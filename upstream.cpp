@@ -25,14 +25,13 @@
 #include <AL/alut.h>
 #include "ppm.h"
 #include "log.h"
+#include "fonts.h"
 
 #include "jonathanD.h"
 #include "kevinJ.h"
 #include "collision.cpp"
 
-extern "C" {
-#include "fonts.h"
-}
+
 
 //macros
 #define random(a) (rand()%a)
@@ -186,6 +185,7 @@ void init_opengl(Game *game)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+	
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_FOG);
@@ -238,16 +238,18 @@ void render(Game *game)
 	// TEXT ====================================
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
-	r.bot = game->windowHeight - 20;
-	r.left = 10;
-	r.center = 0;
-	ggprint8b(&r, 16, 255, "Current Score: %d", game->score);
+	r.bot = game->windowHeight - 50;
+	r.left = 300;
+	r.center = 300;
+	ggprint40(&r, 0, 0, "Current Score: %d", game->score);
+	r.bot-=50;
 	//std::cout<<game->score<<std::endl;
 	maxScore(game);
-	ggprint8b(&r, 16, 255, "High Score: %d", game->highscore[0]);
-	//std::cout<<game->highscore[0]<<std::endl;
-	ggprint8b(&r, 16, 255, "FROG Y: %f", game->windowHeight - game->c.newPosY);
-	ggprint8b(&r, 16, 255, "FROG x: %f", game->c.newPosX);
+	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);
+	r.bot -=50;	
+//std::cout<<game->highscore[0]<<std::endl;
+	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
+ 	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);
 
 	// ==========================================================
 }

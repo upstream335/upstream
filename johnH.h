@@ -37,8 +37,8 @@ class Frog
 {
 private:
 	Position current;
+	Position previous;
 	bool isStanding;
-	int frame;
 	Ppmimage *frogImage[11];
 	GLuint frogTexture[11];
 
@@ -47,7 +47,12 @@ public:
 	Frog()
 	{
 		isStanding = true;
-		frame =0;
+		current.frame = 0;
+		current.x_pos = 300;
+		current.y_pos =150;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
 		frogImage[0] = get_image("./images/frog");
 		frogImage[1] = get_image("./images/frog1");
 		frogImage[2] = get_image("./images/frog2");
@@ -106,6 +111,7 @@ class Bridge
 {
 private:
 	Position current;
+	Position previous;
 	Ppmimage *bridgeImage[2];
 	GLuint bridgeTexture[2];
 public:
@@ -116,6 +122,7 @@ public:
 		current.y_pos =150;
 		current.x_vel = 0;
 		current.y_vel = -1;
+		previous = current;
 		bridgeImage[0] = get_image("./images/bridge");
 
 		int i=0;
@@ -167,6 +174,7 @@ class Log
 {
 private:
 	Position current;
+	Position previous;
 	Ppmimage *logImage[2];
 	GLuint logTexture[2];
 public:
@@ -175,9 +183,10 @@ public:
  {
 		current.frame =0;
 		current.x_pos = 300;
-		current.y_pos =800;
+		current.y_pos =-200;
 		current.x_vel = 0;
 		current.y_vel = -1;
+		previous = current;
 		logImage[0] = get_image("./images/log");
 		logImage[1] = get_image("./images/log1");
 		for(int i=0; i<2; i++) {
@@ -223,6 +232,7 @@ class Gator
 {
 private:
 	Position current;
+	Position previous;
 	Ppmimage *gatorImage[2];
 	GLuint gatorTexture[2];
 public:
@@ -233,6 +243,7 @@ public:
 		current.y_pos =400;
 		current.x_vel = -2;
 		current.y_vel = -0.5;
+		previous = current;
 		gatorImage[0] = get_image("./images/aligator");
 		gatorImage[1] = get_image("./images/aligator1");
 		for(int i=0; i<2; i++) {
@@ -279,6 +290,7 @@ class Water
 {
 private:
 	Position current;
+	Position previous;
 	Ppmimage *waterImage[4];
 	GLuint waterTexture[4];
 public:
@@ -289,6 +301,7 @@ public:
 		current.y_pos =800;
 		current.x_vel = 0;
 		current.y_vel = -1;
+		previous = current;
 		waterImage[0] = get_image("./images/water");
 		waterImage[1] = get_image("./images/water1");
 		for(int i=0; i<2; i++) {
@@ -334,13 +347,19 @@ class Splash
 {
 private:
 	Position current;
+	Position previous;
 	Ppmimage *splashImage[5];
 	GLuint splashTexture[5];
 
 public:
 	// Constructor with default values for data members
 	Splash() {
-		current.frame =0;
+		current.frame = 0;
+		current.x_pos = -300;
+		current.y_pos =-800;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
 		splashImage[0] = get_image("./images/splash");
 		splashImage[1] = get_image("./images/splash1");
 		splashImage[2] = get_image("./images/splash2");
@@ -384,8 +403,68 @@ public:
 	}
 	void move (float xp, float yp, float xv, float yv) {
 		current = update_position(&current,xp,yp,xv,yv);
+		current.frame=0;
 	}
+
 
 }; //end splash class ======================================
 
+
+class LP
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *lpImage[2];
+	GLuint lpTexture[2];
+public:
+	// Constructor with default values for data members
+	LP()
+ {      int r= rand()%600+1;
+		current.frame =0;
+		current.x_pos = 300-r;
+		current.y_pos =-200+r;
+		current.x_vel = 0.5;
+		current.y_vel = -2.5;
+		previous = current;
+		lpImage[0] = get_image("./images/lp");
+		lpImage[1] = get_image("./images/lp1");
+		for(int i=0; i<2; i++) {
+			//create opengl texture elements
+			glGenTextures(1, &lpTexture[i]);
+			int w = lpImage[i]->width;
+			int h = lpImage[i]->height;
+			//
+			glBindTexture(GL_TEXTURE_2D, lpTexture[i]);
+			//glBindTexture(GL_TEXTURE_2D, lpTexture[i]);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+			unsigned char *lpData = buildAlphaData(lpImage[i]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			             GL_RGBA, GL_UNSIGNED_BYTE, lpData);
+			free(lpData);
+		}
+	} //end constructor
+//-------------------------------------------------------------------------
+	void render(void);
+	float getXpos() {
+		return current.x_pos;
+	}
+	float getYpos() {
+		return current.y_pos;
+	}
+	float getXvel() {
+		return current.x_vel;
+	}
+	float getYvel() {
+		return current.y_vel;
+	}
+	void move (float xp, float yp, float xv, float yv) {
+		current = update_position(&current,xp,yp,xv,yv);
+	}
+}; //end lp class
+
+
+
+// =======================================================
 // =========================================================

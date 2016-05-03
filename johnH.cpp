@@ -33,6 +33,11 @@ return *c;
 // Render frog =============================================
 void Frog::render(void)
 {
+//std::cout<<"frog position x,y ="<<current.x_pos<<","<<current.y_pos<<std::endl;
+//std::cout<<"frog velocity x,y ="<<current.x_vel<<","<<current.y_vel<<std::endl;
+//std::cout<<"frog prev position x,y ="<<previous.x_pos<<","<<previous.y_pos<<std::endl;
+//std::cout<<"frog prev velocity x,y ="<<previous.x_vel<<","<<previous.y_vel<<std::endl;
+//std::cout<<"frog current frame, prev frame ="<<current.frame<<","<<previous.frame<<std::endl;
     float wid = 30.0f; // size of frog sprite
     glColor3f(1.0, 1.0, 1.0);
 if(current.y_pos<30){
@@ -43,80 +48,94 @@ if(current.y_pos<30){
     current.x_vel=0;
     }
     glPushMatrix();
-        glTranslatef(current.x_pos, current.y_pos, 0);
-        glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
+    glTranslatef(current.x_pos, current.y_pos, 0);
+    glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
         // JUMPING UP===========================
-        if(current.x_vel <= 0 && frame <= 10 && current.y_vel>0)
+        if(current.frame >= 30 && current.y_vel>0)
+            current.frame =0;
+        if(current.x_vel <= 0 && current.frame <= 5 && current.y_vel>0)
             {
             glBindTexture(GL_TEXTURE_2D, frogTexture[1]);
-            frame++;
+            current.frame++;
+            //std::cout<<"up one"<<std::endl;
             }
-        if(current.x_vel <= 0 && frame <= 20  && current.y_vel>0)
-        {
+        if(  current.x_vel <= 0 && current.frame <= 10  &&
+                current.frame > 5 && current.y_vel>0)
+            {
             glBindTexture(GL_TEXTURE_2D, frogTexture[2]);
-            frame++;
+            current.frame++;
+            //std::cout<<"up two"<<std::endl;
             }
-        if(current.x_vel <= 0 && frame <= 30 && current.y_vel>0)
+        if(current.x_vel <= 0 && current.frame <= 20 &&
+            current.frame > 10 && current.y_vel>0)
             {
             glBindTexture(GL_TEXTURE_2D, frogTexture[3]);
-            frame++;
+            current.frame++;
+            //std::cout<<"up three"<<std::endl;
             }
          // JUMPING DOWN ===================================
-        if(current.x_vel <= 0 && frame >= 40 && current.y_vel<0)
+        if(current.x_vel <= 0 && current.frame >= 15 &&  current.y_vel<0)
             {
             glBindTexture(GL_TEXTURE_2D, frogTexture[3]);
-            frame--;
+            current.frame--;
+            //std::cout<<"down one"<<std::endl;
             }
-        if(current.x_vel <= 0 && frame >= 30 && current.y_vel<0)
+        if(current.x_vel <= 0 && current.frame >= 5 &&
+            current.frame<=10 && current.y_vel<0)
             {
             glBindTexture(GL_TEXTURE_2D, frogTexture[4]);
-            frame--;
+            current.frame--;
+            //std::cout<<"down two"<<std::endl;
             }
-        if(current.x_vel <= 0 && frame >= 20  && current.y_vel<0)
+        if(current.x_vel <= 0 && current.frame <= 5  && current.y_vel<0)
             {
             glBindTexture(GL_TEXTURE_2D, frogTexture[5]);
-            frame--;
+            current.frame--;
+           // std::cout<<"down three"<<std::endl;
             }
         // ==================================================
-        //moving right to left
-        if(current.x_vel < 0 && frame <-30)
+        //moving along bridge
+        bool going_left = true;
+        if(previous.x_pos < current.x_pos )//&& current.y_pos <= 50 && current.frame <-30)
         {
-            glBindTexture(GL_TEXTURE_2D, frogTexture[7]);
-            frame++ ;
-            if(frame==-30){
-                frame =0;
-                current.x_vel =0;
-                }
-            }
-        if(current.x_vel < 0 && current.y_vel >= 0 && frame >=-30)
-        {
+            going_left = false;
+           }
+
+           if(!going_left && current.y_vel<=0)
+           {
+           glBindTexture(GL_TEXTURE_2D, frogTexture[7]);
+           current.frame++;
+           if(current.frame >= 40)
+            {
             glBindTexture(GL_TEXTURE_2D, frogTexture[8]);
-           frame--;
-           if(frame<-30)
-           frame=-40;
-          }
-        //moving left to right
-        if(current.x_vel > 0 && frame <-30)
-        {
-            glBindTexture(GL_TEXTURE_2D, frogTexture[10]);
-            frame++ ;
-            if(frame==-30){
-                frame=0;
-                current.x_vel = 0;
-                }
+            if(current.frame > 80)
+            current.frame = 0;
             }
-        if(current.x_vel > 0 && current.y_vel >= 0 && frame >=-30)
-        {
-            glBindTexture(GL_TEXTURE_2D, frogTexture[9]);
-           frame--;
-           if(frame<-30)
-           frame=-40;
-          }
+           }
+
+           if(going_left && current.y_vel<=0)
+           {
+           glBindTexture(GL_TEXTURE_2D, frogTexture[9]);
+           current.frame++;
+           if(current.frame >= 40)
+            {
+            glBindTexture(GL_TEXTURE_2D, frogTexture[10]);
+            if(current.frame > 80)
+            current.frame = 0;
+            }
+           }
+
         //sitting still
-        if(current.x_vel==0 && current.y_vel==0)
+        if(current.x_vel==0 && current.y_vel==0 && current.x_pos== previous.x_pos)
+        {
         glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
+        current.frame = 0;
+        }
         if(current.x_vel==0 && current.y_vel<0)
         glBindTexture(GL_TEXTURE_2D, frogTexture[5]);
+
+        previous = current;
+
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0.0f);
         glColor4ub(255,255,255,255);
@@ -185,7 +204,7 @@ void Log::render(void)
     current.x_pos = 500-r;
     current.y_pos = 800;
     }
-    float wid = 60.0f; // size of log sprite
+    float wid = 60.0f; // size of logsprite
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
         glTranslatef(current.x_pos, current.y_pos, 0);
@@ -325,21 +344,28 @@ void Water::render(void)
 
 void Splash::render(void)
 {
-    float wid = 30.0f; // size of splash sprite
+    float wid = 50.0f; // size of splash sprite
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
-        glTranslatef(current.x_pos, current.y_pos, 0);
-        glBindTexture(GL_TEXTURE_2D, splashTexture[0]);
-        for(int i=0;i<5;i++){
+    glTranslatef(current.x_pos, current.y_pos, 0);
+    glBindTexture(GL_TEXTURE_2D, splashTexture[0]);
+
+    for(int i=0;i<5;i++){
         current.frame++;
         //std::cout<<"frame="<<frame<<std::endl;
-            if(current.frame >=i*40)
+            if(current.frame >=i*30 && current.frame <=200)
             {
             glBindTexture(GL_TEXTURE_2D, splashTexture[i]);
             }
+            if(current.frame >=200)
+            {
+            current.x_pos = -500;
+            current.y_pos = -500;
+            }
         }
-        if(current.frame>=400)
-        current.frame=400;
+        if(current.frame>500)
+        current.frame=500;
+
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0.0f);
         glColor4ub(255,255,255,255);
@@ -362,6 +388,58 @@ void Splash::render(void)
     glEnable(GL_TEXTURE_2D);
     }
 // end splash render ===========================================
+
+
+void LP::render(void)
+{
+	int r = rand()%600+1;
+    current.x_pos += current.x_vel;
+    current.y_pos += current.y_vel;
+    if(current.y_pos<-100){
+    current.x_pos = 500-r;
+    current.y_pos = 1400-r;
+    }
+    float wid = 20.0f; // size of lpsprite
+    glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+        glTranslatef(current.x_pos, current.y_pos, 0);
+        glBindTexture(GL_TEXTURE_2D, lpTexture[0]);
+//std::cout << " going back pos[0]= " << current.x_pos << std::endl;
+        if(current.frame>=10){
+        glBindTexture(GL_TEXTURE_2D, lpTexture[0]);
+        current.frame++;
+        if(current.frame>20)
+        current.frame=0;
+        }
+        if(current.frame<10){
+        glBindTexture(GL_TEXTURE_2D, lpTexture[1]);
+        current.frame++;
+        }
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
+        glBegin(GL_QUADS);
+        //if (x_vel > 0.0)
+        //{
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex2i(-wid,-wid);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2i(-wid, wid);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex2i( wid, wid);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex2i( wid,-wid);
+        glEnd();
+        glPopMatrix();
+        glDisable(GL_ALPHA_TEST);
+    glDisable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glDisable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    }
+// end LP render ==============================================
+
 
 
 // =============================================================

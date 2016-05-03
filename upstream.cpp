@@ -226,9 +226,8 @@ void render(Game *game)
 	game->water[2]->render();
 	drawLilies(game);
 	screenUpdate(game);
-	for(int i=0;i<4;i++)
-	{
-        game->log[i]->render();
+	for (int i=0;i<4;i++) {
+		game->log[i]->render();
 	}
 	game->gator->render();
 	game->bridge->render();

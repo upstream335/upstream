@@ -5,7 +5,8 @@
 #include <cstring>
 #include <memory.h>
 
-unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsigned int& outHeight, bool flipY)
+unsigned char * loadBMPRaw(const char * imagepath, 
+unsigned int& outWidth, unsigned int& outHeight, bool flipY)
 {
 	printf("Reading image %s\n", imagepath);
 	outWidth = -1;

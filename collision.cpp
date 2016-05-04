@@ -32,7 +32,7 @@ void collision(Game *game)
 			game->c.center[0] += 20.0;
 		} else {
 			game->c.center[0] += 10.0;
-			if(game->c.velocity[0]<=0 )
+			if (game->c.velocity[0]<=0 )
 				game->c.velocity[0]+=0.2;
 		}
 		if (game->c.center[0] > game->c.newPosX)
@@ -42,7 +42,7 @@ void collision(Game *game)
 			game->c.center[0] -= 15.0;
 		} else {
 			game->c.center[0] -= 10.0;
-			if(game->c.velocity[0]>=0 )
+			if (game->c.velocity[0]>=0 )
 				game->c.velocity[0] -=0.2;
 		}
 		if (game->c.center[0] < game->c.newPosX)
@@ -71,8 +71,7 @@ void collision(Game *game)
 
 	// ========================================
 	// collision frog with log
-	for(int i=0;i<4;i++)
-	{
+	for (int i=0;i<4;i++) {
 	if (game->c.center[0] <= game->log[i]->getXpos()+15 &&
 			game->c.center[0] >= game->log[i]->getXpos()-15 &&
 			game->c.center[1] <= game->log[i]->getYpos()+50 &&
@@ -103,13 +102,13 @@ void collision(Game *game)
 				game->score+=30;
 	}
 	// collision gator with log
-	for(int i=0;i<4;i++)
-	{
-	if (game->gator->getXpos() <= game->log[i]->getXpos()+80 &&
+	for (int i=0;i<4;i++) {
+		if (game->gator->getXpos() <= game->log[i]->getXpos()+80 &&
 			game->gator->getXpos() >= game->log[i]->getXpos()-20 &&
 			game->gator->getYpos() >= game->log[i]->getYpos()-50 &&
 			game->gator->getYpos() <= game->log[i]->getYpos()+50) {
-		game->gator->move(game->gator->getXpos()+45,game->gator->getYpos()+15,
+				game->gator->move(game->gator->getXpos()+45,
+				game->gator->getYpos()+15,
 				game->gator->getXvel(),game->gator->getYvel());
         }
 	}
@@ -120,8 +119,7 @@ void collision(Game *game)
 
 	}
 	//frog at bottom
-	if (game->c.center[1] <= 15.0)
-	{
+	if (game->c.center[1] <= 15.0) {
 		game->highscore[++game->scoreCount] = game->score;
 		game->score = 0;
 	}
@@ -131,9 +129,9 @@ void collision(Game *game)
 void screenUpdate(Game *game)
 {
     //std::cout<<game->splash->getFrame()<<std::endl;
-	if(game->frog->getYpos() > game->windowHeight/2) {
+	if (game->frog->getYpos() > game->windowHeight/2) {
 	int move_down = 10;
-	if(game->frog->getYpos() > (game->windowHeight/3)*2)
+	if (game->frog->getYpos() > (game->windowHeight/3)*2)
         move_down = 30;
 		game->c.center[1]-=move_down;
 		game->frog->move(game->frog->getXpos(), game->frog->getYpos()-move_down,
@@ -147,8 +145,7 @@ void screenUpdate(Game *game)
 		game->gator->move(game->gator->getXpos(), game->gator->getYpos()-move_down,
 				game->gator->getXvel(), game->gator->getYvel() );
 
-				for(int i=0;i<4;i++)
-        {
+				for (int i=0;i<4;i++) {
             game->log[i]->move(game->log[i]->getXpos(), game->log[i]->getYpos()-move_down,
 				game->log[i]->getXvel(), game->log[i]->getYvel() );
 		}
@@ -171,12 +168,11 @@ void screenUpdate(Game *game)
 void gameOver(Game *game)
 {
     // move splash on screen if offscreen
-    if(game->splash->getXpos()<0)
+    if (game->splash->getXpos()<0)
 		game->splash->move(game->c.center[0],game->c.center[1]+40,0,0);
     //move frog,logs and gator offscreen
 		game->frog->move(-200,-200,0,0);
-		for(int i=0;i<4;i++)
-        {
+		for (int i=0;i<4;i++) {
             game->log[i]->move(-200*i,-300,0,0);
 		}
 		game->gator->move(-200,-200,0,0);
@@ -184,12 +180,10 @@ void gameOver(Game *game)
 		clearLilies(game);
 
 		//wait for splash to complete
-	if(game->splash->getFrame()>=195)
-	{
+	if (game->splash->getFrame()>=195) {
 	//move bridge back
 	game->bridge->move(300,150,0,0);
-		for(int i=0;i<4;i++)
-        {
+		for (int i=0;i<4;i++) {
             game->log[i]->move(50*i,-100*i,-.15*i,-1);
 		}
 		game->gator->move(-300,400,-2,-.5);

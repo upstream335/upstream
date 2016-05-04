@@ -53,16 +53,16 @@ struct Score {
     Ppmimage *scoreImage[10];
     GLuint scoreTexture[10];
     Score() {
-        scoreImage[0] = get_image("./images/frog");
-		scoreImage[1] = get_image("./images/frog1");
-		scoreImage[2] = get_image("./images/frog2");
-		scoreImage[3] = get_image("./images/frog3");
-		scoreImage[4] = get_image("./images/frog4");
-		scoreImage[5] = get_image("./images/frog5");
-		scoreImage[6] = get_image("./images/frog6");
-		scoreImage[7] = get_image("./images/frog7");
-		scoreImage[8] = get_image("./images/frog8");
-		scoreImage[9] = get_image("./images/frog9");
+        scoreImage[0] = get_image("./images/zero");
+		scoreImage[1] = get_image("./images/one");
+		scoreImage[2] = get_image("./images/two");
+		scoreImage[3] = get_image("./images/three");
+		scoreImage[4] = get_image("./images/four");
+		scoreImage[5] = get_image("./images/five");
+		scoreImage[6] = get_image("./images/six");
+		scoreImage[7] = get_image("./images/seven");
+		scoreImage[8] = get_image("./images/eight");
+		scoreImage[9] = get_image("./images/nine");
 		for (int i = 0; i < 10; i++) {
 			//create opengl texture elements
 			glGenTextures(1, &scoreTexture[i]);
@@ -84,5 +84,5 @@ extern void checkLilies(Game *game);
 extern void drawLilies(Game *game);
 extern void deleteLily(Lilypad *node, Game *game);
 extern void clearLilies(Game *game);
-extern void drawScore(int s, Game *game);
+extern void drawScore(int s, Game *game,int);
 #endif

@@ -111,6 +111,7 @@ void clearLilies(Game *game)
 int check = 0;
 void drawLilies(Game *game)
 {
+	int wid =20;
     Lilypad *node = game->ihead;
     while (node) {
         /*for (int i =0; i<3; i++) {
@@ -156,15 +157,14 @@ void drawLilies(Game *game)
         glColor4ub(255,255,255,255);
         glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex2i(-20.0,-20.0);
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2i(-20.0, 20.0);
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex2i( 20.0, 20.0);
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex2i( 20.0,-20.0);
-
-        glEnd();
+		glVertex2i(-wid,-wid);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2i(-wid, wid);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2i( wid, wid);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2i( wid,-wid);
+	    glEnd();
         glPopMatrix();
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_TEXTURE_2D);
@@ -197,8 +197,12 @@ unsigned char *buildAlphaData2(Ppmimage *img)
     return newdata;
 }
 
-void drawScore(int s, Game *game)
+void drawScore(int s, Game *game,int wid)
 {
+	if(wid==0)
+		{
+			wid =20;
+		}
     //drawing score using sprites
     string score;
     stringstream out;
@@ -220,15 +224,14 @@ void drawScore(int s, Game *game)
         glColor4ub(255,255,255,255);
         glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex2i(-20.0,-20.0);
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2i(-20.0, 20.0);
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex2i( 20.0, 20.0);
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex2i( 20.0,-20.0);
-        glDeleteTextures(1, &game->hscore->scoreTexture[idigit]);
-        glEnd();
+		glVertex2i(-wid,-wid);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2i(-wid, wid);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2i( wid, wid);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2i( wid,-wid);
+		glEnd();
         glPopMatrix();
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_TEXTURE_2D);

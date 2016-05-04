@@ -204,7 +204,7 @@ void drawScore(int s, Game *game)
     stringstream out;
     int size;
     int xpos= 20;
-    int ypos = game->windowHeight-50;
+    //int ypos = game->windowHeight-50;
     out << s;
     score = out.str();
     size = score.length();

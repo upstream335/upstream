@@ -31,15 +31,22 @@ unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsig
 		return NULL;
 	}
 	// Make sure this is a 24bpp file
-	if ( *(int*)&(header[0x1E])!=0 ) {printf("Not a correct BMP file\n"); return NULL;}
-	if ( *(int*)&(header[0x1C])!=24 ) {printf("Not a correct BMP file\n"); return NULL;}
+	if ( *(int*)&(header[0x1E])!=0 ) {
+		printf("Not a correct BMP file\n"); 
+		return NULL;
+	}
+	if ( *(int*)&(header[0x1C])!=24 ) {
+		printf("Not a correct BMP file\n"); 
+		return NULL;
+	}
 	// Read the information about the image
 	dataPos = *(int*)&(header[0x0A]);
 	imageSize = *(int*)&(header[0x22]);
 	outWidth = *(int*)&(header[0x12]);
 	outHeight = *(int*)&(header[0x16]);
 	// Some BMP files are misformatted, guess missing information
-	if (imageSize==0) imageSize=outWidth*outHeight*3; // 3 : one byte for each Red, Green and Blue component
+	// 3 : one byte for each Red, Green and Blue component
+	if (imageSize==0) imageSize=outWidth*outHeight*3;
 	if (dataPos==0) dataPos=54; // The BMP header is done that way
 	// Create a buffer
 	data = new unsigned char [imageSize];

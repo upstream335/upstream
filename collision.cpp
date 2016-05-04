@@ -48,8 +48,8 @@ void collision(Game *game)
 		if (game->c.center[0] < game->c.newPosX)
 			game->c.center[0] = game->c.newPosX;
 	}
-	//check for frog(ball)'s collision with lilies
 
+	//check for frog(ball)'s collision with lilies
 	Lilypad *node = game->ihead;
 	if (game->c.isStanding == false) {
 		while (node) {

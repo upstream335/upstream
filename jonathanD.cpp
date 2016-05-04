@@ -9,10 +9,13 @@
 #include "jonathanD.h"
 #include "ppm.h"
 #include "game.h"
+#include <string>
+#include <sstream>
 extern "C" {
 #include "fonts.h"
 }
-//LilyTexture *lily = new LilyTexture;
+
+using namespace std;
 struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 
@@ -192,4 +195,44 @@ unsigned char *buildAlphaData2(Ppmimage *img)
         data += 3;
     }
     return newdata;
+}
+
+void drawScore(int s, Game *game)
+{
+    //drawing score using sprites
+    string score;
+    stringstream out;
+    int size;
+    int xpos= 20;
+    int ypos = game->windowHeight-50;
+    out << s;
+    score = out.str();
+    size = score.length();
+    for (int i = 0; i < size; i++) {
+        char cdigit = score[i];
+        int idigit = cdigit - '0'; //ghetto atoi
+        //draw score
+        glPushMatrix();
+        glTranslatef(xpos+=30, 900, 0);
+        glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2i(-20.0,-20.0);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2i(-20.0, 20.0);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2i( 20.0, 20.0);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2i( 20.0,-20.0);
+        glDeleteTextures(1, &game->hscore->scoreTexture[idigit]);
+        glEnd();
+        glPopMatrix();
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+    }
 }

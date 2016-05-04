@@ -14,7 +14,6 @@ void init_game(Game *game)
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
 	game->score = 0;
-
 	game->scoreCount=0;
 	game->muted = false;
 	game->n=0;
@@ -29,6 +28,7 @@ void init_game(Game *game)
 	game->bridge = new Bridge;
 	game->splash = new Splash;
 	game->lily = new LilyTexture;
+	game->hscore = new Score;
 	game->nlily = 0;
 	game->timer = 0;
 	game->maxtimer = 35;

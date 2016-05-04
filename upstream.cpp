@@ -247,6 +247,8 @@ void render(Game *game)
 	//std::cout<<game->score<<std::endl;
 	maxScore(game);
 	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);
+
+	drawScore(game->score, game);
 	r.bot -=50;
 //std::cout<<game->highscore[0]<<std::endl;
 	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);

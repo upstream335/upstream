@@ -6,7 +6,7 @@
 typedef double Vec[3];
 struct Lilypad;
 struct LilyTexture;
-
+struct Score;
 struct Circle
 {
 	float radius;
@@ -35,6 +35,7 @@ struct Game
 	int maxtimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	Lilypad *ihead;
+	Score *hscore;
 	LilyTexture *lily;
 	Circle c;
 	int n;

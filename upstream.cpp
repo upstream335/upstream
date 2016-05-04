@@ -27,7 +27,7 @@
 #include "log.h"
 #include "fonts.h"
 
-#include "jonathanD.h"
+//#include "jonathanD.h"
 #include "kevinJ.h"
 #include "collision.cpp"
 
@@ -185,7 +185,7 @@ void init_opengl(Game *game)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
-	
+
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_FOG);
@@ -243,11 +243,11 @@ void render(Game *game)
 	r.center = 300;
 	ggfrog40b(&r, 50, 0, "UPSTREAM!");
 	ggprint40(&r, 50, 0, "Current Score: %d", game->score);
-	
+
 	//std::cout<<game->score<<std::endl;
 	maxScore(game);
 	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);
-	r.bot -=50;	
+	r.bot -=50;
 //std::cout<<game->highscore[0]<<std::endl;
 	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
  	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);

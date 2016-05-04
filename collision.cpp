@@ -49,7 +49,7 @@ void collision(Game *game)
 			game->c.center[0] = game->c.newPosX;
 	}
 	//check for frog(ball)'s collision with lilies
-	
+
 	Lilypad *node = game->ihead;
 	if (game->c.isStanding == false) {
 		while (node) {
@@ -68,7 +68,7 @@ void collision(Game *game)
 			node = node->next;
 		}
 	}
-	
+
 	// ========================================
 	// collision frog with log
 	for(int i=0;i<4;i++)
@@ -84,7 +84,7 @@ void collision(Game *game)
         }
 	}
 
-	
+
 	// collision frog with gator head
 	if (game->c.center[0] <= game->gator->getXpos()-10 &&
 			game->c.center[0] >= game->gator->getXpos()-40 &&
@@ -153,18 +153,18 @@ void screenUpdate(Game *game)
 				game->log[i]->getXvel(), game->log[i]->getYvel() );
 		}
 
-				
+
 		game->bridge->move(game->bridge->getXpos(), game->bridge->getYpos()-move_down,
 				game->bridge->getXvel(), game->bridge->getYvel() );
 		//shift lilies
 		Lilypad *node = game->ihead;
-		game->maxtimer = 12; //adjust spawn timer to spawn faster as we go up
+		game->maxtimer = 10; //adjust spawn timer to spawn faster as we go up
 		while (node) {
 			node->pos[1] -= move_down;
 			node = node->next;
 		}
 	} else {
-		game->maxtimer = 45; //reset spawn timer to original if below half screen
+		game->maxtimer = 35; //reset spawn timer to original if below half screen
 	}
 }
 

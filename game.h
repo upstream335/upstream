@@ -2,8 +2,10 @@
 #define _GAME_
 
 #include "johnH.h"
+
 typedef double Vec[3];
 struct Lilypad;
+struct LilyTexture;
 
 struct Circle
 {
@@ -33,11 +35,12 @@ struct Game
 	int maxtimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	Lilypad *ihead;
-	Ppmimage *lillyImage[3];
+	LilyTexture *lily;
 	Circle c;
 	int n;
 	Frog *frog;
 	Gator *gator;
+
 	Log *log[4];
 	Water *water[3];
 	Bridge *bridge;
@@ -45,9 +48,6 @@ struct Game
 	Game()
 	{
 		c.isStanding = true;
-		lillyImage[0] = ppm6GetImage("./images/lillypad.ppm");
-		lillyImage[1] = ppm6GetImage("./images/lillypad1.ppm");
-		lillyImage[2] = ppm6GetImage("./images/lillypad2.ppm");
 		windowWidth = 600;
 		windowHeight = 1024;
 	}

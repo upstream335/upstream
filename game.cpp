@@ -7,6 +7,7 @@
 #include <cmath>
 #include <stdlib.h>
 #include "game.h"
+#include "jonathanD.h"
 
 void init_game(Game *game)
 {
@@ -21,12 +22,13 @@ void init_game(Game *game)
 	game->frog = new Frog;
 	game->gator = new Gator;
 	for(int i=0;i<4;i++)
-	game->log[i] = new Log;
+        game->log[i] = new Log;
 	game->water[0] = new Water;
 	game->water[1] = new Water;
 	game->water[2] = new Water;
 	game->bridge = new Bridge;
 	game->splash = new Splash;
+	game->lily = new LilyTexture;
 	game->nlily = 0;
 	game->timer = 0;
 	game->maxtimer = 35;

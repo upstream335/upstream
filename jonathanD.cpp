@@ -12,6 +12,7 @@
 extern "C" {
 #include "fonts.h"
 }
+//LilyTexture *lily = new LilyTexture;
 struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 
@@ -30,8 +31,6 @@ void createLily(const int n, Game *game)
         node->pos[0] = game->windowWidth - random;
         node->pos[1] = game->lilyspawnpoint;
         node->vel[1] = -2.0f;
-        //node->s.width = 10.0;
-        //node->s.height = 10.0;
         node->next = game->ihead;
         if (game->ihead != NULL) {
             game->ihead->prev = node;
@@ -111,7 +110,7 @@ void drawLilies(Game *game)
 {
     Lilypad *node = game->ihead;
     while (node) {
-        for (int i =0; i<3; i++) {
+        /*for (int i =0; i<3; i++) {
             glGenTextures(1, &node->lillyTexture[i]);
             int w = game->lillyImage[i]->width;
             int h = game->lillyImage[i]->height;
@@ -124,28 +123,28 @@ void drawLilies(Game *game)
             glTexSubImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
                     GL_RGBA, GL_UNSIGNED_BYTE, lillyData);
             free(lillyData);
-        }
-        
+        }*/
+
         glPushMatrix();
         glTranslatef(node->pos[0], node->pos[1], 0);
 
-        int r=rand()%10+1;
+        //int r=rand()%10+1;
         //std::cout<<r<<std::endl;
         if (check>=40 && check <80) {
-            if (r>9)
-                glBindTexture(GL_TEXTURE_2D, node->lillyTexture[0]);
+            //if (r>9)
+                glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[0]);
             check++;
         }
         if (check >= 80) {
-            if (r<=1)
-                glBindTexture(GL_TEXTURE_2D, node->lillyTexture[2]);
+            //if (r<=1)
+                glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[2]);
             check++;
         }
         if (check>100)
             check =0;
 
         if (check<40) {
-            glBindTexture(GL_TEXTURE_2D, node->lillyTexture[1]);
+            glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[1]);
             check++;
         }
 
@@ -164,9 +163,6 @@ void drawLilies(Game *game)
 
         glEnd();
         glPopMatrix();
-        glDeleteTextures(1, &node->lillyTexture[0]);
-        glDeleteTextures(1, &node->lillyTexture[1]);
-        glDeleteTextures(1, &node->lillyTexture[2]);
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);

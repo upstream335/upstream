@@ -241,8 +241,9 @@ void render(Game *game)
 	r.bot = game->windowHeight - 50;
 	r.left = 300;
 	r.center = 300;
-	ggprint40(&r, 0, 0, "Current Score: %d", game->score);
-	r.bot-=50;
+	ggfrog40b(&r, 50, 0, "UPSTREAM!");
+	ggprint40(&r, 50, 0, "Current Score: %d", game->score);
+	
 	//std::cout<<game->score<<std::endl;
 	maxScore(game);
 	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);

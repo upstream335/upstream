@@ -1,8 +1,6 @@
 #ifndef _FONTS_H_
 #define _FONTS_H_
 
-
-
 typedef struct t_rect {
 	int left;
 	int top;
@@ -26,6 +24,7 @@ extern void ggprint13(Rect *r, int advance, int cref, const char *fmt, ...);
 extern void ggprint16(Rect *r, int advance, int cref, const char *fmt, ...);
 extern void ggprint17(Rect *r, int advance, int cref, const char *fmt, ...);
 extern void ggprint40(Rect *r, int advance, int cref, const char *fmt, ...);
+extern void ggfrog40b(Rect *r, int advance, int cref, const char *fmt, ...);
 extern int texState();
 
 #endif //_FONTS_H_

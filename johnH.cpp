@@ -29,11 +29,16 @@ Position update_position(Position *c,float xp, float yp,float xv,float yv)
 // Render frog =============================================
 void Frog::render(void)
 {
-	//std::cout<<"frog position x,y ="<<current.x_pos<<","<<current.y_pos<<std::endl;
-	//std::cout<<"frog velocity x,y ="<<current.x_vel<<","<<current.y_vel<<std::endl;
-	//std::cout<<"frog prev position x,y ="<<previous.x_pos<<","<<previous.y_pos<<std::endl;
-	//std::cout<<"frog prev velocity x,y ="<<previous.x_vel<<","<<previous.y_vel<<std::endl;
-	//std::cout<<"frog current frame, prev frame ="<<current.frame<<","<<previous.frame<<std::endl;
+	//std::cout<<"frog position x,y ="<<current.x_pos<<","
+	//<<current.y_pos<<std::endl;
+	//std::cout<<"frog velocity x,y ="<<current.x_vel<<","
+	//<<current.y_vel<<std::endl;
+	//std::cout<<"frog prev position x,y ="<<previous.x_pos
+	//<<","<<previous.y_pos<<std::endl;
+	//std::cout<<"frog prev velocity x,y ="<<previous.x_vel
+	//<<","<<previous.y_vel<<std::endl;
+	//std::cout<<"frog current frame, prev frame ="
+	//<<current.frame<<","<<previous.frame<<std::endl;
 	float wid = 30.0f; // size of frog sprite
 	glColor3f(1.0, 1.0, 1.0);
 	if (current.y_pos<30) {
@@ -86,7 +91,8 @@ void Frog::render(void)
 	// ==================================================
 	//moving along bridge
 	bool going_left = true;
-	if (previous.x_pos < current.x_pos ) { //&& current.y_pos <= 50 && current.frame <-30)
+	if (previous.x_pos < current.x_pos ) { 
+		//&& current.y_pos <= 50 && current.frame <-30)
 		going_left = false;
 	}
 	if (!going_left && current.y_vel<=0) {
@@ -108,7 +114,8 @@ void Frog::render(void)
 		}
 	}
 	//sitting still
-	if (current.x_vel==0 && current.y_vel==0 && current.x_pos== previous.x_pos) {
+	if (current.x_vel==0 && current.y_vel==0 &&
+			current.x_pos == previous.x_pos) {
 		glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
 		current.frame = 0;
 	}
@@ -188,7 +195,7 @@ void Log::render(void)
 	glPushMatrix();
 	glTranslatef(current.x_pos, current.y_pos, 0);
 	glBindTexture(GL_TEXTURE_2D, logTexture[0]);
-	//std::cout << " going back pos[0]= " << current.x_pos << std::endl;
+	//std::cout << " going back pos[0]= "<< current.x_pos << std::endl;
 	if (current.frame>=10) {
 		glBindTexture(GL_TEXTURE_2D, logTexture[0]);
 		current.frame++;

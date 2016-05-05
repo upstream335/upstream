@@ -1,7 +1,7 @@
 //cs335 john hargreaves
 //animation classes for
 //frog,log,gator,bridge
-//splash and background water
+//splash,fly and background water
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
@@ -99,7 +99,71 @@ class Frog
 }; //end frog class
 // ======================================================================================
 
+class Fly
+{
+	private:
+		Position current;
+		Position previous;
+		bool isStanding;
+		Ppmimage *flyImage[11];
+		GLuint flyTexture[11];
 
+	public:
+		// Constructor with default values for data members
+		Fly() {
+			isStanding = true;
+			current.frame = 0;
+			current.x_pos = 300;
+			current.y_pos =150;
+			current.x_vel = 0;
+			current.y_vel = -1;
+			previous = current;
+			flyImage[0] = get_image("./images/fly");
+			flyImage[1] = get_image("./images/fly1");
+			flyImage[2] = get_image("./images/fly2");
+			flyImage[3] = get_image("./images/fly3");
+			flyImage[4] = get_image("./images/fly4");
+			flyImage[5] = get_image("./images/fly5");
+			flyImage[6] = get_image("./images/fly6");
+			flyImage[7] = get_image("./images/fly7");
+			flyImage[8] = get_image("./images/fly8");
+			flyImage[9] = get_image("./images/fly9");
+			flyImage[10] = get_image("./images/fly10");
+			for (int i =0; i<=10; i++) {
+				//create opengl texture elements
+				glGenTextures(1, &flyTexture[i]);
+				int w = flyImage[i]->width;
+				int h = flyImage[i]->height;
+				//
+				glBindTexture(GL_TEXTURE_2D, flyTexture[i]);
+				//glBindTexture(GL_TEXTURE_2D, flyTexture[i]);
+				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+				unsigned char *flyData = buildAlphaData(flyImage[i]);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+						GL_RGBA, GL_UNSIGNED_BYTE, flyData);
+				free(flyData);
+			}
+		} //end constructor
+		//-------------------------------------------------------------------------
+		void move (float xp, float yp, float xv, float yv) {
+			current = update_position(&current,xp,yp,xv,yv);
+		}
+		void render(void);
+		float getXpos() {
+			return current.x_pos;
+		}
+		float getYpos() {
+			return current.y_pos;
+		}
+		float getXvel() {
+			return current.x_vel;
+		}
+		float getYvel() {
+			return current.y_vel;
+		}
+}; //end fly class
+// ======================================================================================
 class Bridge
 {
 	private:

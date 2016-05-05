@@ -20,6 +20,7 @@ void init_game(Game *game)
 	game->ihead = NULL;
 	game->frog = new Frog;
 	game->gator = new Gator;
+	game->fly = new Fly;
 	for(int i=0;i<4;i++)
         game->log[i] = new Log;
 	game->water[0] = new Water;

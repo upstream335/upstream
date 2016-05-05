@@ -55,7 +55,7 @@ struct Game
 	int n;
 	Frog *frog;
 	Gator *gator;
-	
+	Fly     *fly;
 	//for game menu
 	int menu_done;
 	int boardDim;
@@ -75,7 +75,7 @@ struct Game
 		c.isStanding = true;
 		windowWidth = 600;
 		windowHeight = 1024;
-		
+
 		//init for game menu
 		xres = 200;
 		yres = 200;

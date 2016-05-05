@@ -91,7 +91,7 @@ void Frog::render(void)
 	// ==================================================
 	//moving along bridge
 	bool going_left = true;
-	if (previous.x_pos < current.x_pos ) { 
+	if (previous.x_pos < current.x_pos ) {
 		//&& current.y_pos <= 50 && current.frame <-30)
 		going_left = false;
 	}
@@ -146,7 +146,7 @@ void Frog::render(void)
 
 void Bridge::render(void)
 {
-	if (current.x_pos<-100) 
+	if (current.x_pos<-100)
 	{
 	}
 	float wid = 500.0f; // size of bridge sprite
@@ -420,6 +420,124 @@ void LP::render(void)
 	glEnable(GL_TEXTURE_2D);
 }
 // end LP render ===============================================
+
+
+// Render fly =============================================
+void Fly::render(void)
+{
+
+	float wid = 20.0f; // size of fly sprite
+	glColor3f(1.0, 1.0, 1.0);
+	if (current.y_pos<30) {
+		current.y_pos=40;
+		current.y_vel=1;
+	}
+	if (current.y_pos>900) {
+		current.y_pos=30;
+		current.x_pos=rand()%300+100;
+	}
+	if (current.x_pos<0) {
+		current.x_pos=30;
+	}
+	if (current.x_pos>600) {
+		current.x_pos=580;
+	}
+	glPushMatrix();
+	glTranslatef(current.x_pos, current.y_pos, 0);
+	glBindTexture(GL_TEXTURE_2D, flyTexture[0]);
+	// going UP===========================
+	if (current.frame >= 30 && current.y_vel>0)
+		current.frame =0;
+	if (current.x_vel <= 0 && current.frame <= 5 && current.y_vel>0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[1]);
+		current.frame++;
+		//std::cout<<"up one"<<std::endl;
+	}
+	if ( current.x_vel <= 0 && current.frame <= 10 &&
+			current.frame > 5 && current.y_vel>0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[2]);
+		current.frame++;
+		//std::cout<<"up two"<<std::endl;
+	}
+	if (current.x_vel <= 0 && current.frame <= 20 &&
+			current.frame > 10 && current.y_vel>0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[3]);
+		current.frame++;
+		//std::cout<<"up three"<<std::endl;
+	}
+	// going DOWN ===================================
+	if (current.x_vel <= 0 && current.frame >= 15 && current.y_vel<0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[3]);
+		current.frame--;
+		//std::cout<<"down one"<<std::endl;
+	}
+	if (current.x_vel <= 0 && current.frame >= 5 &&
+			current.frame<=10 && current.y_vel<0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[4]);
+		current.frame--;
+		//std::cout<<"down two"<<std::endl;
+	}
+	if (current.x_vel <= 0 && current.frame <= 5 && current.y_vel<0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[5]);
+		current.frame--;
+		// std::cout<<"down three"<<std::endl;
+	}
+	// ==================================================
+	//moving sideways
+	bool going_left = true;
+	if (previous.x_pos < current.x_pos ) {
+		//&& current.y_pos <= 50 && current.frame <-30)
+		going_left = false;
+	}
+	if (!going_left && current.y_vel<=0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[7]);
+		current.frame++;
+		if(current.frame >= 40) {
+			glBindTexture(GL_TEXTURE_2D, flyTexture[8]);
+			if(current.frame > 80)
+				current.frame = 0;
+		}
+	}
+	if (going_left && current.y_vel<=0) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[9]);
+		current.frame++;
+		if (current.frame >= 40) {
+			glBindTexture(GL_TEXTURE_2D, flyTexture[10]);
+			if (current.frame > 80)
+				current.frame = 0;
+		}
+	}
+	//sitting still
+	if (current.x_vel==0 && current.y_vel==0 &&
+			current.x_pos == previous.x_pos) {
+		glBindTexture(GL_TEXTURE_2D, flyTexture[0]);
+		current.frame = 0;
+	}
+	if (current.x_vel==0 && current.y_vel<0)
+		glBindTexture(GL_TEXTURE_2D, flyTexture[5]);
+	previous = current;
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-wid,-wid);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-wid, wid);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( wid, wid);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( wid,-wid);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glDisable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+} //end fly render=============================================
+
 
 // =============================================================
 unsigned char *buildAlphaData(Ppmimage *img)

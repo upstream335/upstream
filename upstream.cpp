@@ -6,7 +6,7 @@
 // ╚═════╝ ╚═╝     ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝
 ///////////////////////////////////////////////////////////////////////
 // CONTRIBUTORS: JONATHAN DINH
-// 				 QUY NGUYEN
+//               QUY NGUYEN
 //               JOHN HARGREAVES
 //               KEVIN JENKIN
 ///////////////////////////////////////////////////////////////////////
@@ -27,11 +27,9 @@
 #include "log.h"
 #include "fonts.h"
 
-//#include "jonathanD.h"
+#include "quyN.h"
 #include "kevinJ.h"
 #include "collision.cpp"
-
-
 
 //macros
 #define random(a) (rand()%a)
@@ -55,24 +53,16 @@ const double oobillion = 1.0 / 1e9;
 double timeSpan=0.0;
 unsigned int upause=0;
 
-
 //Function prototypes
-//unsigned char *buildAlphaData(Ppmimage *img);
 void initXWindows(Game *game);
-void init_opengl(Game *game);
 void cleanupXWindows(void);
-void check_mouse(XEvent *e, Game *game);
-int check_keys(XEvent *e, Game *game);
+void init_opengl(Game *game);
 void timeCopy(struct timespec *dest, struct timespec *source);
-void movement(Game *game);
-void render(Game *game);
-void showMenu(int x, int y, const char* msg);
-void screenUpdate(Game *game);
-void deleteLily(Lilypad *node, Game *game);
-void physics(void);
-void maxScore(Game *game);
 double timeDiff(struct timespec *start, struct timespec *end);
 
+void movement(Game *game);
+void drawCircle(float x, float y, float radius, int detail);
+void render(Game *game);
 
 int main(void)
 {
@@ -112,7 +102,6 @@ double timeDiff(struct timespec *start, struct timespec *end)
 		(double)(end->tv_nsec - start->tv_nsec) * oobillion;
 }
 
-
 void timeCopy(struct timespec *dest, struct timespec *source)
 {
 	memcpy(dest, source, sizeof(struct timespec));
@@ -125,14 +114,12 @@ void set_title(void)
 	XStoreName(dpy, win, "Testing framework for Upstream");
 }
 
-
 void cleanupXWindows(void)
 {
 	//do not change
 	XDestroyWindow(dpy, win);
 	XCloseDisplay(dpy);
 }
-
 
 void initXWindows(Game *game)
 {
@@ -163,7 +150,6 @@ void initXWindows(Game *game)
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 }
-
 
 void init_opengl(Game *game)
 {
@@ -250,9 +236,9 @@ void render(Game *game)
 
 	drawScore(game->score, game, 20);
 	r.bot -=50;
-//std::cout<<game->highscore[0]<<std::endl;
+	//std::cout<<game->highscore[0]<<std::endl;
 	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
- 	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);
+	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);
 
 	// ==========================================================
 }

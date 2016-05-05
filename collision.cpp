@@ -21,9 +21,9 @@ void collision(Game *game)
 			game->c.isJumping = false;
 			game->c.isStanding = true;
 			game->c.center[1] = 15;
-
 		}
 	}
+
 	if (game->c.center[0] == game->c.newPosX &&
 			game->c.center[1] == game->c.newPosY)
 		return;
@@ -72,17 +72,15 @@ void collision(Game *game)
 	// ========================================
 	// collision frog with log
 	for (int i=0;i<4;i++) {
-	if (game->c.center[0] <= game->log[i]->getXpos()+15 &&
-			game->c.center[0] >= game->log[i]->getXpos()-15 &&
-			game->c.center[1] <= game->log[i]->getYpos()+50 &&
-			game->c.center[1] >= game->log[i]->getYpos()-50) {
-		game->c.velocity[1]=game->log[i]->getYvel()+15;
-		playSounds("./wav/tick.wav",1.0f, false, game->muted);
-		game->score+=2;
-
-        }
+		if (game->c.center[0] <= game->log[i]->getXpos()+15 &&
+				game->c.center[0] >= game->log[i]->getXpos()-15 &&
+				game->c.center[1] <= game->log[i]->getYpos()+50 &&
+				game->c.center[1] >= game->log[i]->getYpos()-50) {
+			game->c.velocity[1]=game->log[i]->getYvel()+15;
+			playSounds("./wav/tick.wav",1.0f, false, game->muted);
+			game->score+=2;
+		}
 	}
-
 
 	// collision frog with gator head
 	if (game->c.center[0] <= game->gator->getXpos()-10 &&
@@ -96,21 +94,21 @@ void collision(Game *game)
 			game->c.center[0] >= game->gator->getXpos()-6 &&
 			game->c.center[1] <= game->gator->getYpos()+30 &&
 			game->c.center[1] >= game->gator->getYpos()-30) {
-                game->c.isJumping = true;
-				game->c.velocity[1] = 15.0;
-				playSounds("./wav/boing.wav",1.0f, false,game->muted);
-				game->score+=30;
+		game->c.isJumping = true;
+		game->c.velocity[1] = 15.0;
+		playSounds("./wav/boing.wav",1.0f, false,game->muted);
+		game->score+=30;
 	}
 	// collision gator with log
 	for (int i=0;i<4;i++) {
 		if (game->gator->getXpos() <= game->log[i]->getXpos()+80 &&
-			game->gator->getXpos() >= game->log[i]->getXpos()-20 &&
-			game->gator->getYpos() >= game->log[i]->getYpos()-50 &&
-			game->gator->getYpos() <= game->log[i]->getYpos()+50) {
-				game->gator->move(game->gator->getXpos()+45,
-				game->gator->getYpos()+15,
-				game->gator->getXvel(),game->gator->getYvel());
-        }
+				game->gator->getXpos() >= game->log[i]->getXpos()-20 &&
+				game->gator->getYpos() >= game->log[i]->getYpos()-50 &&
+				game->gator->getYpos() <= game->log[i]->getYpos()+50) {
+			game->gator->move(game->gator->getXpos()+45,
+					game->gator->getYpos()+15,
+					game->gator->getXvel(),game->gator->getYvel());
+		}
 	}
 
 	//fell down
@@ -128,72 +126,84 @@ void collision(Game *game)
 
 void screenUpdate(Game *game)
 {
-    //std::cout<<game->splash->getFrame()<<std::endl;
+	//std::cout<<game->splash->getFrame()<<std::endl;
 	if (game->frog->getYpos() > game->windowHeight/2) {
-	int move_down = 10;
-	if (game->frog->getYpos() > (game->windowHeight/3)*2)
-        move_down = 30;
+		int move_down = 10;
+		if (game->frog->getYpos() > (game->windowHeight/3)*2)
+			move_down = 30;
 		game->c.center[1]-=move_down;
-		game->frog->move(game->frog->getXpos(), game->frog->getYpos()-move_down,
-				game->frog->getXvel(), game->frog->getYvel()-5 );
-		game->water[0]->move(game->water[0]->getXpos(), game->water[0]->getYpos()-move_down,
-				game->water[0]->getXvel(), game->water[0]->getYvel() );
-		game->water[1]->move(game->water[1]->getXpos(), game->water[1]->getYpos()-move_down,
-				game->water[1]->getXvel(), game->water[1]->getYvel() );
-		game->water[2]->move(game->water[2]->getXpos(), game->water[2]->getYpos()-move_down,
-				game->water[2]->getXvel(), game->water[2]->getYvel() );
-		game->gator->move(game->gator->getXpos(), game->gator->getYpos()-move_down,
-				game->gator->getXvel(), game->gator->getYvel() );
+		game->frog->move(game->frog->getXpos(),
+				game->frog->getYpos()-move_down,
+				game->frog->getXvel(),
+				game->frog->getYvel()-5);
+		game->water[0]->move(game->water[0]->getXpos(),
+				game->water[0]->getYpos()-move_down,
+				game->water[0]->getXvel(),
+				game->water[0]->getYvel());
+		game->water[1]->move(game->water[1]->getXpos(),
+				game->water[1]->getYpos()-move_down,
+				game->water[1]->getXvel(),
+				game->water[1]->getYvel());
+		game->water[2]->move(game->water[2]->getXpos(),
+				game->water[2]->getYpos()-move_down,
+				game->water[2]->getXvel(),
+				game->water[2]->getYvel());
+		game->gator->move(game->gator->getXpos(),
+				game->gator->getYpos()-move_down,
+				game->gator->getXvel(),
+				game->gator->getYvel());
 
-				for (int i=0;i<4;i++) {
-            game->log[i]->move(game->log[i]->getXpos(), game->log[i]->getYpos()-move_down,
-				game->log[i]->getXvel(), game->log[i]->getYvel() );
+		for (int i=0;i<4;i++) {
+			game->log[i]->move(game->log[i]->getXpos(),
+					game->log[i]->getYpos()-move_down,
+					game->log[i]->getXvel(),
+					game->log[i]->getYvel());
 		}
 
-
-		game->bridge->move(game->bridge->getXpos(), game->bridge->getYpos()-move_down,
-				game->bridge->getXvel(), game->bridge->getYvel() );
+		game->bridge->move(game->bridge->getXpos(),
+				game->bridge->getYpos()-move_down,
+				game->bridge->getXvel(),
+				game->bridge->getYvel());
 		//shift lilies
 		Lilypad *node = game->ihead;
-		game->maxtimer = 10; //adjust spawn timer to spawn faster as we go up
+		//adjust spawn timer to spawn faster as we go up
+		game->maxtimer = 10;
 		while (node) {
 			node->pos[1] -= move_down;
 			node = node->next;
 		}
 	} else {
-		game->maxtimer = 35; //reset spawn timer to original if below half screen
+		//reset spawn timer to original if below half screen
+		game->maxtimer = 35;
 	}
 }
 
 void gameOver(Game *game)
 {
-    // move splash on screen if offscreen
-    if (game->splash->getXpos()<0)
+	// move splash on screen if offscreen
+	if (game->splash->getXpos()<0)
 		game->splash->move(game->c.center[0],game->c.center[1]+40,0,0);
-    //move frog,logs and gator offscreen
-		game->frog->move(-200,-200,0,0);
-		for (int i=0;i<4;i++) {
-            game->log[i]->move(-200*i,-300,0,0);
-		}
-		game->gator->move(-200,-200,0,0);
-		// reset lilies
-		clearLilies(game);
+	//move frog,logs and gator offscreen
+	game->frog->move(-200,-200,0,0);
+	for (int i=0;i<4;i++) {
+		game->log[i]->move(-200*i,-300,0,0);
+	}
+	game->gator->move(-200,-200,0,0);
+	// reset lilies
+	clearLilies(game);
 
-		//wait for splash to complete
+	//wait for splash to complete
 	if (game->splash->getFrame()>=195) {
-	//move bridge back
-	game->bridge->move(300,150,0,0);
+		//move bridge back
+		game->bridge->move(300,150,0,0);
 		for (int i=0;i<4;i++) {
-            game->log[i]->move(50*i,-100*i,-.15*i,-1);
+			game->log[i]->move(50*i,-100*i,-.15*i,-1);
 		}
 		game->gator->move(-300,400,-2,-.5);
 		game->frog->move(-100,-800,0,0);
 		game->c.center[1]=-10;
 		game->c.center[0]=-800;
 		game->splash->move(-200,-200,0,0);
-
 	}
-
-
 
 }

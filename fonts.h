@@ -27,5 +27,4 @@ extern void ggprint40(Rect *r, int advance, int cref, const char *fmt, ...);
 extern void ggfrog40b(Rect *r, int advance, int cref, const char *fmt, ...);
 extern int texState();
 
-#endif //_FONTS_H_
-
+#endif

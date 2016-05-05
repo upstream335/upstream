@@ -31,5 +31,3 @@ extern void ppm6Setpixel(Ppmimage *image, int x, int y, int channel, unsigned ch
 extern void ppm6CleanupImage(Ppmimage *image);
 
 #endif
-
-

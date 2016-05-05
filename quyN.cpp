@@ -2,17 +2,17 @@
 // Date written:  04-26-16
 // Last modified: 05-02-16
 // Program: Game inputs and outputs (keyboard functionality)
-// 			Game Menus and Prompts
-// 			Game Introduction
-// 			Game Attract Mode
+//          Game Menus and Prompts
+//          Game Introduction
+//          Game Attract Mode
 // Purpose: I will be in charge of the game menu, introduction,
-// 			attract mode (hard, medium, easy), and keyboard
-// 			functionality. I will attempt to make a generic
-// 			function for each.
+//          attract mode (hard, medium, easy), and keyboard
+//          functionality. I will attempt to make a generic
+//          function for each.
 // 1st goal (week 6): Game Menu and Prompts
 // 2nd goal (week 6): Game Introduction
 // 3rd goal (week 7): Game Attract Mode
-// 4th goal (week 8-9): added later... 
+// 4th goal (week 8-9): added later...
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -21,8 +21,9 @@
 #include <stdio.h>
 #include <cmath>
 #include <stdlib.h>
+
+#include "quyN.h"
 #include "kevinJ.h"
-#include "game.h"
 
 void check_mouse(XEvent *e, Game *game)
 {
@@ -78,13 +79,6 @@ int check_keys(XEvent *e, Game *game)
 			case XK_b:
 				break;
 			case XK_s:
-				/*muted ^= 1;
-				  if (muted)
-				  stopMusic();
-				  else
-				  playSounds("./wav/background.wav", 0.1f, true, muted);
-				  playMusic();
-				  */
 				break;
 			case XK_Escape:
 				break;

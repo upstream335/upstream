@@ -57,4 +57,3 @@ struct Game
 extern void init_game(Game *game);
 
 #endif
-

@@ -21,11 +21,25 @@ struct Circle
 	int detail;
 };
 
+#define MAXBUTTONS 4
+typedef struct t_button {
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int click;
+	float color[3];
+	float dcolor[3];
+	unsigned int text_color;
+} Button;
+
 struct Game
 {
 	bool playing;
 	int windowWidth;
 	int windowHeight;
+	int xres;
+	int yres;
 	int score;
 	int highscore[100];
 	int scoreCount;
@@ -41,6 +55,16 @@ struct Game
 	int n;
 	Frog *frog;
 	Gator *gator;
+	
+	//for game menu
+	int menu_done;
+	int boardDim;
+	int gridDim;
+	int gameover;
+	int nbuttons;
+	Ppmimage *bgImage;
+	GLuint bgTexture;
+	Button button[MAXBUTTONS];
 
 	Log *log[4];
 	Water *water[3];
@@ -51,6 +75,15 @@ struct Game
 		c.isStanding = true;
 		windowWidth = 600;
 		windowHeight = 1024;
+		
+		//init for game menu
+		xres = 200;
+		yres = 200;
+		menu_done = 0;
+		gridDim = 40;
+		gameover = 0;
+		nbuttons = 0;
+		bgImage=NULL;
 	}
 };
 

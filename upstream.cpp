@@ -71,14 +71,28 @@ int main(void)
 	srand(time(0));
 
 	//declare game object
-	Game game;
+	Game menu;
+	init_menu_opengl(&menu);
+	init_menu(&menu);
 
+	Game game;
 	initXWindows(&game);
 	init_opengl(&game);
 	init_game(&game);
 
 	//background sound
 	playSounds("./wav/background.wav", 0.1f, true, game.muted);
+
+	//while (!menu.menu_done) {
+	//while(XPending(dpy)) {
+	//XEvent e;
+	//XNextEvent(dpy, &e);
+	//check_mouse(&e, &game);
+	//menu.menu_done = check_keys(&e, &game);
+	//}
+	//render_menu(&game);
+	//glXSwapBuffers(dpy, win);
+	//}
 
 	while (!done) {
 		while(XPending(dpy)) {

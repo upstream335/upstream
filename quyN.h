@@ -3,9 +3,8 @@
 
 #include "game.h"
 
-extern void check_mouse(XEvent *e, Game *game);
-extern int check_keys(XEvent *e, Game *game);
-extern void init_menu(Game *menu);
-extern void render_menu(Game *menu);
-extern void init_menu_opengl(Game *menu);
+extern void init_menu_opengl(Game *game);
+extern void init_menu(Game *game);
+extern void render_menu(Game *game);
+
 #endif

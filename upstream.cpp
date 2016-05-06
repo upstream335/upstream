@@ -27,6 +27,7 @@
 #include "log.h"
 #include "fonts.h"
 
+#include "io.h"
 #include "quyN.h"
 #include "kevinJ.h"
 #include "collision.cpp"

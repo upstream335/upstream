@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <cmath>
 #include <stdlib.h>
-#include "game.h"
 #include "jonathanD.h"
+#include "game.h"
+
 
 void init_game(Game *game)
 {

@@ -1,15 +1,4 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <unistd.h>
-#include <cstring>
-#include <stdio.h>
-#include <cmath>
-#include <stdlib.h>
-#include "kevinJ.h"
-#include "jonathanD.h"
-
-void gameOver(Game *game);
+#include "collision.h"
 
 void collision(Game *game)
 {

@@ -30,7 +30,7 @@
 #include "io.h"
 #include "quyN.h"
 #include "kevinJ.h"
-#include "collision.cpp"
+#include "collision.h"
 
 //macros
 #define random(a) (rand()%a)

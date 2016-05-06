@@ -1,5 +1,5 @@
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#ifndef _KEVINJ_H_
+#define _KEVINJ_H_
 
 #include <AL/al.h>
 #include <AL/alut.h>

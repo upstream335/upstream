@@ -228,6 +228,7 @@ void render(Game *game)
 	game->water[0]->render();
 	game->water[1]->render();
 	game->water[2]->render();
+	drawScore(game->score, game, 20);
 	drawLilies(game);
 	screenUpdate(game);
 	for (int i=0;i<4;i++) {
@@ -238,10 +239,11 @@ void render(Game *game)
 	game->frog->render();
 	game->splash->render();
 	game->fly->render();
+
 	//place holder for sound button
 	drawCircle(480, game->windowHeight-30, 10, 10);
 	// TEXT ====================================
-	drawScore(game->score, game, 20);
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
 	r.bot = game->windowHeight - 50;

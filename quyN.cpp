@@ -145,7 +145,7 @@ void init_menu_opengl(Game *menu)
 	//
 	//load the image file into a ppm structure.
 	//
-	menu->bgImage = ppm6GetImage("./images/bg.ppm");
+	menu->bgImage = get_image("./images/bg");
 	//
 	//create opengl texture elements
 	glGenTextures(1, &menu->bgTexture);

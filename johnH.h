@@ -70,7 +70,6 @@ class Frog
 				int h = frogImage[i]->height;
 				//
 				glBindTexture(GL_TEXTURE_2D, frogTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, frogTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *frogData = buildAlphaData(frogImage[i]);
@@ -79,11 +78,15 @@ class Frog
 				free(frogData);
 			}
 		} //end constructor
-		//-------------------------------------------------------------------------
+		//---class functions-----------------------------------------------------------
+		// set frogs x,y values and velocities
 		void move (float xp, float yp, float xv, float yv) {
 			current = update_position(&current,xp,yp,xv,yv);
 		}
+		//draw frog to screen
 		void render(void);
+		
+		//get x,y positions and velocities
 		float getXpos() {
 			return current.x_pos;
 		}
@@ -104,13 +107,17 @@ class Fly
 	private:
 		Position current;
 		Position previous;
+		Position frog;
+		int deadTime;
 		bool isStanding;
 		Ppmimage *flyImage[11];
 		GLuint flyTexture[11];
-
+		bool alive;
 	public:
 		// Constructor with default values for data members
 		Fly() {
+			alive = true;
+			deadTime=0;
 			isStanding = true;
 			current.frame = 0;
 			current.x_pos = 300;
@@ -134,9 +141,7 @@ class Fly
 				glGenTextures(1, &flyTexture[i]);
 				int w = flyImage[i]->width;
 				int h = flyImage[i]->height;
-				//
 				glBindTexture(GL_TEXTURE_2D, flyTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, flyTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *flyData = buildAlphaData(flyImage[i]);
@@ -149,7 +154,9 @@ class Fly
 		void move (float xp, float yp, float xv, float yv) {
 			current = update_position(&current,xp,yp,xv,yv);
 		}
+		
 		void render(void);
+		
 		float getXpos() {
 			return current.x_pos;
 		}
@@ -161,7 +168,18 @@ class Fly
 		}
 		float getYvel() {
 			return current.y_vel;
+			}
+		float isAlive(){
+			return alive;
+		}	
+		void live(){
+			alive =true;
 		}
+		void death(int x,int y){
+			alive = false;
+			frog.x_pos = x;
+			frog.y_pos = y;
+		}	
 }; //end fly class
 // ======================================================================================
 class Bridge
@@ -189,7 +207,6 @@ class Bridge
 			int h = bridgeImage[i]->height;
 			//
 			glBindTexture(GL_TEXTURE_2D, bridgeTexture[i]);
-			//glBindTexture(GL_TEXTURE_2D, bridgeTexture[i]);
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 			unsigned char *bridgeData = buildAlphaData(bridgeImage[i]);
@@ -247,7 +264,6 @@ class Log
 				int h = logImage[i]->height;
 				//
 				glBindTexture(GL_TEXTURE_2D, logTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, logTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *logData = buildAlphaData(logImage[i]);
@@ -303,7 +319,6 @@ class Gator
 				int w = gatorImage[i]->width;
 				int h = gatorImage[i]->height;
 				glBindTexture(GL_TEXTURE_2D, gatorTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, gatorTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *gatorData = buildAlphaData(gatorImage[i]);
@@ -361,7 +376,6 @@ class Water
 				int w = waterImage[i]->width;
 				int h = waterImage[i]->height;
 				glBindTexture(GL_TEXTURE_2D, waterTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, waterTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *waterData = buildAlphaData(waterImage[i]);
@@ -423,7 +437,6 @@ class Splash
 				int h = splashImage[i]->height;
 				//
 				glBindTexture(GL_TEXTURE_2D, splashTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, splashTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *splashData = buildAlphaData(splashImage[i]);
@@ -484,7 +497,6 @@ class LP
 				int h = lpImage[i]->height;
 				//
 				glBindTexture(GL_TEXTURE_2D, lpTexture[i]);
-				//glBindTexture(GL_TEXTURE_2D, lpTexture[i]);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 				unsigned char *lpData = buildAlphaData(lpImage[i]);

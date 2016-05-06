@@ -81,12 +81,26 @@ void collision(Game *game)
 			game->score+=2;
 		}
 	}
+	// FLY =====================================================
+	//std::cout<<"fly pos="<<game->fly->getXpos()<<","
+	//		<<game->fly->getYpos()<<std::endl;
+	//std::cout<<"frog pos="<<game->frog->getXpos()<<","
+	//		<<game->frog->getYpos()<<std::endl;
+	if (game->frog->getXpos() >= game->fly->getXpos()-80 &&
+		game->frog->getXpos() <= game->fly->getXpos()+80 &&
+		game->frog->getYpos() <= game->fly->getYpos()+80 &&
+		game->frog->getYpos() >= game->fly->getYpos()-80) {
 
+		playSounds("./wav/tick.wav",1.0f, false, game->muted);
+		game->score+=50;
+		game->fly->death(game->frog->getXpos(),game->frog->getYpos());
+		//std::cout<<"dead fly"<<std::endl;
+	}
 	// collision frog with gator head
-	if (game->c.center[0] <= game->gator->getXpos()-10 &&
-			game->c.center[0] >= game->gator->getXpos()-40 &&
-			game->c.center[1] <= game->gator->getYpos()+15 &&
-			game->c.center[1] >= game->gator->getYpos()-15) {
+	if (game->frog->getXpos() <= game->gator->getXpos()-10 &&
+		game->frog->getXpos() >= game->gator->getXpos()-40 &&
+		game->frog->getYpos() <= game->gator->getYpos()+15 &&
+		game->frog->getYpos() >= game->gator->getYpos()-15) {
 		gameOver(game);
 	}
 	// collision frog with gator back

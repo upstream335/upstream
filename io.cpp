@@ -1,22 +1,4 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <unistd.h>
-#include <cstring>
-#include <stdio.h>
-#include <cmath>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <GL/glx.h>
-#include <stdlib.h>
-#include <AL/al.h>
-#include <AL/alut.h>
-#include "ppm.h"
-#include "log.h"
-#include "fonts.h"
-
 #include "io.h"
-#include "kevinJ.h"
 
 void check_mouse(XEvent *e, Game *game)
 {

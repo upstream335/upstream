@@ -135,13 +135,15 @@ void screenUpdate(Game *game)
 	//std::cout<<game->splash->getFrame()<<std::endl;
 	if (game->frog->getYpos() > game->windowHeight/2) {
 		int move_down = 10;
-		if (game->frog->getYpos() > (game->windowHeight/3)*2)
+
+		if ( game->frog->getYpos() > (game->windowHeight*2/3) ){
 			move_down = 30;
-		game->frog->setYpos(game->frog->getYpos()+move_down);
-		game->frog->move(game->frog->getXpos(),
-				game->frog->getYpos()-move_down,
+			}
+
+		game->c.center[1]-= move_down;
+		game->frog->move(game->c.center[0],game->c.center[1]-move_down,
 				game->frog->getXvel(),
-				game->frog->getYvel()-5);
+				game->frog->getYvel());
 		game->water[0]->move(game->water[0]->getXpos(),
 				game->water[0]->getYpos()-move_down,
 				game->water[0]->getXvel(),

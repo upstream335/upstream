@@ -56,6 +56,15 @@ int check_keys(XEvent *e, Game *game)
 			case XK_m:
 				return game->menu_done=1;
 				break;
+            case XK_d:
+                game->difficulty++;
+                if (game->difficulty>3)
+                    game->difficulty=EASY;
+				break;
+			case XK_r:
+                game->frog->toggleRocket();
+                game->frog->setFrame(0);
+				break;
 			case XK_Escape:
 				break;
 				return 1;

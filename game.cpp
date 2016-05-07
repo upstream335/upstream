@@ -14,6 +14,7 @@ void init_game(Game *game)
 {
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
+	game->difficulty = MED;
 	game->score = 0;
 	game->scoreCount=0;
 	game->muted = false;
@@ -44,8 +45,8 @@ void init_game(Game *game)
 	game->frog->move(game->c.center[0],game->c.center[1],0,0);
 	game->splash->move(0,-10,0,0);
 	game->water[0]->move(400,0,0,-2);
-	game->water[1]->move(400,400,0,-2);
-	game->water[2]->move(400,600,0,-2);
+	game->water[1]->move(400,500,0,-2);
+	game->water[2]->move(400,1000,0,-2);
 	game->playing=true;
 	for (int i = 0; i < 100; i++) {
 		game->highscore[i] = 0;

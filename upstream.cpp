@@ -143,11 +143,24 @@ void init_opengl(Game *game)
 void movement(Game *game)
 {
 	collision(game);
+
+	//move frog
 	if (game->playing==true && game->splash->getFrame()>=400) {
+        if (!game->frog->rocket() ){
 		game->frog->move((float)game->c.center[0], (float)game->c.center[1],
 				(float)game->c.velocity[0], (float)game->c.velocity[1]);
+		}else{
+				game->frog->move( (float)game->c.center[0], game->frog->getYpos(),
+				game->frog->getXvel(), game->frog->getYvel() );
+				game->c.center[0] = game->frog->getXpos();
+				game->c.center[1] = game->frog->getYpos();
+				game->c.velocity[0] = game->frog->getXvel();
+				game->c.velocity[1] = game->frog->getYvel();
+				game->c.isJumping = true;
+				}
+	//move fly
 	int x=rand()%10+1;int y =rand()%10+1;
-	x=5-x;
+	x=6-x;
 	y=6-y;
 	game->fly->move(game->fly->getXpos()+x/2,game->fly->getYpos()+y,x/10,y/10);
 		checkLilies(game);
@@ -191,6 +204,13 @@ void render(Game *game)
 	//place holder for sound button
 	drawCircle(480, game->windowHeight-30, 10, 10);
 	// TEXT ====================================
+    std::string mode;
+    if (game->difficulty==EASY)
+        mode ="EASY";
+    if (game->difficulty==MED)
+        mode ="Regular";
+    if (game->difficulty==HARD)
+        mode ="HARD";
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
@@ -198,9 +218,9 @@ void render(Game *game)
 	r.left = 300;
 	r.center = 300;
 	ggfrog40b(&r, 50, 0, "UPSTREAM!");
-	ggprint40(&r, 50, 0, "Current Score: %d", game->score);
+	ggprint40(&r, 50, 0, "Current Score: %d Mode: %s", game->score,mode.c_str());
 
-	//std::cout<<game->score<<std::endl;
+	std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	maxScore(game);
 	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);
 

@@ -214,7 +214,7 @@ void drawScore(int s, Game *game,int wid)
 		int idigit = cdigit - '0'; //ghetto atoi
 		//draw score
 		glPushMatrix();
-		glTranslatef(xpos+=30, 900, 0);
+		glTranslatef(xpos+=30, HEIGHT-100, 0);
 		glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);

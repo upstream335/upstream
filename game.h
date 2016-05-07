@@ -33,8 +33,13 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
+#define EASY    1
+#define MED     2
+#define HARD    3
+
 struct Game
 {
+    int difficulty; //1=easy,2=med,3=hard
 	bool playing;
 	int windowWidth;
 	int windowHeight;
@@ -74,7 +79,7 @@ struct Game
 	{
 		c.isStanding = true;
 		windowWidth = 600;
-		windowHeight = 1024;
+		windowHeight = 760;
 
 		//init for game menu
 		xres = 200;

@@ -16,10 +16,12 @@
 #include <GL/glx.h>
 #include "log.h"
 #include "ppm.h"
-extern "C" {
 #include "fonts.h"
-}
+
 //defined types
+#define HEIGHT 700
+#define WIDTH  600
+
 struct Position {
 	int x_pos;
 	int y_pos;
@@ -39,8 +41,9 @@ class Frog
 		Position current;
 		Position previous;
 		bool isStanding;
-		Ppmimage *frogImage[11];
-		GLuint frogTexture[11];
+		Ppmimage *frogImage[16];
+		GLuint frogTexture[16];
+		bool rocketFrog;
 
 	public:
 		// Constructor with default values for data members
@@ -63,7 +66,12 @@ class Frog
 			frogImage[8] = get_image("./images/frog8");
 			frogImage[9] = get_image("./images/frog9");
 			frogImage[10] = get_image("./images/frog10");
-			for (int i =0; i<=10; i++) {
+			frogImage[11] = get_image("./images/rocket");
+			frogImage[12] = get_image("./images/rocket1");
+			frogImage[13] = get_image("./images/rocket2");
+			frogImage[14] = get_image("./images/rocket3");
+			frogImage[15] = get_image("./images/rocket4");
+			for (int i =0; i<=15; i++) {
 				//create opengl texture elements
 				glGenTextures(1, &frogTexture[i]);
 				int w = frogImage[i]->width;
@@ -85,19 +93,34 @@ class Frog
 		}
 		//draw frog to screen
 		void render(void);
-		
+
 		//get x,y positions and velocities
 		float getXpos() {
 			return current.x_pos;
 		}
+		void setFrame(int frame) {
+			current.frame = frame;
+		}
 		float getYpos() {
 			return current.y_pos;
+		}
+		void setYpos(float y){
+		current.y_pos = y;
+		}
+		void setXpos(float x){
+		current.x_pos = x;
 		}
 		float getXvel() {
 			return current.x_vel;
 		}
 		float getYvel() {
 			return current.y_vel;
+		}
+		bool rocket() {
+            return rocketFrog;
+		}
+		void toggleRocket() {
+            rocketFrog ^=1;
 		}
 }; //end frog class
 // ======================================================================================
@@ -154,9 +177,13 @@ class Fly
 		void move (float xp, float yp, float xv, float yv) {
 			current = update_position(&current,xp,yp,xv,yv);
 		}
-		
+
+		void setFrame(int frame){
+		current.frame = frame;
+		}
+
 		void render(void);
-		
+
 		float getXpos() {
 			return current.x_pos;
 		}
@@ -171,7 +198,7 @@ class Fly
 			}
 		float isAlive(){
 			return alive;
-		}	
+		}
 		void live(){
 			alive =true;
 		}
@@ -179,7 +206,7 @@ class Fly
 			alive = false;
 			frog.x_pos = x;
 			frog.y_pos = y;
-		}	
+		}
 }; //end fly class
 // ======================================================================================
 class Bridge
@@ -363,8 +390,8 @@ class Water
 		// Constructor with default values for data members
 		Water() {
 			current.frame =0;
-			current.x_pos = 300;
-			current.y_pos =800;
+			current.x_pos = WIDTH/2;
+			current.y_pos =HEIGHT;
 			current.x_vel = 0;
 			current.y_vel = -1;
 			previous = current;

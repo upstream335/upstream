@@ -35,6 +35,9 @@ void Frog::render(void)
 
     float wid = 30.0f; // size of frog sprite
     glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+
+    if (!rocketFrog){
     if (current.y_pos<30)
     {
         current.y_pos=40;
@@ -44,8 +47,7 @@ void Frog::render(void)
     {
         current.x_vel=0;
     }
-    glPushMatrix();
-    glTranslatef(current.x_pos, current.y_pos, 0);
+
     glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
     // JUMPING UP===========================
     if (current.frame >= 30 && current.y_vel>0)
@@ -129,8 +131,27 @@ void Frog::render(void)
     }
     if (current.x_vel==0 && current.y_vel<0)
         glBindTexture(GL_TEXTURE_2D, frogTexture[5]);
+    }
+    else {  // ROCKET FROG ==========================
 
+    current.y_pos+=10;
+    int frame;
+    current.frame++;
+    frame = (current.frame%5)+11;
+
+    glBindTexture(GL_TEXTURE_2D, frogTexture[frame]);
+    if(current.frame>300 && current.y_pos>200){
+    current.y_pos-=11;
+    current.y_vel=0.2;
+    }
+    if (current.frame>500) {
+    rocketFrog=false;
+    current.frame=0;
+    current.y_vel=0.2;
+     }
+    }
     previous = current;
+    glTranslatef(current.x_pos, current.y_pos, 0);
     //draw frog sprite
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
@@ -158,6 +179,7 @@ void Bridge::render(void)
 {
     if (current.x_pos<-100)
     {
+    //bridge is offscreen
     }
     float wid = 500.0f; // size of bridge sprite
     glColor3f(1.0, 1.0, 1.0);
@@ -197,8 +219,8 @@ void Log::render(void)
     current.y_pos += current.y_vel;
     if (current.y_pos<-100)
     {
-        current.x_pos = 500-r;
-        current.y_pos = 800;
+        current.x_pos = WIDTH/2-r;
+        current.y_pos = HEIGHT+100;
     }
     float wid = 60.0f; // size of logsprite
     glColor3f(1.0, 1.0, 1.0);
@@ -249,8 +271,12 @@ void Gator::render(void)
     current.y_pos += current.y_vel;
     if (current.x_pos<0)
     {
-        current.x_pos = 1000;
-        current.y_pos = 1200-r;
+        current.x_pos = WIDTH+r;
+        current.y_pos = HEIGHT-r;
+        current.y_vel = 0.1;
+    }
+    if(current.y_pos<200)  {
+    current.y_vel +=.1;
     }
     float wid = 70.0f; // size of gator sprite
     glColor3f(1.0, 1.0, 1.0);
@@ -295,18 +321,21 @@ void Gator::render(void)
 
 void Water::render(void)
 {
+
     current.x_pos += current.x_vel;
     current.y_pos += current.y_vel;
-    if (current.y_pos<0)
+    if (current.y_pos<-300)
     {
-        current.x_pos = 300;
-        current.y_pos = 800;
-    }
-    float wid = 600.0f; // size of water sprite
-    glColor3f(1.0, 1.0, 1.0);
-    glPushMatrix();
-    glTranslatef(current.x_pos, current.y_pos, 0);
-    glBindTexture(GL_TEXTURE_2D, waterTexture[0]);
+        current.x_pos = WIDTH/2;
+        current.y_pos = HEIGHT+500;
+        }
+        float wid = 600.0f; // size of water
+        glColor3f(1.0, 1.0, 1.0);
+        glPushMatrix();
+        glTranslatef(current.x_pos, current.y_pos, 0);
+        current.frame++;
+     int frame = current.frame % 2;
+    glBindTexture(GL_TEXTURE_2D, waterTexture[frame]);
     if (current.frame<=10 )
     {
         glBindTexture(GL_TEXTURE_2D, waterTexture[0]);
@@ -456,7 +485,7 @@ void Fly::render(void)
             current.y_pos=40;
             current.y_vel=1;
         }
-        if (current.y_pos>900)
+        if (current.y_pos>HEIGHT+100)
         {
             current.y_pos=30;
             current.x_pos=rand()%300+100;
@@ -465,16 +494,16 @@ void Fly::render(void)
         {
             current.x_pos=30;
         }
-        if (current.x_pos>600)
+        if (current.x_pos>WIDTH)
         {
-            current.x_pos=580;
+            current.x_pos=WIDTH-20;
         }
     }
     else
     {
         current=previous;
-        current.x_vel = 0;
-        current.y_vel = 0;
+        current.x_vel = -200;
+        current.y_vel = -200;
 
         //draw a line for frogs toungue
         glLineWidth(2.5);
@@ -487,11 +516,12 @@ void Fly::render(void)
         glVertex2f(frog.x_pos, frog.y_pos+10);
         glEnd();
         deadTime++;
-        if(deadTime>10)
+        if(deadTime>8)
         {
+        int r = rand()%600+1;
             alive = true;
-            current.x_pos=-200;
-            current.y_pos=800;
+            current.x_pos=WIDTH-r;
+            current.y_pos= HEIGHT;
             current.frame =0;
             current.x_vel=0.1;
             current.y_vel=0.1;
@@ -502,88 +532,60 @@ void Fly::render(void)
     glPushMatrix();
     glTranslatef(current.x_pos, current.y_pos, 0);
     glBindTexture(GL_TEXTURE_2D, flyTexture[0]);
-    // going UP===========================
-    if (current.frame >= 30 && current.y_vel>0)
+    // ===========================
+    current.frame++;
+    if (current.frame >= 200 )
         current.frame =0;
-    if (current.x_vel <= 0 && current.frame <= 5 && current.y_vel>0)
+    if (current.frame <= 20 )
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[1]);
-        current.frame++;
-
-    }
-    if ( current.x_vel <= 0 && current.frame <= 10 &&
-            current.frame > 5 && current.y_vel>0)
+       }
+    if ( current.frame >= 20 && current.frame<=30)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[2]);
-        current.frame++;
-
-    }
-    if (current.x_vel <= 0 && current.frame <= 20 &&
-            current.frame > 10 && current.y_vel>0)
+        }
+    if (current.frame > 30 && current.frame <= 50)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[3]);
-        current.frame++;
 
-    }
-    // going DOWN ===================================
-    if (current.x_vel <= 0 && current.frame >= 15 && current.y_vel<0)
-    {
-        glBindTexture(GL_TEXTURE_2D, flyTexture[3]);
-        current.frame--;
-
-    }
-    if (current.x_vel <= 0 && current.frame >= 5 &&
-            current.frame<=10 && current.y_vel<0)
+            }
+    if (current.frame > 50 && current.frame <= 70)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[4]);
-        current.frame--;
-
+        current.frame+=5;
     }
-    if (current.x_vel <= 0 && current.frame <= 5 && current.y_vel<0)
+    if (current.frame > 70 && current.frame <= 90)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[5]);
-        current.frame--;
-
+        current.frame+=5;
     }
-    // ==================================================
-    //moving sideways
-    bool going_left = true;
-    if (previous.x_pos < current.x_pos )
+    if (current.frame > 90 && current.frame<=100)
     {
-
-        going_left = false;
+        glBindTexture(GL_TEXTURE_2D, flyTexture[6]);
+        current.frame+=5;
     }
-    if (!going_left && current.y_vel<=0)
+    if (current.frame > 100 && current.frame<=120)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[7]);
-        current.frame++;
-        if(current.frame >= 40)
-        {
-            glBindTexture(GL_TEXTURE_2D, flyTexture[8]);
-            if(current.frame > 80)
-                current.frame = 0;
-        }
+        current.frame+=5;
     }
-    if (going_left && current.y_vel<=0)
+    if (current.frame > 120 && current.frame<=140)
+    {
+        glBindTexture(GL_TEXTURE_2D, flyTexture[8]);
+        current.frame+=5;
+    }
+    if (current.frame > 140 && current.frame<=150)
     {
         glBindTexture(GL_TEXTURE_2D, flyTexture[9]);
-        current.frame++;
-        if (current.frame >= 40)
-        {
-            glBindTexture(GL_TEXTURE_2D, flyTexture[10]);
-            if (current.frame > 80)
-                current.frame = 0;
-        }
+        current.frame+=5;
     }
-    //sitting still
-    if (current.x_vel==0 && current.y_vel==0 &&
-            current.x_pos == previous.x_pos)
+    if (current.frame>160)
     {
-        glBindTexture(GL_TEXTURE_2D, flyTexture[0]);
-        current.frame = 0;
+        glBindTexture(GL_TEXTURE_2D, flyTexture[10]);
+        current.frame+=5;
     }
-    if (current.x_vel==0 && current.y_vel<0)
-        glBindTexture(GL_TEXTURE_2D, flyTexture[5]);
+
+
     previous = current;
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);

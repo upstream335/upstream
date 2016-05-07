@@ -2,11 +2,12 @@
 
 void collision(Game *game)
 {
+    float gravity = 0.3*game->difficulty;
 	if (game->c.isJumping) {
 		game->c.center[1] += game->c.velocity[1];
 		game->c.velocity[0] = 0;
-		game->c.velocity[1] -= 0.8;
-		if (game->c.center[1] <= 0) {
+		game->c.velocity[1] -= gravity;
+        if (game->c.center[1] <= 0) {
 			game->c.isJumping = false;
 			game->c.isStanding = true;
 			game->c.center[1] = 15;
@@ -61,24 +62,21 @@ void collision(Game *game)
 	// ========================================
 	// collision frog with log
 	for (int i=0;i<4;i++) {
-		if (game->c.center[0] <= game->log[i]->getXpos()+15 &&
-				game->c.center[0] >= game->log[i]->getXpos()-15 &&
-				game->c.center[1] <= game->log[i]->getYpos()+50 &&
-				game->c.center[1] >= game->log[i]->getYpos()-50) {
+		if (game->frog->getXpos() <= game->log[i]->getXpos()+15 &&
+				game->frog->getXpos() >= game->log[i]->getXpos()-15 &&
+				game->frog->getYpos() <= game->log[i]->getYpos()+50 &&
+				game->frog->getYpos() >= game->log[i]->getYpos()-50) {
 			game->c.velocity[1]=game->log[i]->getYvel()+15;
 			playSounds("./wav/tick.wav",1.0f, false, game->muted);
 			game->score+=2;
 		}
 	}
 	// FLY =====================================================
-	//std::cout<<"fly pos="<<game->fly->getXpos()<<","
-	//		<<game->fly->getYpos()<<std::endl;
-	//std::cout<<"frog pos="<<game->frog->getXpos()<<","
-	//		<<game->frog->getYpos()<<std::endl;
-	if (game->frog->getXpos() >= game->fly->getXpos()-80 &&
-		game->frog->getXpos() <= game->fly->getXpos()+80 &&
-		game->frog->getYpos() <= game->fly->getYpos()+80 &&
-		game->frog->getYpos() >= game->fly->getYpos()-80) {
+	int tongue=60/game->difficulty;
+	if (game->frog->getXpos() >= game->fly->getXpos()- tongue &&
+		game->frog->getXpos() <= game->fly->getXpos()+ tongue &&
+		game->frog->getYpos() <= game->fly->getYpos()+ tongue &&
+		game->frog->getYpos() >= game->fly->getYpos()- tongue ) {
 
 		playSounds("./wav/tick.wav",1.0f, false, game->muted);
 		game->score+=50;
@@ -86,17 +84,20 @@ void collision(Game *game)
 		//std::cout<<"dead fly"<<std::endl;
 	}
 	// collision frog with gator head
-	if (game->frog->getXpos() <= game->gator->getXpos()-10 &&
-		game->frog->getXpos() >= game->gator->getXpos()-40 &&
-		game->frog->getYpos() <= game->gator->getYpos()+15 &&
-		game->frog->getYpos() >= game->gator->getYpos()-15) {
+	int head = 5 * game->difficulty;
+	if (game->frog->getXpos() <= game->gator->getXpos()-( 5 + head)  &&
+		game->frog->getXpos() >= game->gator->getXpos()-(30 + head) &&
+		game->frog->getYpos() <= game->gator->getYpos()+(5 + head) &&
+		game->frog->getYpos() >= game->gator->getYpos()-(5 + head) )
+		 {
 		gameOver(game);
 	}
 	// collision frog with gator back
-	if (game->c.center[0] <= game->gator->getXpos()+50 &&
-			game->c.center[0] >= game->gator->getXpos()-6 &&
-			game->c.center[1] <= game->gator->getYpos()+30 &&
-			game->c.center[1] >= game->gator->getYpos()-30) {
+	int back = 90/ game->difficulty;
+	if (game->frog->getXpos() <= game->gator->getXpos()+ back &&
+			game->frog->getXpos() >= game->gator->getXpos()-(back-head) &&
+			game->frog->getYpos() <= game->gator->getYpos()+ back/2 &&
+			game->frog->getYpos() >= game->gator->getYpos()-back/2) {
 		game->c.isJumping = true;
 		game->c.velocity[1] = 15.0;
 		playSounds("./wav/boing.wav",1.0f, false,game->muted);
@@ -115,15 +116,17 @@ void collision(Game *game)
 	}
 
 	//fell down
-	if (game->c.center[1]<=20 &&  game->bridge->getYpos()<=120) {
+	if (game->frog->getYpos()<=40 &&  game->bridge->getYpos()<=100) {
 		gameOver(game);
 
 	}
 	//frog at bottom
-	if (game->c.center[1] <= 15.0) {
+	if (game->frog->getYpos() <= 40.0) {
 		game->highscore[++game->scoreCount] = game->score;
 		game->score = 0;
 	}
+
+
 
 }
 
@@ -134,7 +137,7 @@ void screenUpdate(Game *game)
 		int move_down = 10;
 		if (game->frog->getYpos() > (game->windowHeight/3)*2)
 			move_down = 30;
-		game->c.center[1]-=move_down;
+		game->frog->setYpos(game->frog->getYpos()+move_down);
 		game->frog->move(game->frog->getXpos(),
 				game->frog->getYpos()-move_down,
 				game->frog->getXvel(),
@@ -185,7 +188,7 @@ void gameOver(Game *game)
 {
 	// move splash on screen if offscreen
 	if (game->splash->getXpos()<0)
-		game->splash->move(game->c.center[0],game->c.center[1]+40,0,0);
+		game->splash->move(game->frog->getXpos(),game->frog->getYpos()+40,0,0);
 	//move frog,logs and gator offscreen
 	game->frog->move(-200,-200,0,0);
 	for (int i=0;i<4;i++) {
@@ -204,8 +207,8 @@ void gameOver(Game *game)
 		}
 		game->gator->move(-300,400,-2,-.5);
 		game->frog->move(-100,-800,0,0);
-		game->c.center[1]=-10;
-		game->c.center[0]=-800;
+		game->frog->setYpos(game->frog->getYpos()-10);
+		game->frog->setXpos(game->frog->getXpos()-800);
 		game->splash->move(-200,-200,0,0);
 	}
 

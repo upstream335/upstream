@@ -46,6 +46,8 @@ class Frog
 		bool rocketFrog;
 		int wink;
 		int blink;
+		int left;
+		int right;
 
 	public:
 		// Constructor with default values for data members
@@ -58,6 +60,8 @@ class Frog
 			current.y_vel = -1;
 			wink = 0;
 			blink = 0;
+			left = 0;
+			right = 0;
 			previous = current;
 			frogImage[0] = get_image("./images/frog");
 			frogImage[1] = get_image("./images/frog1");
@@ -142,6 +146,7 @@ class Fly
 		Ppmimage *flyImage[11];
 		GLuint flyTexture[11];
 		bool alive;
+		int flip;
 	public:
 		// Constructor with default values for data members
 		Fly() {
@@ -153,6 +158,7 @@ class Fly
 			current.y_pos =150;
 			current.x_vel = 0;
 			current.y_vel = -1;
+			flip=0;
 			previous = current;
 			flyImage[0] = get_image("./images/fly");
 			flyImage[1] = get_image("./images/fly1");

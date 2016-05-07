@@ -221,7 +221,7 @@ void render(Game *game)
 	ggfrog40b(&r, 50, 0, "UPSTREAM!");
 	ggprint40(&r, 50, 0, "Current Score: %d Mode: %s", game->score,mode.c_str());
 
-	std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
+	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	maxScore(game);
 	ggprint40(&r, 0, 0, "High Score: %d", game->highscore[0]);
 

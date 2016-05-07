@@ -41,9 +41,11 @@ class Frog
 		Position current;
 		Position previous;
 		bool isStanding;
-		Ppmimage *frogImage[16];
-		GLuint frogTexture[16];
+		Ppmimage *frogImage[18];
+		GLuint frogTexture[18];
 		bool rocketFrog;
+		int wink;
+		int blink;
 
 	public:
 		// Constructor with default values for data members
@@ -54,6 +56,8 @@ class Frog
 			current.y_pos =150;
 			current.x_vel = 0;
 			current.y_vel = -1;
+			wink = 0;
+			blink = 0;
 			previous = current;
 			frogImage[0] = get_image("./images/frog");
 			frogImage[1] = get_image("./images/frog1");
@@ -71,7 +75,9 @@ class Frog
 			frogImage[13] = get_image("./images/rocket2");
 			frogImage[14] = get_image("./images/rocket3");
 			frogImage[15] = get_image("./images/rocket4");
-			for (int i =0; i<=15; i++) {
+			frogImage[16] = get_image("./images/frog_wink");
+			frogImage[17] = get_image("./images/frog_blink");
+			for (int i =0; i<=17; i++) {
 				//create opengl texture elements
 				glGenTextures(1, &frogTexture[i]);
 				int w = frogImage[i]->width;

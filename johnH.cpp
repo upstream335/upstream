@@ -65,7 +65,7 @@ void Frog::render(void)
         current.frame++;
 
     }
-    if (current.x_vel <= 0 && current.frame <= 20 &&
+    if (current.x_vel <= 0 && /*current.frame <= 20 && */
             current.frame > 10 && current.y_vel>0)
     {
         glBindTexture(GL_TEXTURE_2D, frogTexture[3]);
@@ -126,7 +126,25 @@ void Frog::render(void)
     if (current.x_vel==0 && current.y_vel==0 &&
             current.x_pos == previous.x_pos)
     {
+    int r   =   rand()%500+1;
+        if (r>2 && blink== 0 && wink == 0)
         glBindTexture(GL_TEXTURE_2D, frogTexture[0]);
+
+        // blinking
+        if (r==1 || wink>0) {
+            if (wink==0)
+                wink = 15;
+        wink--;
+        glBindTexture(GL_TEXTURE_2D, frogTexture[16]);
+        }
+
+        //winking
+        if (r==2 || blink >0){
+            if (blink==0)
+                blink = 15;
+        blink--;
+        glBindTexture(GL_TEXTURE_2D, frogTexture[17]);
+        }
         current.frame = 0;
     }
     if (current.x_vel==0 && current.y_vel<0)

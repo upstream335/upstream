@@ -77,14 +77,13 @@ void Frog::render ( void )
 		}
 		// ==================================================
 		//moving along bridge
-
 		if ( previous.x_pos < current.x_pos ) {
-			 right =10;
-			 left = 0;
+			right =10;
+			left = 0;
 		}
 		if ( previous.x_pos > current.x_pos ) {
-			 left =10;
-			 right =0;
+			left =10;
+			right =0;
 		}
 		if ( right > 0 && current.y_vel <= 0 ) {
 			glBindTexture ( GL_TEXTURE_2D, frogTexture[7] );
@@ -109,7 +108,7 @@ void Frog::render ( void )
 		//sitting still
 		if ( current.x_vel==0 && current.y_vel==0 &&
 		        current.x_pos == previous.x_pos &&
-		        right<=0 && left<=0) {
+		        right<=0 && left<=0 ) {
 			int r   =   rand() %500+1;
 			if ( r>2 && blink== 0 && wink == 0 )
 				glBindTexture ( GL_TEXTURE_2D, frogTexture[0] );
@@ -453,7 +452,7 @@ void Fly::render ( void )
 			current.y_vel=1;
 		}
 		if ( current.y_pos  > HEIGHT+100 ) {
-			current.y_pos   =  rand()%HEIGHT+1;
+			current.y_pos   =  rand() %HEIGHT+1;
 			current.x_pos   =  WIDTH - rand() %WIDTH+1;
 		}
 		if ( current.x_pos<0 ) {
@@ -496,10 +495,9 @@ void Fly::render ( void )
 	current.frame++;
 	if ( current.frame >= 200 )
 		current.frame =0;
-
 	//randomize flipping
 	int r = rand() %200+1;
-		if ( r == 3 && flip <= 0)
+	if ( r == 3 && flip <= 0 )
 		flip=100;
 	if ( current.frame <= 40 ) {
 		glBindTexture ( GL_TEXTURE_2D, flyTexture[1] );
@@ -508,7 +506,7 @@ void Fly::render ( void )
 		glBindTexture ( GL_TEXTURE_2D, flyTexture[2] );
 	}
 	if ( flip>0 ) {
-        flip--;
+		flip--;
 		if ( current.frame > 30 && current.frame <= 50 ) {
 			glBindTexture ( GL_TEXTURE_2D, flyTexture[3] );
 		}
@@ -565,6 +563,7 @@ void Fly::render ( void )
 } //end fly render=============================================
 
 
+
 // =============================================================
 unsigned char *buildAlphaData ( Ppmimage *img )
 {
@@ -589,3 +588,10 @@ unsigned char *buildAlphaData ( Ppmimage *img )
 	return newdata;
 }
 //end johnH.cpp =================================================
+
+
+
+
+
+
+

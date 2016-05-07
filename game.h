@@ -33,6 +33,13 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
+struct Demo {
+bool on;
+int moveLeft;
+int moveRight;
+int jump;
+};
+
 #define EASY    1
 #define MED     2
 #define HARD    3
@@ -40,6 +47,7 @@ typedef struct t_button {
 struct Game
 {
     int difficulty; //1=easy,2=med,3=hard
+    Demo demo;
 	bool playing;
 	int windowWidth;
 	int windowHeight;
@@ -70,11 +78,11 @@ struct Game
 	Ppmimage *bgImage;
 	GLuint bgTexture;
 	Button button[MAXBUTTONS];
-
 	Log *log[4];
 	Water *water[3];
 	Bridge *bridge;
 	Splash *splash;
+
 	Game()
 	{
 		c.isStanding = true;
@@ -93,5 +101,7 @@ struct Game
 };
 
 extern void init_game(Game *game);
+extern void demo ( Game *game );
+
 
 #endif

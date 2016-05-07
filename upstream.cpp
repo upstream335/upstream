@@ -157,6 +157,7 @@ void movement(Game *game)
 				game->c.velocity[0] = game->frog->getXvel();
 				game->c.velocity[1] = game->frog->getYvel();
 				game->c.isJumping = true;
+				game->c.isStanding = false;
 				}
 	//move fly
 	int x=rand()%10+1;int y =rand()%10+1;

@@ -19,8 +19,48 @@ using namespace std;
 struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 
+float fade = 1.0;
+void drawRipple(int x, int y) {
+    if (fade <= 0)
+        fade = 1.0;
+    float radius = 20;
+    int detail = 400;
+    float radian = 2.0 * 3.14;
+    glEnable(GL_BLEND);
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glColor4f (1.0,0.0,0.0,fade-=0.01 );
+	glBegin ( GL_LINE_LOOP );
+	for ( int i = 0; i <= detail; i++ ) {
+		glVertex2f (
+		    x + ( radius * cos ( (float)i * radian / (float)detail ) ),
+		    y + ( radius * sin ( (float)i * radian / (float)detail ) )
+		);
+	}
+	glEnd();
+	glPopMatrix();
+    glDisable(GL_BLEND);
+}
+
 void createLily(const int n, Game *game)
 {
+    int wid;
+	if (game->score < 300) {
+        wid = 35;
+	}
+	if (game->score >= 300) {
+        wid = 30;
+	}
+	if (game->score >= 600) {
+        wid = 25;
+	}
+    if (game->score >= 1000) {
+        wid = 20;
+	}
+	if (game->score >= 1500) {
+        wid = 15;
+	}
+
 	//if (game->nlily >= 1) return;
 	for (int i =0; i < n; i++) {
 		Lilypad *node = new Lilypad;
@@ -28,6 +68,7 @@ void createLily(const int n, Game *game)
 			//Log("error allocating node.\n");
 			exit(EXIT_FAILURE);
 		}
+		node->size = wid;
 		node->prev = NULL;
 		node->next = NULL;
 		int random = rand() % (game->windowWidth - 120) + 60;
@@ -47,7 +88,7 @@ void checkLilies(Game *game)
 {
 	//game timer for when to spawn new lily
 	game->timer++;
-	if (game->timer >= game->maxtimer) {
+	if (game->timer >= game->lilytimer) {
 		createLily(1,game);
 		game->nlily++;
 		game->timer = 0;
@@ -63,8 +104,7 @@ void checkLilies(Game *game)
 		node = node->next;
 		//check y pos to set score to 0
 		if (game->c.center[1] == 15.0) {
-			//highscore[++scoreCount] = score;
-			//score = 0;
+
 		}
 	}
 }
@@ -72,6 +112,8 @@ void checkLilies(Game *game)
 void deleteLily(Lilypad *node, Game *game)
 {
 	if (node) {
+        //cout << node->pos[0] << " " << node->pos[1] << endl;
+        drawRipple((int)node->pos[0],(int)node->pos[1]);
 		if (node->next == NULL && node->prev == NULL) {
 			game->ihead = NULL;
 			//delete(node);
@@ -107,31 +149,12 @@ void clearLilies(Game *game)
 int check = 0;
 void drawLilies(Game *game)
 {
-	int wid =20;
 	Lilypad *node = game->ihead;
 	while (node) {
-		/*
-		for (int i =0; i<3; i++) {
-		glGenTextures(1, &node->lillyTexture[i]);
-		int w = game->lillyImage[i]->width;
-		int h = game->lillyImage[i]->height;
-		glBindTexture(GL_TEXTURE_2D, node->lillyTexture[i]);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-		unsigned char *lillyData = buildAlphaData2(game->lillyImage[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, lillyData);
-		glTexSubImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, lillyData);
-		free(lillyData);
-		}
-		*/
 
 		glPushMatrix();
 		glTranslatef(node->pos[0], node->pos[1], 0);
 
-		//int r=rand()%10+1;
-		//std::cout<<r<<std::endl;
 		if (check>=40 && check <80) {
 			//if (r>9)
 			glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[0]);
@@ -155,13 +178,13 @@ void drawLilies(Game *game)
 		glColor4ub(255,255,255,255);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 1.0f);
-		glVertex2i(-wid,-wid);
+		glVertex2i(-node->size,-node->size);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex2i(-wid, wid);
+		glVertex2i(-node->size, node->size);
 		glTexCoord2f(1.0f, 0.0f);
-		glVertex2i( wid, wid);
+		glVertex2i( node->size, node->size);
 		glTexCoord2f(1.0f, 1.0f);
-		glVertex2i( wid,-wid);
+		glVertex2i( node->size,-node->size);
 		glEnd();
 		glPopMatrix();
 		glDisable(GL_ALPHA_TEST);

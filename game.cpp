@@ -39,6 +39,7 @@ void init_game ( Game *game )
 	game->nlily = 0;
 	game->timer = 0;
 	game->maxtimer = 35;
+	game->lilytimer = 35;
 	game->lilyspawnpoint = game->windowHeight + 15;
 	game->c.radius = 15.0;
 	game->c.center[0] = game->windowWidth/2.0;

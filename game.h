@@ -60,6 +60,7 @@ struct Game
 	int nlily;
 	int timer;
 	int maxtimer;
+	int lilytimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	Lilypad *ihead;
 	Score *hscore;

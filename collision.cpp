@@ -162,14 +162,14 @@ void screenUpdate ( Game *game )
 		//shift lilies
 		Lilypad *node = game->ihead;
 		//adjust spawn timer to spawn faster as we go up
-		game->maxtimer = 10;
+		game->lilytimer = 10;
 		while ( node ) {
 			node->pos[1] -= move_down;
 			node = node->next;
 		}
 	} else {
 		//reset spawn timer to original if below half screen
-		game->maxtimer = 35;
+		game->lilytimer = game->maxtimer;
 	}
 }
 void gameOver ( Game *game )

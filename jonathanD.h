@@ -13,6 +13,18 @@
 #include <sstream>
 typedef double Vec[3];
 
+struct Lilypad {
+	Vec pos;
+	Vec vel;
+	int size;
+	struct Lilypad *next;
+	struct Lilypad *prev;
+	Lilypad() {
+		next = NULL;
+		prev = NULL;
+	}
+};
+
 struct LilyTexture {
 	Ppmimage *lillyImage[3];
 	GLuint lillyTexture[3];
@@ -37,15 +49,14 @@ struct LilyTexture {
 	}
 };
 
-struct Lilypad {
-	Vec pos;
-	Vec vel;
-	struct Lilypad *next;
-	struct Lilypad *prev;
-	Lilypad() {
-		next = NULL;
-		prev = NULL;
-	}
+struct Ripple {
+    Vec pos;
+    float radius;
+    int detail;
+    Ripple() {
+        radius = 10.0;
+        detail = 400;
+    }
 };
 
 struct Score {

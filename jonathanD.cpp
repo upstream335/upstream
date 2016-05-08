@@ -218,17 +218,17 @@ unsigned char *buildAlphaData2(Ppmimage *img)
 	return newdata;
 }
 
+//drawing score using sprites
 void drawScore(int s, Game *game,int wid)
 {
 	if (wid==0) {
-		wid =20;
+		wid = 20;
 	}
-	//drawing score using sprites
 	string score;
 	stringstream out;
 	int size;
 	int xpos = 20;
-	//int ypos = game->windowHeight-50;
+	int ypos = game->windowHeight - 25;
 	out << s;
 	score = out.str();
 	size = score.length();
@@ -237,7 +237,7 @@ void drawScore(int s, Game *game,int wid)
 		int idigit = cdigit - '0'; //ghetto atoi
 		//draw score
 		glPushMatrix();
-		glTranslatef(xpos+=30, HEIGHT-100, 0);
+		glTranslatef(xpos, ypos, 0);
 		glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.0f);
@@ -257,5 +257,6 @@ void drawScore(int s, Game *game,int wid)
 		glDisable(GL_TEXTURE_2D);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
+		xpos+=30;
 	}
 }

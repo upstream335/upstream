@@ -49,6 +49,7 @@ struct Game
     int difficulty; //1=easy,2=med,3=hard
     Demo demo;
 	bool playing;
+	int troll_lilypad;
 	int windowWidth;
 	int windowHeight;
 	int xres;
@@ -62,6 +63,7 @@ struct Game
 	int maxtimer;
 	int lilytimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
+	int stresstest;
 	Lilypad *ihead;
 	Score *hscore;
 	LilyTexture *lily;
@@ -69,7 +71,7 @@ struct Game
 	int n;
 	Frog *frog;
 	Gator *gator;
-	Fly     *fly;
+	Fly *fly;
 	//for game menu
 	int menu_done;
 	int boardDim;
@@ -89,8 +91,8 @@ struct Game
 		c.isStanding = true;
 		windowWidth = 600;
 		windowHeight = 760;
-
-		//init for game menu
+        troll_lilypad = 0;
+		stresstest = 0;
 		xres = 200;
 		yres = 200;
 		menu_done = 0;

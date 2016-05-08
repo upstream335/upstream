@@ -1,5 +1,5 @@
 #include "collision.h"
-
+#include <cmath>
 void collision ( Game *game )
 {
 	if ( !game->demo.on ) {
@@ -46,7 +46,7 @@ void collision ( Game *game )
 			float d1 = node->pos[1] - game->c.center[1];
 			float d2 = node->pos[0] - game->c.center[0];
 			float dist = sqrt ( d1*d1 + d2*d2 );
-			if ( dist <= game->c.radius+node->size+5/game->difficulty ) {
+			if ( dist <= game->c.radius+node->size+15/game->difficulty ) {
 				//rejump the ball
 				game->c.isJumping = true;
 				game->c.velocity[1] = 15.0;

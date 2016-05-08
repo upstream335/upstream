@@ -11,9 +11,23 @@
 #include "game.h"
 #include <string>
 #include <sstream>
-extern "C" {
+#include <stdio.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <netdb.h>
+#include <string.h>
+#include <unistd.h>
 #include "fonts.h"
-}
+int create_tcp_socket();
+void usage();
+char *get_ip(char *host);
+char *build_get_query(char *host, char *page);
+
+#define HOST "coding.debuntu.org"
+#define PAGE "/"
+#define PORT 80
+#define USERAGENT "HTMLGET 1.0"
 
 using namespace std;
 struct Game game;
@@ -73,6 +87,11 @@ void createLily(const int n, Game *game)
 		node->next = NULL;
 		int random = rand() % (game->windowWidth - 120) + 60;
 		node->pos[0] = game->windowWidth - random;
+		if (node->pos[0] >= game->windowWidth/2) {
+            node->left = false;
+        } else {
+            node->left = true;
+        }
 		node->pos[1] = game->lilyspawnpoint;
 		node->vel[1] = -2.0f;
 		node->next = game->ihead;
@@ -86,6 +105,11 @@ void createLily(const int n, Game *game)
 
 void checkLilies(Game *game)
 {
+    if (game->stresstest == 1) {
+        game->maxtimer = 2;
+    } else {
+        game->maxtimer = 35;
+    }
 	//game timer for when to spawn new lily
 	game->timer++;
 	if (game->timer >= game->lilytimer) {
@@ -151,7 +175,22 @@ void drawLilies(Game *game)
 {
 	Lilypad *node = game->ihead;
 	while (node) {
+        if (game->troll_lilypad == 1) {
+            if (!node->left) {
+                node->pos[0] += 2;
+                if (node->pos[0] > game->windowWidth) {
+                    node->pos[0] = game->windowWidth;
+                    node->left = true;
+                }
 
+            } else {
+                node->pos[0] -= 2;
+                if (node->pos[0] < 0) {
+                    node->pos[0] = 0;
+                    node->left = false;
+                }
+            }
+        }
 		glPushMatrix();
 		glTranslatef(node->pos[0], node->pos[1], 0);
 
@@ -259,4 +298,135 @@ void drawScore(int s, Game *game,int wid)
 		glEnable(GL_TEXTURE_2D);
 		xpos+=30;
 	}
+}
+
+void getHighScore(Game *game, char shost[], char spage[], bool check_score, bool put_score)
+{
+    struct sockaddr_in *remote;
+    int sock;
+    int tmpres;
+    char *ip;
+    char *get;
+    char buf[BUFSIZ+1];
+    char *host;
+    char *page;
+
+    host = new char[256];
+    //strcpy(host,"sleipnir.cs.csub.edu");
+    strcpy(host,shost);
+    page = new char[256];
+    //strcpy(page, "/~jhargreaves/upstream/highscore.xml");
+    strcpy(page, spage);
+    sock = create_tcp_socket();
+    ip = get_ip(host);
+    fprintf(stderr, "IP is %s\n", ip);
+    remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
+    remote->sin_family = AF_INET;
+    tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
+    if (tmpres < 0) {
+        perror("Can't set remote->sin_addr.s_addr");
+        exit(1);
+    } else if (tmpres == 0) {
+        fprintf(stderr, "%s is not a valid IP address\n", ip);
+        exit(1);
+    }
+    remote->sin_port = htons(PORT);
+
+    if (connect(sock, (struct sockaddr *)remote, sizeof(struct sockaddr)) < 0) {
+        perror("Could not connect");
+        exit(1);
+    }
+    get = build_get_query(host, page);
+    fprintf(stderr, "Query is:\n<<START>>\n%s<<END>>\n", get);
+    //Send the query to the server
+    unsigned int sent = 0;
+    while (sent < strlen(get)) {
+        tmpres = send(sock, get+sent, strlen(get)-sent, 0);
+        if (tmpres == -1) {
+            perror("Can't send query");
+            exit(1);
+        }
+        sent += tmpres;
+    }
+    //now it is time to receive the page
+    memset(buf, 0, sizeof(buf));
+    int htmlstart = 0;
+    char * htmlcontent;
+    while ((tmpres = recv(sock, buf, BUFSIZ, 0)) > 0) {
+        if (htmlstart == 0) {
+
+            htmlcontent = strstr(buf, "\r\n\r\n");
+            if(htmlcontent != NULL){
+                htmlstart = 1;
+                htmlcontent += 4;
+            }
+        } else {
+            htmlcontent = buf;
+        }
+        if (htmlstart) {
+            fprintf(stdout, "%s", htmlcontent);
+        }
+
+        memset(buf, 0, tmpres);
+    }
+    if (tmpres < 0) {
+        perror("Error receiving data");
+    }
+    free(get);
+    free(remote);
+    free(ip);
+    close(sock);
+
+}
+
+//HTTPget functions defined here
+void usage()
+{
+    fprintf(stderr, "USAGE: htmlget host [page]\n\
+            \thost: the website hostname. ex: coding.debuntu.org\n\
+            \tpage: the page to retrieve. ex: index.html, default: /\n");
+}
+
+int create_tcp_socket()
+{
+    int sock;
+    if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
+        perror("Can't create TCP socket");
+        exit(1);
+    }
+    return sock;
+}
+
+
+char *get_ip(char *host)
+{
+    struct hostent *hent;
+    int iplen = 20; //XXX.XXX.XXX.XXX
+    char *ip = (char *)malloc(iplen+1);
+    memset(ip, 0, iplen+1);
+    if ((hent = gethostbyname(host)) == NULL) {
+        herror("Can't get IP");
+        exit(1);
+    }
+    if (inet_ntop(AF_INET, (void *)hent->h_addr_list[0], ip, iplen) == NULL) {
+        perror("Can't resolve host");
+        exit(1);
+    }
+    return ip;
+}
+
+char *build_get_query(char *host, char *page)
+{
+    char *query;
+    char *getpage = page;
+    //fixed warning: deprecated conversion from string constant to 'char*'
+    char tpl[256] = "GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
+    if (getpage[0] == '/') {
+        getpage = getpage + 1;
+        fprintf(stderr,"Removing leading \"/\", converting %s to %s\n", page, getpage);
+    }
+    // -5 is to consider the %s %s %s in tpl and the ending \0
+    query = (char *)malloc(strlen(host)+strlen(getpage)+strlen(USERAGENT)+strlen(tpl)-5);
+    sprintf(query, tpl, getpage, host, USERAGENT);
+    return query;
 }

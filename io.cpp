@@ -53,6 +53,12 @@ int check_keys ( XEvent *e, Game *game )
 			break;
 		case XK_b:
 			break;
+        case XK_j:
+			game->troll_lilypad ^= 1;
+			break;
+        case XK_k:
+			game->stresstest ^= 1;
+			break;
 		case XK_m:
 			return game->menu_done=1;
 			break;

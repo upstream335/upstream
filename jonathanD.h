@@ -17,6 +17,7 @@ struct Lilypad {
 	Vec pos;
 	Vec vel;
 	int size;
+	bool left;
 	struct Lilypad *next;
 	struct Lilypad *prev;
 	Lilypad() {

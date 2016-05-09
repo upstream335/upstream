@@ -158,6 +158,8 @@ int check_keys ( XEvent *e, Game *game )
 				break;
 			case XK_p:
 				game->sub_menu^=true;
+			case XK_o:
+				reset_game(game);
 				break;
 			case XK_j:
 				game->troll_lilypad ^= 1;

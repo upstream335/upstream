@@ -198,10 +198,10 @@ void render ( Game *game )
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->render();
 	}
+	game->splash->render();
 	game->gator->render();
 	game->bridge->render();
 	game->frog->render();
-	game->splash->render();
 	game->fly->render();
 	//place holder for sound button
 	drawCircle ( 480, game->windowHeight-30, 10, 10 );

@@ -87,6 +87,8 @@ void collision ( Game *game )
 	        game->frog->getXpos() >= game->gator->getXpos()- ( 30 + head ) &&
 	        game->frog->getYpos() <= game->gator->getYpos()+ ( 5 + head ) &&
 	        game->frog->getYpos() >= game->gator->getYpos()- ( 5 + head ) ) {
+
+	    game->gator->eat();
 		gameOver ( game );
 	}
 	// collision frog with gator back
@@ -99,6 +101,7 @@ void collision ( Game *game )
 		game->c.velocity[1] = 15.0;
 		playSounds ( "./wav/boing.wav",1.0f, false,game->muted );
 		game->score+=30;
+		game->gator->dive();
 	}
 	// collision gator with log
 	for ( int i=0; i<4; i++ ) {
@@ -182,7 +185,7 @@ void gameOver ( Game *game )
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->move ( -200*i,-300,0,0 );
 	}
-	game->gator->move ( -200,-200,0,0 );
+	//game->gator->move ( -200,-200,0,0 );
 	// reset lilies
 	clearLilies ( game );
 	//wait for splash to complete

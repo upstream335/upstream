@@ -254,31 +254,53 @@ void Log::render ( void )
 
 void Gator::render ( void )
 {
-	int r = rand() %800+1;
-	current.x_pos += current.x_vel;
-	current.y_pos += current.y_vel;
-	if ( current.x_pos<0 ) {
-		current.x_pos = WIDTH+r;
-		current.y_pos = HEIGHT-r;
-		current.y_vel = 0.1;
-	}
-	if ( current.y_pos<200 )  {
-		current.y_vel +=.1;
-	}
 	float wid = 70.0f; // size of gator sprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );
-	glBindTexture ( GL_TEXTURE_2D, gatorTexture[0] );
-	if ( current.frame>=10 ) {
+	if ( eating==0 and diving==0 ) {
+		int r = rand() %800+1;
+		current.x_pos += current.x_vel;
+		current.y_pos += current.y_vel;
+		if ( current.x_pos<0 ) {
+			current.x_pos = WIDTH+r;
+			current.y_pos = HEIGHT-r;
+			current.y_vel = 0.1;
+		}
+		if ( current.y_pos<200 )  {
+			current.y_vel +=.1;
+		}
 		glBindTexture ( GL_TEXTURE_2D, gatorTexture[0] );
-		current.frame++;
-		if ( current.frame>20 )
-			current.frame=0;
+		if ( current.frame>=10 ) {
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[0] );
+			current.frame++;
+			if ( current.frame>20 )
+				current.frame=0;
+		}
+		if ( current.frame<10 ) {
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[1] );
+			current.frame++;
+		}
 	}
-	if ( current.frame<10 ) {
-		glBindTexture ( GL_TEXTURE_2D, gatorTexture[1] );
-		current.frame++;
+	if ( eating>0 ) {
+		glBindTexture ( GL_TEXTURE_2D, gatorTexture[2] );
+		eating++;
+		if ( eating>10 )
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[3] );
+		if ( eating>20 )
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[2] );
+		if ( eating>30 )
+			eating =0;
+	}
+	if ( diving>0 && eating<=0) {
+		glBindTexture ( GL_TEXTURE_2D, gatorTexture[4] );
+		diving++;
+		if ( diving>10 )
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[5] );
+		if ( diving>20 )
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[6] );
+		if ( diving>30 )
+			diving =0;
 	}
 	glEnable ( GL_ALPHA_TEST );
 	glAlphaFunc ( GL_GREATER, 0.0f );

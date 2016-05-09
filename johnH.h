@@ -370,12 +370,16 @@ class Gator
 private:
 	Position current;
 	Position previous;
-	Ppmimage *gatorImage[2];
-	GLuint gatorTexture[2];
+	Ppmimage *gatorImage[7];
+	GLuint gatorTexture[7];
+	int diving;
+	int eating;
 public:
 	// Constructor with default values for data members
 	Gator()
 	{
+        diving = 0;
+        eating = 1;
 		current.frame =0;
 		current.x_pos = 500;
 		current.y_pos =400;
@@ -384,7 +388,13 @@ public:
 		previous = current;
 		gatorImage[0] = get_image ( "./images/aligator" );
 		gatorImage[1] = get_image ( "./images/aligator1" );
-		for ( int i=0; i<2; i++ ) {
+		gatorImage[2] = get_image ( "./images/aligator2" );
+		gatorImage[3] = get_image ( "./images/aligator3" );
+		gatorImage[4] = get_image ( "./images/aligator4" );
+		gatorImage[5] = get_image ( "./images/aligator5" );
+		gatorImage[6] = get_image ( "./images/aligator6" );
+
+		for ( int i=0; i<7; i++ ) {
 			//create opengl texture elements
 			glGenTextures ( 1, &gatorTexture[i] );
 			int w = gatorImage[i]->width;
@@ -421,7 +431,12 @@ public:
 	{
 		current = update_position ( &current,xp,yp,xv,yv );
 	}
-
+    void dive(){
+    diving=1;
+    }
+    void eat(){
+    eating=1;
+    }
 }; //end gator class ==============================================
 
 

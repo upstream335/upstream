@@ -60,7 +60,7 @@ void init_game ( Game *game )
 
 void demo ( Game *game )
 {
-	int moving = rand() %3+1;
+	int moving = rand() %5+1;
 	int x =rand() %5+1;
 	// move right
 	if ( moving==1 && game->demo.moveRight==0

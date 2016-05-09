@@ -14,42 +14,56 @@
 
 int main ( void )
 {
-	int done=0;
 	srand ( time ( NULL ) );
 	srand ( time ( 0 ) );
+
 	//declare game object
-	Game menu;
-	init_menu_opengl ( &menu );
-	init_menu ( &menu );
 	Game game;
 	initXWindows ( &game );
 	init_opengl ( &game );
 	init_game ( &game );
+	init_buttons ( &game );
+
 	//background sound
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
-	//while (!menu.menu_done) {
-	//while(XPending(dpy)) {
-	//XEvent e;
-	//XNextEvent(dpy, &e);
-	//check_mouse(&e, &game);
-	//menu.menu_done = check_keys(&e, &game);
-	//}
-	//render_menu(&game);
-	//glXSwapBuffers(dpy, win);
-	//}
-	while ( !done ) {
+
+	while (!game.done) {
 		while ( XPending ( dpy ) ) {
 			XEvent e;
 			XNextEvent ( dpy, &e );
+			checkResize( &e, &game);
 			check_mouse ( &e, &game );
-			done = check_keys ( &e, &game );
+			check_keys ( &e, &game );
+		}
+		//Game Introduction Main Menu
+		while (!game.main_menu) {
+			while ( XPending ( dpy ) ) {
+				XEvent e;
+				XNextEvent ( dpy, &e );
+				checkResize( &e, &game);
+				check_menu_mouse ( &e, &game );
+				check_keys ( &e, &game );
+			}
+			render_main_menu(&game);
+			glXSwapBuffers ( dpy, win );
+		}
+		while (!game.sub_menu) {
+			while ( XPending ( dpy ) ) {
+				XEvent e;
+				XNextEvent ( dpy, &e );
+				checkResize( &e, &game);
+				check_continue_mouse ( &e, &game );
+				check_keys ( &e, &game );
+			}
+			render_sub_menu(&game);
+			glXSwapBuffers ( dpy, win );
 		}
 		if(game.demo.on){
-		   demo(&game);
-		 }
+			demo(&game);
+		}
 		// physics();
 		movement ( &game );
-		render ( &game );
+		render( &game );
 		glXSwapBuffers ( dpy, win );
 	}
 	cleanupXWindows();
@@ -59,7 +73,7 @@ int main ( void )
 double timeDiff ( struct timespec *start, struct timespec *end )
 {
 	return ( double ) ( end->tv_sec - start->tv_sec ) +
-	       ( double ) ( end->tv_nsec - start->tv_nsec ) * oobillion;
+		( double ) ( end->tv_nsec - start->tv_nsec ) * oobillion;
 }
 
 void timeCopy ( struct timespec *dest, struct timespec *source )
@@ -101,14 +115,44 @@ void initXWindows ( Game *game )
 	XSetWindowAttributes swa;
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-	                 ButtonPress | ButtonReleaseMask |
-	                 PointerMotionMask |
-	                 StructureNotifyMask | SubstructureNotifyMask;
+		ButtonPress | ButtonReleaseMask |
+		PointerMotionMask |
+		StructureNotifyMask | SubstructureNotifyMask;
 	win = XCreateWindow ( dpy, root, 0, 0, w, h, 0, vi->depth,
-	                      InputOutput, vi->visual, CWColormap | CWEventMask, &swa );
+			InputOutput, vi->visual, CWColormap | CWEventMask, &swa );
 	set_title();
 	glc = glXCreateContext ( dpy, vi, NULL, GL_TRUE );
 	glXMakeCurrent ( dpy, win, glc );
+}
+
+void setupScreenRes(const int w, const int h, Game *game)
+{
+	game->windowWidth = w;
+	game->windowHeight = h;
+}
+
+void reshapeWindow(int width, int height, Game *game)
+{
+	//window has been resized.
+	//setupScreenRes(width, height, game);
+	//
+	glViewport(0, 0, (GLint)width, (GLint)height);
+	glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+	glOrtho(0, game->windowWidth, 0, game->windowHeight, -1, 1);
+	set_title();
+}
+
+void checkResize(XEvent *e, Game *game)
+{
+	//The ConfigureNotify is sent by the server if the window is resized.
+	if (e->type != ConfigureNotify)
+		return;
+	XConfigureEvent xce = e->xconfigure;
+	if (xce.width != game->windowWidth || xce.height != game->windowHeight) {
+		//Window size did change.
+		reshapeWindow(xce.width, xce.height, game);
+	}
 }
 
 void init_opengl ( Game *game )
@@ -141,18 +185,18 @@ void movement ( Game *game )
 {
 	collision ( game );
 	if (game->demo.on) {
-	game->c.newPosX =game->frog->getXpos();
-	game->c.newPosY =game->frog->getYpos();
+		game->c.newPosX =game->frog->getXpos();
+		game->c.newPosY =game->frog->getYpos();
 
 	}
 	//move frog
 	if ( game->playing==true && game->splash->getFrame() >=400 ) {
 		if ( !game->frog->rocket() && !game->demo.on) {
 			game->frog->move ( ( float ) game->c.center[0], ( float ) game->c.center[1],
-			                   ( float ) game->c.velocity[0], ( float ) game->c.velocity[1] );
+					( float ) game->c.velocity[0], ( float ) game->c.velocity[1] );
 		} else {
 			game->frog->move ( ( float ) game->c.center[0], game->frog->getYpos(),
-			                   game->frog->getXvel(), game->frog->getYvel() );
+					game->frog->getXvel(), game->frog->getYvel() );
 			game->c.center[0] = game->frog->getXpos();
 			game->c.center[1] = game->frog->getYpos();
 			game->c.velocity[0] = game->frog->getXvel();
@@ -178,9 +222,9 @@ void drawCircle ( float x, float y, float radius, int detail )
 	glBegin ( GL_TRIANGLE_FAN );
 	for ( int i = 0; i <= detail; i++ ) {
 		glVertex2f (
-		    x + ( radius * cos ( i * radian / detail ) ),
-		    y + ( radius * sin ( i * radian / detail ) )
-		);
+				x + ( radius * cos ( i * radian / detail ) ),
+				y + ( radius * sin ( i * radian / detail ) )
+				);
 	}
 	glEnd();
 	glPopMatrix();

@@ -17,5 +17,4 @@ extern void collision(Game *game);
 extern void screenUpdate(Game *game);
 extern void gameOver(Game *game);
 
-
 #endif

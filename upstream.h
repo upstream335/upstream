@@ -46,8 +46,11 @@ unsigned int upause=0;
 //Function prototypes
 extern void initXWindows(Game *game);
 extern void cleanupXWindows(void);
+extern void checkResize(XEvent *e, Game *game);
 extern void movement(Game *game);
 extern void render(Game *game);
 extern void init_opengl(Game *game);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 extern double timeDiff(struct timespec *start, struct timespec *end);
+extern void setupScreenRes(const int w, const int h, Game *game);
+extern void reshapeWindow(int width, int height, Game *game);

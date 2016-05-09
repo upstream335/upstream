@@ -9,7 +9,6 @@
 #include "jonathanD.h"
 #include "game.h"
 
-
 void init_game ( Game *game )
 {
 	//game->windowWidth = 800;
@@ -56,6 +55,9 @@ void init_game ( Game *game )
 	for ( int i = 0; i < 100; i++ ) {
 		game->highscore[i] = 0;
 	}
+
+	//Game menu init texture
+	game->introbg = new IntroBG;
 }
 
 void demo ( Game *game )
@@ -64,15 +66,15 @@ void demo ( Game *game )
 	int x =rand() %5+1;
 	// move right
 	if ( moving==1 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
+			&& game->demo.moveLeft==0 && game->demo.jump ==0 )
 		game->demo.moveRight++;
 	// move left
 	if ( moving==2 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
+			&& game->demo.moveLeft==0 && game->demo.jump ==0 )
 		game->demo.moveLeft++;
 	// jump
 	if ( moving==3 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
+			&& game->demo.moveLeft==0 && game->demo.jump ==0 )
 		game->demo.jump++;
 	if ( game->demo.moveRight>0 ) {
 		if ( game->frog->getXpos() <WIDTH )
@@ -105,7 +107,7 @@ void demo ( Game *game )
 		game->c.velocity[0] = 0;
 		game->c.velocity[1] -= 1;
 		game->frog->move ( game->c.center[0],game->c.center[1]-0.8,game->c.velocity[0],
-		                   game->c.velocity[1] );
+				game->c.velocity[1] );
 		if ( game->demo.jump > 40 && game->c.center[1] < 50 ) {
 			game->demo.jump = 0;
 			game->c.center[1]=40;

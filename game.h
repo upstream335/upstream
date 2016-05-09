@@ -46,8 +46,9 @@ int jump;
 
 struct Game
 {
-    int difficulty; //1=easy,2=med,3=hard
-    Demo demo;
+	bool done;
+	int difficulty; //1=easy,2=med,3=hard
+	Demo demo;
 	bool playing;
 	int troll_lilypad;
 	int windowWidth;
@@ -72,34 +73,40 @@ struct Game
 	Frog *frog;
 	Gator *gator;
 	Fly *fly;
-	//for game menu
-	int menu_done;
-	int boardDim;
-	int gridDim;
-	int gameover;
-	int nbuttons;
-	Ppmimage *bgImage;
-	GLuint bgTexture;
-	Button button[MAXBUTTONS];
 	Log *log[4];
 	Water *water[3];
 	Bridge *bridge;
 	Splash *splash;
+	
+	//for game menu
+	bool main_menu;
+	bool sub_menu;
+	IntroBG *introbg;
+	
+	Ppmimage *introbgImage;
+	GLuint introbgTexture;
+	Button button[MAXBUTTONS];
+	int nbuttons;
+	//
+	//ALuint alBufferDrip, alBufferTick;
+	//ALuint alSourceDrip, alSourceTick;	
 
 	Game()
-	{
+	{	
+		done = false;
 		c.isStanding = true;
 		windowWidth = 600;
 		windowHeight = 760;
-        troll_lilypad = 0;
+		troll_lilypad = 0;
 		stresstest = 0;
-		xres = 200;
-		yres = 200;
-		menu_done = 0;
-		gridDim = 40;
-		gameover = 0;
+		
+		//init for game menu
+		main_menu = false;
+		sub_menu = true;
+		
+		// buttons
 		nbuttons = 0;
-		bgImage=NULL;
+		introbgImage=NULL;
 	}
 };
 

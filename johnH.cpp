@@ -421,7 +421,7 @@ void Turtle::render ( void )
 	int r = rand() %600+1;
 	current.x_pos += current.x_vel;
 	current.y_pos += current.y_vel;
-	std::cout<<"turtle="<<current.frame<<","<<current.y_pos<< std::endl;
+	//std::cout<<"turtle="<<current.frame<<","<<current.y_pos<< std::endl;
 	if ( current.x_pos > WIDTH +100 ) {
 		current.x_pos = 0-100;
 		current.y_pos = HEIGHT-r;

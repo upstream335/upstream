@@ -237,12 +237,13 @@ void render ( Game *game )
 	game->water[1]->render();
 	game->water[2]->render();
 	drawScore ( game->score, game, 20 );
+	game->turtle->render();
 	drawLilies ( game );
 	screenUpdate ( game );
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->render();
 	}
-	game->turtle->render();
+
 	game->splash->render();
 	game->gator->render();
 	game->bridge->render();

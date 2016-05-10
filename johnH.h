@@ -484,7 +484,7 @@ class Gator
 		void eat(){
 			eating=1;
 		}
-}; 
+};
 //end gator class ==============================================
 
 class Water
@@ -620,39 +620,43 @@ class Splash
 		}
 }; //end splash class ======================================
 
-class LP
+class Turtle
 {
 	private:
 		Position current;
 		Position previous;
-		Ppmimage *lpImage[2];
-		GLuint lpTexture[2];
+		Ppmimage *turtleImage[6];
+		GLuint turtleTexture[6];
 	public:
 		// Constructor with default values for data members
-		LP()
+		Turtle()
 		{
 			int r= rand() %600+1;
 			current.frame =0;
-			current.x_pos = 300-r;
-			current.y_pos =-200+r;
-			current.x_vel = 0.5;
-			current.y_vel = -2.5;
+			current.x_pos = WIDTH-r;
+			current.y_pos =-HEIGHT/2 + r;
+			current.x_vel = 2;
+			current.y_vel = 0.1;
 			previous = current;
-			lpImage[0] = get_image ( "./images/lp" );
-			lpImage[1] = get_image ( "./images/lp1" );
-			for ( int i=0; i<2; i++ ) {
+			turtleImage[0] = get_image ( "./images/turtle" );
+			turtleImage[1] = get_image ( "./images/turtle1" );
+			turtleImage[2] = get_image ( "./images/turtle2" );
+			turtleImage[3] = get_image ( "./images/turtle3" );
+			turtleImage[4] = get_image ( "./images/turtle4" );
+			turtleImage[5] = get_image ( "./images/turtle5" );
+			for ( int i=0; i<6; i++ ) {
 				//create opengl texture elements
-				glGenTextures ( 1, &lpTexture[i] );
-				int w = lpImage[i]->width;
-				int h = lpImage[i]->height;
+				glGenTextures ( 1, &turtleTexture[i] );
+				int w = turtleImage[i]->width;
+				int h = turtleImage[i]->height;
 				//
-				glBindTexture ( GL_TEXTURE_2D, lpTexture[i] );
+				glBindTexture ( GL_TEXTURE_2D, turtleTexture[i] );
 				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
 				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
-				unsigned char *lpData = buildAlphaData ( lpImage[i] );
+				unsigned char *turtleData = buildAlphaData ( turtleImage[i] );
 				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-						GL_RGBA, GL_UNSIGNED_BYTE, lpData );
-				free ( lpData );
+						GL_RGBA, GL_UNSIGNED_BYTE, turtleData );
+				free ( turtleData );
 			}
 		} //end constructor
 		//-------------------------------------------------------------------------
@@ -677,7 +681,7 @@ class LP
 		{
 			current = update_position ( &current,xp,yp,xv,yv );
 		}
-}; //end lp class
+}; //end turtle class
 
 // =======================================================
 // =========================================================

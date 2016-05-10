@@ -242,6 +242,7 @@ void render ( Game *game )
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->render();
 	}
+	game->turtle->render();
 	game->splash->render();
 	game->gator->render();
 	game->bridge->render();

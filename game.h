@@ -77,33 +77,33 @@ struct Game
 	Water *water[3];
 	Bridge *bridge;
 	Splash *splash;
-	
+	Turtle *turtle;
 	//for game menu
 	bool main_menu;
 	bool sub_menu;
 	IntroBG *introbg;
-	
+
 	Ppmimage *introbgImage;
 	GLuint introbgTexture;
 	Button button[MAXBUTTONS];
 	int nbuttons;
 	//
 	//ALuint alBufferDrip, alBufferTick;
-	//ALuint alSourceDrip, alSourceTick;	
+	//ALuint alSourceDrip, alSourceTick;
 
 	Game()
-	{	
+	{
 		done = false;
 		c.isStanding = true;
 		windowWidth = 600;
 		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
-		
+
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;
-		
+
 		// buttons
 		nbuttons = 0;
 		introbgImage=NULL;

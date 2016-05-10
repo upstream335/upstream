@@ -415,30 +415,51 @@ void Splash::render ( void )
 }
 // end splash render ===========================================
 
-void LP::render ( void )
+void Turtle::render ( void )
 {
+
 	int r = rand() %600+1;
 	current.x_pos += current.x_vel;
 	current.y_pos += current.y_vel;
-	if ( current.y_pos<-100 ) {
-		current.x_pos = 500-r;
-		current.y_pos = 1400-r;
+	std::cout<<"turtle="<<current.frame<<","<<current.y_pos<< std::endl;
+	if ( current.x_pos > WIDTH +100 ) {
+		current.x_pos = 0-100;
+		current.y_pos = HEIGHT-r;
 	}
-	float wid = 20.0f; // size of lpsprite
+	float wid = 40.0f; // size of turtlesprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );
-	glBindTexture ( GL_TEXTURE_2D, lpTexture[0] );
-	if ( current.frame>=10 ) {
-		glBindTexture ( GL_TEXTURE_2D, lpTexture[0] );
+	glBindTexture ( GL_TEXTURE_2D, turtleTexture[0] );
+
+	if (  current.frame <20) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[0] );
 		current.frame++;
-		if ( current.frame>20 )
+
+	}
+	if ( current.frame>=20 && current.frame <=30) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[1] );
+		current.frame++;
+	}
+    if ( current.frame>=30 && current.frame <=40) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[2] );
+		current.frame++;
+	}
+	if ( current.frame>=40 && current.frame <=50) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[3] );
+		current.frame++;
+	}
+	if ( current.frame>=50 && current.frame <=60) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[4] );
+		current.frame++;
+	}
+	if ( current.frame>=60 ) {
+		glBindTexture ( GL_TEXTURE_2D, turtleTexture[5] );
+		current.frame++;
+	}
+
+    if ( current.frame>100 )
 			current.frame=0;
-	}
-	if ( current.frame<10 ) {
-		glBindTexture ( GL_TEXTURE_2D, lpTexture[1] );
-		current.frame++;
-	}
 	glEnable ( GL_ALPHA_TEST );
 	glAlphaFunc ( GL_GREATER, 0.0f );
 	glColor4ub ( 255,255,255,255 );
@@ -460,7 +481,7 @@ void LP::render ( void )
 	glDisable ( GL_BLEND );
 	glEnable ( GL_TEXTURE_2D );
 }
-// end LP render ===============================================
+// end Turtle render ===============================================
 
 
 // Render fly =============================================

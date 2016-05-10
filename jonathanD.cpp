@@ -34,7 +34,8 @@ struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 
 float fade = 1.0;
-void drawRipple(int x, int y) {
+void drawRipple(int x, int y)
+{
     if (fade <= 0)
         fade = 1.0;
     float radius = 20;
@@ -65,13 +66,13 @@ void createLily(const int n, Game *game)
 	if (game->score >= 300) {
         wid = 30;
 	}
-	if (game->score >= 600) {
+	if (game->score >= 800) {
         wid = 25;
 	}
-    if (game->score >= 1000) {
+    if (game->score >= 1300) {
         wid = 20;
 	}
-	if (game->score >= 1500) {
+	if (game->score >= 2000) {
         wid = 15;
 	}
 
@@ -300,7 +301,7 @@ void drawScore(int s, Game *game,int wid)
 	}
 }
 
-void getHighScore(Game *game, char shost[], char spage[], bool check_score, bool put_score)
+void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore)
 {
     struct sockaddr_in *remote;
     int sock;
@@ -356,7 +357,7 @@ void getHighScore(Game *game, char shost[], char spage[], bool check_score, bool
         if (htmlstart == 0) {
 
             htmlcontent = strstr(buf, "\r\n\r\n");
-            if(htmlcontent != NULL){
+            if (htmlcontent != NULL) {
                 htmlstart = 1;
                 htmlcontent += 4;
             }
@@ -423,10 +424,12 @@ char *build_get_query(char *host, char *page)
     char tpl[256] = "GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
     if (getpage[0] == '/') {
         getpage = getpage + 1;
-        fprintf(stderr,"Removing leading \"/\", converting %s to %s\n", page, getpage);
+        fprintf(stderr,"Removing leading \"/\", "
+                "converting %s to %s\n", page, getpage);
     }
     // -5 is to consider the %s %s %s in tpl and the ending \0
-    query = (char *)malloc(strlen(host)+strlen(getpage)+strlen(USERAGENT)+strlen(tpl)-5);
+    query = (char *)malloc(strlen(host)+strlen(getpage)+
+                    strlen(USERAGENT)+strlen(tpl)-5);
     sprintf(query, tpl, getpage, host, USERAGENT);
     return query;
 }

@@ -92,9 +92,11 @@ struct Score {
 	}
 };
 
+extern void drawBubble(Game *game);
 extern void checkLilies(Game *game);
 extern void drawLilies(Game *game);
 extern void deleteLily(Lilypad *node, Game *game);
 extern void clearLilies(Game *game);
 extern void drawScore(int s, Game *game,int);
+extern bool getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore);
 #endif

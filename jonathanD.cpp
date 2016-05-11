@@ -11,6 +11,7 @@
 #include "game.h"
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -76,7 +77,6 @@ void createLily(const int n, Game *game)
         wid = 15;
 	}
 
-	//if (game->nlily >= 1) return;
 	for (int i =0; i < n; i++) {
 		Lilypad *node = new Lilypad;
 		if (node == NULL) {
@@ -301,7 +301,79 @@ void drawScore(int s, Game *game,int wid)
 	}
 }
 
-void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore)
+void getName()
+{
+
+}
+
+void drawBubble(Game *game)
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glPushMatrix();
+    int w = 50;
+	int h = 50;
+    glTranslatef(game->fly->getXpos()+w, game->fly->getYpos()+h, 0);
+	glBegin(GL_QUADS);
+		glVertex2i(-w,-h);
+		glVertex2i(-w, h);
+		glVertex2i( w, h);
+		glVertex2i( w,-h);
+	glEnd();
+	glPopMatrix();
+}
+
+void flyBy(Game *game)
+{
+    int x=rand() %10+1;
+    int y =rand() %10+1;
+    x=6-x;
+    y=6-y;
+    game->fly->move ( game->fly->getXpos()+x/2,game->fly->getYpos()+y,x/10,y/10 );
+}
+
+bool checkHighScore(int score, Game *game)
+{
+    if (game->score == 0) {
+        return false;
+    }
+    int difficulty = game->difficulty;
+    string dif;
+    switch (difficulty) {
+        case 1:
+            dif = 'e';
+            break;
+        case 2:
+            dif = 'm';
+            break;
+        case 3:
+            dif = 'h';
+            break;
+    }
+    ifstream infile("hscore.txt");
+    if (infile.fail()) {
+        return false;
+    }
+    string score, mode;
+    while (getline(infile, score, ',') && getline(infile, mode)) {
+        string mtmp = mode;
+        if (mtmp == dif) {
+            string stmp = score;
+            int _score = atoi(stmp.c_str());
+            if (game->score > _score) {
+                char host[] = "sleipnir.cs.csub.edu";
+                char page[256] = "/~jhargreaves/upstream/scores.php?param="
+                                "upstream54321,name,";
+                strcat(page, (const char*)stmp.c_str());
+                strcat(page,"3");
+                return (getHighScore(game, host,
+                        page, false, true));
+            }
+        }
+    }
+    return false;
+}
+
+bool getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore)
 {
     struct sockaddr_in *remote;
     int sock;
@@ -320,7 +392,7 @@ void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool psco
     strcpy(page, spage);
     sock = create_tcp_socket();
     ip = get_ip(host);
-    fprintf(stderr, "IP is %s\n", ip);
+    //fprintf(stderr, "IP is %s\n", ip);
     remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
     remote->sin_family = AF_INET;
     tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
@@ -338,7 +410,6 @@ void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool psco
         exit(1);
     }
     get = build_get_query(host, page);
-    fprintf(stderr, "Query is:\n<<START>>\n%s<<END>>\n", get);
     //Send the query to the server
     unsigned int sent = 0;
     while (sent < strlen(get)) {
@@ -349,26 +420,30 @@ void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool psco
         }
         sent += tmpres;
     }
-    //now it is time to receive the page
-    memset(buf, 0, sizeof(buf));
-    int htmlstart = 0;
-    char * htmlcontent;
-    while ((tmpres = recv(sock, buf, BUFSIZ, 0)) > 0) {
-        if (htmlstart == 0) {
-
-            htmlcontent = strstr(buf, "\r\n\r\n");
-            if (htmlcontent != NULL) {
-                htmlstart = 1;
-                htmlcontent += 4;
+    //download highscore from server into text for processing
+    if (cscore) {
+        ofstream hscore("hscore.txt");
+        memset(buf, 0, sizeof(buf));
+        int htmlstart = 0;
+        char * htmlcontent;
+        while ((tmpres = recv(sock, buf, BUFSIZ, 0)) > 0) {
+            if (htmlstart == 0) {
+                htmlcontent = strstr(buf, "\r\n\r\n");
+                if (htmlcontent != NULL) {
+                    htmlstart = 1;
+                    htmlcontent += 4;
+                }
+            } else {
+                htmlcontent = buf;
             }
-        } else {
-            htmlcontent = buf;
+            if (htmlstart && cscore) {
+                for (int i = 0; i < (int)strlen(htmlcontent); i++) {
+                    hscore << htmlcontent[i];
+                }
+            }
+            memset(buf, 0, tmpres);
         }
-        if (htmlstart) {
-            fprintf(stdout, "%s", htmlcontent);
-        }
-
-        memset(buf, 0, tmpres);
+        hscore.close();
     }
     if (tmpres < 0) {
         perror("Error receiving data");
@@ -377,7 +452,7 @@ void getHighScore(Game *game, char shost[], char spage[], bool cscore, bool psco
     free(remote);
     free(ip);
     close(sock);
-
+    return true;
 }
 
 //HTTPget functions defined here
@@ -424,8 +499,6 @@ char *build_get_query(char *host, char *page)
     char tpl[256] = "GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
     if (getpage[0] == '/') {
         getpage = getpage + 1;
-        fprintf(stderr,"Removing leading \"/\", "
-                "converting %s to %s\n", page, getpage);
     }
     // -5 is to consider the %s %s %s in tpl and the ending \0
     query = (char *)malloc(strlen(host)+strlen(getpage)+

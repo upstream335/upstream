@@ -43,65 +43,65 @@ void drawRipple(int x, int y)
     int detail = 400;
     float radian = 2.0 * 3.14;
     glEnable(GL_BLEND);
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glColor4f (1.0,0.0,0.0,fade-=0.01 );
-	glBegin ( GL_LINE_LOOP );
-	for ( int i = 0; i <= detail; i++ ) {
-		glVertex2f (
-		    x + ( radius * cos ( (float)i * radian / (float)detail ) ),
-		    y + ( radius * sin ( (float)i * radian / (float)detail ) )
-		);
-	}
-	glEnd();
-	glPopMatrix();
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glColor4f (1.0,0.0,0.0,fade-=0.01 );
+    glBegin ( GL_LINE_LOOP );
+    for ( int i = 0; i <= detail; i++ ) {
+        glVertex2f (
+                x + ( radius * cos ( (float)i * radian / (float)detail ) ),
+                y + ( radius * sin ( (float)i * radian / (float)detail ) )
+                );
+    }
+    glEnd();
+    glPopMatrix();
     glDisable(GL_BLEND);
 }
 
 void createLily(const int n, Game *game)
 {
     int wid;
-	if (game->score < 300) {
+    if (game->score < 300) {
         wid = 35;
-	}
-	if (game->score >= 300) {
+    }
+    if (game->score >= 300) {
         wid = 30;
-	}
-	if (game->score >= 800) {
+    }
+    if (game->score >= 800) {
         wid = 25;
-	}
+    }
     if (game->score >= 1300) {
         wid = 20;
-	}
-	if (game->score >= 2000) {
+    }
+    if (game->score >= 2000) {
         wid = 15;
-	}
+    }
 
-	for (int i =0; i < n; i++) {
-		Lilypad *node = new Lilypad;
-		if (node == NULL) {
-			//Log("error allocating node.\n");
-			exit(EXIT_FAILURE);
-		}
-		node->size = wid;
-		node->prev = NULL;
-		node->next = NULL;
-		int random = rand() % (game->windowWidth - 120) + 60;
-		node->pos[0] = game->windowWidth - random;
-		if (node->pos[0] >= game->windowWidth/2) {
+    for (int i =0; i < n; i++) {
+        Lilypad *node = new Lilypad;
+        if (node == NULL) {
+            //Log("error allocating node.\n");
+            exit(EXIT_FAILURE);
+        }
+        node->size = wid;
+        node->prev = NULL;
+        node->next = NULL;
+        int random = rand() % (game->windowWidth - 120) + 60;
+        node->pos[0] = game->windowWidth - random;
+        if (node->pos[0] >= game->windowWidth/2) {
             node->left = false;
         } else {
             node->left = true;
         }
-		node->pos[1] = game->lilyspawnpoint;
-		node->vel[1] = -2.0f;
-		node->next = game->ihead;
-		if (game->ihead != NULL) {
-			game->ihead->prev = node;
-		}
-		game->ihead = node;
-		game->nlily++;
-	}
+        node->pos[1] = game->lilyspawnpoint;
+        node->vel[1] = -2.0f;
+        node->next = game->ihead;
+        if (game->ihead != NULL) {
+            game->ihead->prev = node;
+        }
+        game->ihead = node;
+        game->nlily++;
+    }
 }
 
 void checkLilies(Game *game)
@@ -111,71 +111,71 @@ void checkLilies(Game *game)
     } else {
         game->maxtimer = 35;
     }
-	//game timer for when to spawn new lily
-	game->timer++;
-	if (game->timer >= game->lilytimer) {
-		createLily(1,game);
-		game->nlily++;
-		game->timer = 0;
-	}
-	//lilies falling down
-	Lilypad *node = game->ihead;
-	while (node) {
-		node->pos[1] += node->vel[1];
-		//delete lily if it falls below certain height
-		if (node->pos[1] <= 0.0) {
-			deleteLily(node, game);
-		}
-		node = node->next;
-		//check y pos to set score to 0
-		if (game->c.center[1] == 15.0) {
+    //game timer for when to spawn new lily
+    game->timer++;
+    if (game->timer >= game->lilytimer) {
+        createLily(1,game);
+        game->nlily++;
+        game->timer = 0;
+    }
+    //lilies falling down
+    Lilypad *node = game->ihead;
+    while (node) {
+        node->pos[1] += node->vel[1];
+        //delete lily if it falls below certain height
+        if (node->pos[1] <= 0.0) {
+            deleteLily(node, game);
+        }
+        node = node->next;
+        //check y pos to set score to 0
+        if (game->c.center[1] == 15.0) {
 
-		}
-	}
+        }
+    }
 }
 
 void deleteLily(Lilypad *node, Game *game)
 {
-	if (node) {
+    if (node) {
         //cout << node->pos[0] << " " << node->pos[1] << endl;
         drawRipple((int)node->pos[0],(int)node->pos[1]);
-		if (node->next == NULL && node->prev == NULL) {
-			game->ihead = NULL;
-			//delete(node);
-			//node = NULL;
-		} else if (node->next && node->prev) {
-			node->prev->next = node->next;
-			node->next->prev = node->prev;
-			delete(node);
-			node = NULL;
-		} else if (node->prev == NULL && node->next) {
-			game->ihead = node->next;
-			node->next->prev = NULL;
-			delete(node);
-			node = NULL;
-		} else if (node->next == NULL && node->prev) {
-			node->prev->next = NULL;
-			delete(node);
-			node = NULL;
-		}
-	}
-	game->nlily--;
+        if (node->next == NULL && node->prev == NULL) {
+            game->ihead = NULL;
+            //delete(node);
+            //node = NULL;
+        } else if (node->next && node->prev) {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            delete(node);
+            node = NULL;
+        } else if (node->prev == NULL && node->next) {
+            game->ihead = node->next;
+            node->next->prev = NULL;
+            delete(node);
+            node = NULL;
+        } else if (node->next == NULL && node->prev) {
+            node->prev->next = NULL;
+            delete(node);
+            node = NULL;
+        }
+    }
+    game->nlily--;
 }
 
 void clearLilies(Game *game)
 {
-	Lilypad *node = game->ihead;
-	while (node) {
-		deleteLily(node, game);
-		node = node->next;
-	}
+    Lilypad *node = game->ihead;
+    while (node) {
+        deleteLily(node, game);
+        node = node->next;
+    }
 }
 
 int check = 0;
 void drawLilies(Game *game)
 {
-	Lilypad *node = game->ihead;
-	while (node) {
+    Lilypad *node = game->ihead;
+    while (node) {
         if (game->troll_lilypad == 1) {
             if (!node->left) {
                 node->pos[0] += 2;
@@ -192,113 +192,113 @@ void drawLilies(Game *game)
                 }
             }
         }
-		glPushMatrix();
-		glTranslatef(node->pos[0], node->pos[1], 0);
+        glPushMatrix();
+        glTranslatef(node->pos[0], node->pos[1], 0);
 
-		if (check>=40 && check <80) {
-			//if (r>9)
-			glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[0]);
-			check++;
-		}
-		if (check >= 80) {
-			//if (r<=1)
-			glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[2]);
-			check++;
-		}
-		if (check>100)
-			check =0;
+        if (check>=40 && check <80) {
+            //if (r>9)
+            glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[0]);
+            check++;
+        }
+        if (check >= 80) {
+            //if (r<=1)
+            glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[2]);
+            check++;
+        }
+        if (check>100)
+            check =0;
 
-		if (check<40) {
-			glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[1]);
-			check++;
-		}
+        if (check<40) {
+            glBindTexture(GL_TEXTURE_2D, game->lily->lillyTexture[1]);
+            check++;
+        }
 
-		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
-		glColor4ub(255,255,255,255);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex2i(-node->size,-node->size);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex2i(-node->size, node->size);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex2i( node->size, node->size);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex2i( node->size,-node->size);
-		glEnd();
-		glPopMatrix();
-		glDisable(GL_ALPHA_TEST);
-		glDisable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_TEXTURE_2D);
-		node = node->next;
-	}
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2i(-node->size,-node->size);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2i(-node->size, node->size);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2i( node->size, node->size);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2i( node->size,-node->size);
+        glEnd();
+        glPopMatrix();
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+        node = node->next;
+    }
 }
 
 unsigned char *buildAlphaData2(Ppmimage *img)
 {
-	//add 4th component to RGB stream...
-	int i;
-	int a,b,c;
-	unsigned char *newdata, *ptr;
-	unsigned char *data = (unsigned char *)img->data;
-	newdata = (unsigned char *)malloc(img->width * img->height * 4);
-	ptr = newdata;
-	for (i=0; i<img->width * img->height * 3; i+=3) {
-		a = *(data+0);
-		b = *(data+1);
-		c = *(data+2);
-		*(ptr+0) = a;
-		*(ptr+1) = b;
-		*(ptr+2) = c;
-		*(ptr+3) = (a|b|c);
-		ptr += 4;
-		data += 3;
-	}
-	return newdata;
+    //add 4th component to RGB stream...
+    int i;
+    int a,b,c;
+    unsigned char *newdata, *ptr;
+    unsigned char *data = (unsigned char *)img->data;
+    newdata = (unsigned char *)malloc(img->width * img->height * 4);
+    ptr = newdata;
+    for (i=0; i<img->width * img->height * 3; i+=3) {
+        a = *(data+0);
+        b = *(data+1);
+        c = *(data+2);
+        *(ptr+0) = a;
+        *(ptr+1) = b;
+        *(ptr+2) = c;
+        *(ptr+3) = (a|b|c);
+        ptr += 4;
+        data += 3;
+    }
+    return newdata;
 }
 
 //drawing score using sprites
 void drawScore(int s, Game *game,int wid)
 {
-	if (wid==0) {
-		wid = 20;
-	}
-	string score;
-	stringstream out;
-	int size;
-	int xpos = 20;
-	int ypos = game->windowHeight - 25;
-	out << s;
-	score = out.str();
-	size = score.length();
-	for (int i = 0; i < size; i++) {
-		char cdigit = score[i];
-		int idigit = cdigit - '0'; //ghetto atoi
-		//draw score
-		glPushMatrix();
-		glTranslatef(xpos, ypos, 0);
-		glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
-		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
-		glColor4ub(255,255,255,255);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex2i(-wid,-wid);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex2i(-wid, wid);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex2i( wid, wid);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex2i( wid,-wid);
-		glEnd();
-		glPopMatrix();
-		glDisable(GL_ALPHA_TEST);
-		glDisable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_TEXTURE_2D);
-		xpos+=30;
-	}
+    if (wid==0) {
+        wid = 20;
+    }
+    string score;
+    stringstream out;
+    int size;
+    int xpos = 20;
+    int ypos = game->windowHeight - 25;
+    out << s;
+    score = out.str();
+    size = score.length();
+    for (int i = 0; i < size; i++) {
+        char cdigit = score[i];
+        int idigit = cdigit - '0'; //ghetto atoi
+        //draw score
+        glPushMatrix();
+        glTranslatef(xpos, ypos, 0);
+        glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2i(-wid,-wid);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2i(-wid, wid);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2i( wid, wid);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2i( wid,-wid);
+        glEnd();
+        glPopMatrix();
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+        xpos+=30;
+    }
 }
 
 void getName()
@@ -311,15 +311,15 @@ void drawBubble(Game *game)
     glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
     int w = 50;
-	int h = 50;
+    int h = 50;
     glTranslatef(game->fly->getXpos()+w, game->fly->getYpos()+h, 0);
-	glBegin(GL_QUADS);
-		glVertex2i(-w,-h);
-		glVertex2i(-w, h);
-		glVertex2i( w, h);
-		glVertex2i( w,-h);
-	glEnd();
-	glPopMatrix();
+    glBegin(GL_QUADS);
+    glVertex2i(-w,-h);
+    glVertex2i(-w, h);
+    glVertex2i( w, h);
+    glVertex2i( w,-h);
+    glEnd();
+    glPopMatrix();
 }
 
 void flyBy(Game *game)
@@ -328,7 +328,8 @@ void flyBy(Game *game)
     int y =rand() %10+1;
     x=6-x;
     y=6-y;
-    game->fly->move ( game->fly->getXpos()+x/2,game->fly->getYpos()+y,x/10,y/10 );
+    game->fly->move ( game->fly->getXpos()+x/2,
+                    game->fly->getYpos()+y,x/10,y/10 );
 }
 
 bool checkHighScore(int score, Game *game)
@@ -362,18 +363,18 @@ bool checkHighScore(int score, Game *game)
             if (game->score > _score) {
                 char host[] = "sleipnir.cs.csub.edu";
                 char page[256] = "/~jhargreaves/upstream/scores.php?param="
-                                "upstream54321,name,";
+                    "upstream54321,name,";
                 strcat(page, (const char*)stmp.c_str());
                 strcat(page,"3");
                 return (getHighScore(game, host,
-                        page, false, true));
+                            page, false, true));
             }
         }
     }
     return false;
 }
 
-bool getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore)
+bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
 {
     struct sockaddr_in *remote;
     int sock;
@@ -405,7 +406,7 @@ bool getHighScore(Game *game, char shost[], char spage[], bool cscore, bool psco
     }
     remote->sin_port = htons(PORT);
 
-    if (connect(sock, (struct sockaddr *)remote, sizeof(struct sockaddr)) < 0) {
+    if (connect(sock,(struct sockaddr *)remote,sizeof(struct sockaddr)) < 0) {
         perror("Could not connect");
         exit(1);
     }
@@ -502,7 +503,7 @@ char *build_get_query(char *host, char *page)
     }
     // -5 is to consider the %s %s %s in tpl and the ending \0
     query = (char *)malloc(strlen(host)+strlen(getpage)+
-                    strlen(USERAGENT)+strlen(tpl)-5);
+            strlen(USERAGENT)+strlen(tpl)-5);
     sprintf(query, tpl, getpage, host, USERAGENT);
     return query;
 }

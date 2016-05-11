@@ -4,12 +4,12 @@
 #include "game.h"
 #include </usr/include/AL/alut.h>
 
-#ifdef USE_OPENAL_SOUND
+/*#ifdef USE_OPENAL_SOUND
 extern void init_sound();
 extern void cleanup_sound();
 extern void play_sound(ALuint source);
 #endif
-
+*/
 extern void reset_game(Game *game);
 extern void init_buttons(Game *game);
 extern void render_main_menu(Game *game);

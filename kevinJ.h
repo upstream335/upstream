@@ -6,6 +6,10 @@
 #include "game.h"
 
 extern void playSounds(const char * sound, float gain, bool loop, bool muted);
+extern void initSounds();
+extern void cleanUpSound();
+extern void initBuffer(const char * sound);
+extern void initSource(ALuint buffer);
 extern void stopMusic(void); 
 extern void playMusic(void); 
 extern void maxScore(Game *game);

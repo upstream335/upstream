@@ -6,10 +6,44 @@
 #include "kevinJ.h"
 
 //Global Sound Variable to set Background music source and buffer.
-ALuint musicSource;
-ALuint musicBuffer;
+//buffer/source[0] = background music 
+//buffer/source[1] = boing
+//buffer/source[2] = tick
+//buffer/source[3] = splash
+//
 
-void playSounds(const char * sound, float gain, bool loop, bool muted)
+Game *g;
+ALuint source[10];
+ALuint buffer[10];
+ALuint state;
+ALuint playBuffer[10];
+ALuint playSource[10];
+int bufferCount = 0;
+int sourceCount = 0;
+
+void initBuffer(const char * sound)
+{
+	alGetError();
+	buffer[bufferCount] = alutCreateBufferFromFile(sound);
+	initSource(buffer[bufferCount]);
+	bufferCount++;
+}
+
+void initSource(ALuint buffer)
+{
+	alGenSources(1, &source[sourceCount]);
+	alSourcei(source[sourceCount], AL_BUFFER, buffer);
+	alSourcef(source[sourceCount], AL_GAIN, 1.0f);
+	alSourcef(source[sourceCount], AL_PITCH, 1.0f);
+	alSourcei(source[sourceCount], AL_LOOPING, false);
+	if (alGetError() != AL_NO_ERROR) {
+		printf("ERROR: setting source\n");
+		return;
+	}
+	sourceCount++;
+}
+
+void initSounds()
 {
 	alutInit(0, NULL);
 	if (alGetError() != AL_NO_ERROR) {
@@ -23,40 +57,68 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
 	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
 	alListenerfv(AL_ORIENTATION, vec);
 	alListenerf(AL_GAIN, 1.0f);
-	ALuint alBuffer;
-	alBuffer = alutCreateBufferFromFile(sound);
+}
 
-	//Generate a source, and store it in a buffer.
-	ALuint alSource;
-	alGenSources(1, &alSource);
-	alSourcei(alSource, AL_BUFFER, alBuffer);
+int getSource(const char * sound)
+{
+	if (strcmp(sound,"./wav/background.wav") == 0) {
+		return 0;
+	}
+	else if (strcmp(sound,"./wav/boing2.wav") == 0) {
+		return 1;
+	}
+	else if (strcmp(sound,"./wav/tick.wav") == 0) {
+		return 2;
+	}
+	else if (strcmp(sound,"./wav/fishsplash.wav") == 0) {
+		return 3;
+	}
+	else {
+		printf("That Sound File Doesn't exist\n\n");
+		return -1;
+	}
+}
+
+void playSounds(const char * sound, float gain, bool loop, bool muted)
+{
 	//Set volume and pitch to normal, no looping of sound.
 	//gain is volume of sound
-	alSourcef(alSource, AL_GAIN, gain);
-	alSourcef(alSource, AL_PITCH, 1.0f);
-	alSourcei(alSource, AL_LOOPING, loop);
-	if (alGetError() != AL_NO_ERROR) {
-		printf("ERROR: setting source\n");
+	int index = getSource(sound);
+	std::cout << "index: " << index << "\n";
+	if (muted) {
+		alSourceStop(source[index]);
+		printf("MUTED\n");
 		return;
 	}
-	alSourcePlay(alSource);
-	if (muted) {
-		alSourceStop(alSource);
+	alSourcef(source[index], AL_GAIN, gain);
+	alSourcef(source[index], AL_PITCH, 1.0f);
+	alSourcei(source[index], AL_LOOPING, loop);
+	alSourcePlay(source[index]);
+}
+
+void cleanUpSound() 
+{
+	for (int i = 0; i < 10; i++) {
+		alSourceStop(source[i]);
+		alDeleteSources(1, &source[i]);
+		alDeleteBuffers(1, &buffer[i]);
+		ALCcontext *Context = alcGetCurrentContext();
+		ALCdevice *Device = alcGetContextsDevice(Context);
+		alcMakeContextCurrent(NULL);
+		alcDestroyContext(Context);
+		alcCloseDevice(Device);
 	}
-	if (strcmp(sound,"./wav/background.wav") == 0) {
-		musicSource = alSource;
-		musicBuffer = alBuffer;
-	}
+	alutExit();
 }
 
 void stopMusic()
 {
-	alSourceStop(musicSource);
+	alSourceStop(source[0]);
 }
 
 void playMusic()
 {
-	alSourcePlay(musicSource);
+	alSourcePlay(source[0]);
 }
 
 void maxScore(Game *game)

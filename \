@@ -16,14 +16,10 @@ int main ( void )
 	init_opengl ( &game );
 	init_game ( &game );
 	init_buttons ( &game );
-	//Initializing sound sources && buffers
-	initSounds();
+	//Initializing sound sources buffers
 	initBuffer("./wav/background.wav");
-	initBuffer("./wav/boing2.wav");
-	initBuffer("./wav/tick.wav");
-	initBuffer("./wav/fishsplash.wav");
-	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
-	
+	initBuffer("./wav/boing.wav");
+	initBuffer( "./wav/tick.wav");
 	while ( !game.done ) {
 		while ( XPending ( dpy ) ) {
 			XEvent e;
@@ -63,7 +59,6 @@ int main ( void )
 		render ( &game );
 		glXSwapBuffers ( dpy, win );
 	}
-	cleanUpSound();
 	cleanupXWindows();
 	return 0;
 }

@@ -46,6 +46,7 @@ int jump;
 
 struct Game
 {
+    int lives;
 	bool done;
 	int difficulty; //1=easy,2=med,3=hard
 	Demo demo;
@@ -70,6 +71,7 @@ struct Game
 	LilyTexture *lily;
 	Circle c;
 	int n;
+	HUD *hud;
 	Frog *frog;
 	Gator *gator;
 	Fly *fly;
@@ -78,6 +80,7 @@ struct Game
 	Bridge *bridge;
 	Splash *splash;
 	Turtle *turtle;
+	RocketPack *rocketPack;
 	//for game menu
 	bool main_menu;
 	bool sub_menu;

@@ -14,6 +14,7 @@ void init_game ( Game *game )
     //game->windowWidth = 800;
     //game->windowHeight = 1024;
     game->difficulty = MED;
+    game->lives = 3;
     game->demo.on = false;
     game->demo.jump     =   0;
     game->demo.moveLeft =   0;
@@ -23,6 +24,7 @@ void init_game ( Game *game )
     game->muted = false;
     game->n=0;
     game->ihead = NULL;
+    game->hud = new HUD;
     game->frog = new Frog;
     game->gator = new Gator;
     game->fly = new Fly;
@@ -36,6 +38,7 @@ void init_game ( Game *game )
     game->splash = new Splash;
     game->lily = new LilyTexture;
     game->hscore = new Score;
+    game->rocketPack = new RocketPack;
     game->nlily = 0;
     game->timer = 0;
     game->maxtimer = 35;

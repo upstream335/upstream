@@ -29,6 +29,42 @@ Position update_position ( Position *c,float xp, float yp,float xv,float yv )
     return *c;
 }
 
+
+void HUD::render ( void )
+{
+    if ( current.x_pos<-100 ) {
+        //hud is offscreen
+    }
+    float wid = 280.0f; // size of bridge sprite
+    glColor3f ( 1.0, 1.0, 1.0 );
+    glPushMatrix();
+    glTranslatef ( current.x_pos, current.y_pos, 0 );
+    glBindTexture ( GL_TEXTURE_2D, hudTexture[0] );
+    glBindTexture ( GL_TEXTURE_2D, hudTexture[0] );
+    glEnable ( GL_ALPHA_TEST );
+    glAlphaFunc ( GL_GREATER, 0.0f );
+    glColor4ub ( 255,255,255,255 );
+    glBegin ( GL_QUADS );
+    glTexCoord2f ( 0.0f, 1.0f );
+    glVertex2i ( -wid,-wid );
+    glTexCoord2f ( 0.0f, 0.0f );
+    glVertex2i ( -wid, wid );
+    glTexCoord2f ( 1.0f, 0.0f );
+    glVertex2i ( wid, wid );
+    glTexCoord2f ( 1.0f, 1.0f );
+    glVertex2i ( wid,-wid );
+    glEnd();
+    glPopMatrix();
+    glDisable ( GL_ALPHA_TEST );
+    glDisable ( GL_TEXTURE_2D );
+    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+    glEnable ( GL_BLEND );
+    glDisable ( GL_BLEND );
+    glEnable ( GL_TEXTURE_2D );
+}
+// end hud render ===========================================
+
+
 // Render frog =============================================
 void Frog::render ( void )
 {
@@ -171,6 +207,7 @@ void Frog::render ( void )
     glEnable ( GL_TEXTURE_2D );
 } //end frog render=============================================
 
+
 void Bridge::render ( void )
 {
     if ( current.x_pos<-100 ) {
@@ -205,14 +242,16 @@ void Bridge::render ( void )
 }
 // end bridge render ===========================================
 
+
+
 void Log::render ( void )
 {
     int r = rand() %600+1;
     current.x_pos += current.x_vel;
     current.y_pos += current.y_vel;
-    if ( current.y_pos<-100 ) {
+    if ( current.y_pos < -100 ) {
         current.x_pos = WIDTH/2-r;
-        current.y_pos = HEIGHT+100;
+        current.y_pos = HEIGHT+200;
     }
     float wid = 60.0f; // size of logsprite
     glColor3f ( 1.0, 1.0, 1.0 );
@@ -415,9 +454,59 @@ void Splash::render ( void )
 }
 // end splash render ===========================================
 
+void RocketPack::render ( void )
+{
+    float wid = 30.0f; // size of splash sprite
+    glColor3f ( 1.0, 1.0, 1.0 );
+    glPushMatrix();
+    glTranslatef ( current.x_pos, current.y_pos, 0 );
+    glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[0] );
+    for ( int i=0; i<5; i++ ) {
+        current.frame++;
+        if ( current.frame >=i*30 && current.frame <=200 ) {
+            glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[0] );
+        }
+        if ( current.frame >=500 ) {
+            current.x_pos = -500;
+            current.y_pos = -500;
+        }
+    }
+    if ( current.frame>1000 )
+        current.frame=1000;
+
+    if ( rand()%1000 == 1 ) {
+        current.x_pos = WIDTH/2;
+        current.y_pos = HEIGHT/2;
+        current.frame =0;
+    }
+
+    glEnable ( GL_ALPHA_TEST );
+    glAlphaFunc ( GL_GREATER, 0.0f );
+    glColor4ub ( 255,255,255,255 );
+    glBegin ( GL_QUADS );
+    glTexCoord2f ( 0.0f, 1.0f );
+    glVertex2i ( -wid,-wid );
+    glTexCoord2f ( 0.0f, 0.0f );
+    glVertex2i ( -wid, wid );
+    glTexCoord2f ( 1.0f, 0.0f );
+    glVertex2i ( wid, wid );
+    glTexCoord2f ( 1.0f, 1.0f );
+    glVertex2i ( wid,-wid );
+    glEnd();
+    glPopMatrix();
+    glDisable ( GL_ALPHA_TEST );
+    glDisable ( GL_TEXTURE_2D );
+    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+    glEnable ( GL_BLEND );
+    glDisable ( GL_BLEND );
+    glEnable ( GL_TEXTURE_2D );
+}
+// end rocketpack render ===========================================
+
+
+
 void Turtle::render ( void )
 {
-
     int r = rand() %600+1;
     current.x_pos += current.x_vel;
     current.y_pos += current.y_vel;

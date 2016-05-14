@@ -81,6 +81,18 @@ void collision ( Game *game )
         game->fly->death ( game->frog->getXpos(),game->frog->getYpos() );
         //std::cout<<"dead fly"<<std::endl;
     }
+       // rocketPack =====================================================
+    int reach=50/game->difficulty;
+    if ( game->frog->getXpos() >= game->rocketPack->getXpos()- reach &&
+            game->frog->getXpos() <= game->rocketPack->getXpos()+ reach &&
+            game->frog->getYpos() <= game->rocketPack->getYpos()+ reach &&
+            game->frog->getYpos() >= game->rocketPack->getYpos()- reach ) {
+        playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+        game->score+=10;
+        game->frog->addRocket();
+        game->rocketPack->setFrame(500);
+        //std::cout<<"dead rocketPack"<<std::endl;
+    }
     // collision frog with gator head
     int head = 5 * game->difficulty;
     if ( game->frog->getXpos() <= game->gator->getXpos()- ( 5 + head )  &&
@@ -177,6 +189,7 @@ void screenUpdate ( Game *game )
 }
 void gameOver ( Game *game )
 {
+
     // move splash on screen if offscreen
     if ( game->splash->getXpos() <0 )
         game->splash->move ( game->frog->getXpos(),
@@ -193,6 +206,7 @@ void gameOver ( Game *game )
     if ( game->splash->getFrame() >=195 ) {
         //move bridge back
         game->bridge->move ( 300,150,0,0 );
+        game->lives--;
         for ( int i=0; i<4; i++ ) {
             game->log[i]->move ( 50*i,-100*i,-.15*i,-1 );
         }
@@ -202,4 +216,5 @@ void gameOver ( Game *game )
         game->frog->setXpos ( game->frog->getXpos()-800 );
         game->splash->move ( -200,-200,0,0 );
     }
+
 }

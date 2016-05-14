@@ -35,6 +35,43 @@ extern Position update_position ( Position *c,float,float,float,float );
 extern unsigned char *buildAlphaData ( Ppmimage *img );
 extern Ppmimage*  get_image ( std::string filename );
 
+
+class HUD
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *hudImage[2];
+	GLuint hudTexture[2];
+public:
+	// Constructor with default values for data members
+	HUD()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH/2;
+		current.y_pos = 480;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
+		hudImage[0] = get_image ( "./images/hud" );
+		int i=0;
+		//create opengl texture elements
+		glGenTextures ( 1, &hudTexture[i] );
+		int w = hudImage[i]->width;
+		int h = hudImage[i]->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, hudTexture[i] );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *hudData = buildAlphaData ( hudImage[i] );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, hudData );
+		free ( hudData );
+	} //end constructor
+	void render ( void );
+};
+
+
 class IntroBG
 {
 private:
@@ -201,515 +238,596 @@ public:
 	}
 	void toggleRocket()
 	{
-        if ( rocketFrog ){
-		rocketFrog = false;
-		return;
+		if ( rocketFrog ) {
+			rocketFrog = false;
+			return;
 		}
 		if ( numberRockets > 0 && !rocketFrog ) {
 			rocketFrog = true;
 			numberRockets--;
-			}
-
 		}
-	}; //end frog class
+	}
+	void addRocket()
+	{
+		numberRockets++;
+	}
+	int getNumberRockets()
+	{
+        return numberRockets;
+	}
+}; //end frog class
 // ===========================================================================
 
-	class Fly
+class Fly
+{
+private:
+	Position current;
+	Position previous;
+	Position frog;
+	int deadTime;
+	bool isStanding;
+	Ppmimage *flyImage[11];
+	GLuint flyTexture[11];
+	bool alive;
+	int flip;
+public:
+	// Constructor with default values for data members
+	Fly()
 	{
-	private:
-		Position current;
-		Position previous;
-		Position frog;
-		int deadTime;
-		bool isStanding;
-		Ppmimage *flyImage[11];
-		GLuint flyTexture[11];
-		bool alive;
-		int flip;
-	public:
-		// Constructor with default values for data members
-		Fly()
-		{
-			alive = true;
-			deadTime=0;
-			isStanding = true;
-			current.frame = 0;
-			current.x_pos = 300;
-			current.y_pos =150;
-			current.x_vel = 0;
-			current.y_vel = -1;
-			flip=0;
-			previous = current;
-			flyImage[0] = get_image ( "./images/fly" );
-			flyImage[1] = get_image ( "./images/fly1" );
-			flyImage[2] = get_image ( "./images/fly2" );
-			flyImage[3] = get_image ( "./images/fly3" );
-			flyImage[4] = get_image ( "./images/fly4" );
-			flyImage[5] = get_image ( "./images/fly5" );
-			flyImage[6] = get_image ( "./images/fly6" );
-			flyImage[7] = get_image ( "./images/fly7" );
-			flyImage[8] = get_image ( "./images/fly8" );
-			flyImage[9] = get_image ( "./images/fly9" );
-			flyImage[10] = get_image ( "./images/fly10" );
-			for ( int i =0; i<=10; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &flyTexture[i] );
-				int w = flyImage[i]->width;
-				int h = flyImage[i]->height;
-				glBindTexture ( GL_TEXTURE_2D, flyTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,
-				                  GL_TEXTURE_MAG_FILTER,GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,
-				                  GL_TEXTURE_MIN_FILTER,GL_NEAREST );
-				unsigned char *flyData = buildAlphaData ( flyImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, flyData );
-				free ( flyData );
-			}
-		} //end constructor
-		//--------------------------------------------------------------------
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
-
-		void setFrame ( int frame )
-		{
-			current.frame = frame;
-		}
-
-		void render ( void );
-
-		float getXpos()
-		{
-			return current.x_pos;
-		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		float isAlive()
-		{
-			return alive;
-		}
-		void live()
-		{
-			alive =true;
-		}
-		void death ( int x,int y )
-		{
-			alive = false;
-			frog.x_pos = x;
-			frog.y_pos = y;
-		}
-	}; //end fly class
-// ===========================================================================
-	class Bridge
-	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *bridgeImage[2];
-		GLuint bridgeTexture[2];
-	public:
-		// Constructor with default values for data members
-		Bridge()
-		{
-			current.frame =0;
-			current.x_pos = 300;
-			current.y_pos =150;
-			current.x_vel = 0;
-			current.y_vel = -1;
-			previous = current;
-			bridgeImage[0] = get_image ( "./images/bridge" );
-			int i=0;
+		alive = true;
+		deadTime=0;
+		isStanding = true;
+		current.frame = 0;
+		current.x_pos = 300;
+		current.y_pos =150;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		flip=0;
+		previous = current;
+		flyImage[0] = get_image ( "./images/fly" );
+		flyImage[1] = get_image ( "./images/fly1" );
+		flyImage[2] = get_image ( "./images/fly2" );
+		flyImage[3] = get_image ( "./images/fly3" );
+		flyImage[4] = get_image ( "./images/fly4" );
+		flyImage[5] = get_image ( "./images/fly5" );
+		flyImage[6] = get_image ( "./images/fly6" );
+		flyImage[7] = get_image ( "./images/fly7" );
+		flyImage[8] = get_image ( "./images/fly8" );
+		flyImage[9] = get_image ( "./images/fly9" );
+		flyImage[10] = get_image ( "./images/fly10" );
+		for ( int i =0; i<=10; i++ ) {
 			//create opengl texture elements
-			glGenTextures ( 1, &bridgeTexture[i] );
-			int w = bridgeImage[i]->width;
-			int h = bridgeImage[i]->height;
-			//
-			glBindTexture ( GL_TEXTURE_2D, bridgeTexture[i] );
-			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
-			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
-			unsigned char *bridgeData = buildAlphaData ( bridgeImage[i] );
+			glGenTextures ( 1, &flyTexture[i] );
+			int w = flyImage[i]->width;
+			int h = flyImage[i]->height;
+			glBindTexture ( GL_TEXTURE_2D, flyTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,
+			                  GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,
+			                  GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+			unsigned char *flyData = buildAlphaData ( flyImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, bridgeData );
-			free ( bridgeData );
-		} //end constructor
-		//--------------------------------------------------------------------
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
+			               GL_RGBA, GL_UNSIGNED_BYTE, flyData );
+			free ( flyData );
 		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
+	} //end constructor
+	//--------------------------------------------------------------------
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+
+	void setFrame ( int frame )
+	{
+		current.frame = frame;
+	}
+
+	void render ( void );
+
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	float isAlive()
+	{
+		return alive;
+	}
+	void live()
+	{
+		alive =true;
+	}
+	void death ( int x,int y )
+	{
+		alive = false;
+		frog.x_pos = x;
+		frog.y_pos = y;
+	}
+}; //end fly class
+// ===========================================================================
+class Bridge
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *bridgeImage[2];
+	GLuint bridgeTexture[2];
+public:
+	// Constructor with default values for data members
+	Bridge()
+	{
+		current.frame =0;
+		current.x_pos = 300;
+		current.y_pos =150;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		bridgeImage[0] = get_image ( "./images/bridge" );
+		int i=0;
+		//create opengl texture elements
+		glGenTextures ( 1, &bridgeTexture[i] );
+		int w = bridgeImage[i]->width;
+		int h = bridgeImage[i]->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, bridgeTexture[i] );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *bridgeData = buildAlphaData ( bridgeImage[i] );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, bridgeData );
+		free ( bridgeData );
+	} //end constructor
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
 
 
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
 
-	}; //end bridge class
+}; //end bridge class
 // ==========================================================
 
-	class Log
+class Log
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *logImage[2];
+	GLuint logTexture[2];
+public:
+	// Constructor with default values for data members
+	Log()
 	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *logImage[2];
-		GLuint logTexture[2];
-	public:
-		// Constructor with default values for data members
-		Log()
-		{
-			current.frame =0;
-			current.x_pos = 300;
-			current.y_pos =-200;
-			current.x_vel = 0;
-			current.y_vel = -1;
-			previous = current;
-			logImage[0] = get_image ( "./images/log" );
-			logImage[1] = get_image ( "./images/log1" );
-			for ( int i=0; i<2; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &logTexture[i] );
-				int w = logImage[i]->width;
-				int h = logImage[i]->height;
-				//
-				glBindTexture ( GL_TEXTURE_2D, logTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
-				unsigned char *logData = buildAlphaData ( logImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, logData );
-				free ( logData );
-			}
-		} //end constructor
-		//--------------------------------------------------------------------
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
+		current.frame =0;
+		current.x_pos = 300;
+		current.y_pos =-200;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		logImage[0] = get_image ( "./images/log" );
+		logImage[1] = get_image ( "./images/log1" );
+		for ( int i=0; i<2; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &logTexture[i] );
+			int w = logImage[i]->width;
+			int h = logImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, logTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+			unsigned char *logData = buildAlphaData ( logImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, logData );
+			free ( logData );
 		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
-	}; //end log class
+	} //end constructor
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+}; //end log class
 // =======================================================
 
-	class Gator
+class Gator
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *gatorImage[7];
+	GLuint gatorTexture[7];
+	int diving;
+	int eating;
+public:
+	// Constructor with default values for data members
+	Gator()
 	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *gatorImage[7];
-		GLuint gatorTexture[7];
-		int diving;
-		int eating;
-	public:
-		// Constructor with default values for data members
-		Gator()
-		{
-			diving = 0;
-			eating = 1;
-			current.frame =0;
-			current.x_pos = 500;
-			current.y_pos =400;
-			current.x_vel = -2;
-			current.y_vel = -0.5;
-			previous = current;
-			gatorImage[0] = get_image ( "./images/aligator" );
-			gatorImage[1] = get_image ( "./images/aligator1" );
-			gatorImage[2] = get_image ( "./images/aligator2" );
-			gatorImage[3] = get_image ( "./images/aligator3" );
-			gatorImage[4] = get_image ( "./images/aligator4" );
-			gatorImage[5] = get_image ( "./images/aligator5" );
-			gatorImage[6] = get_image ( "./images/aligator6" );
-			for ( int i=0; i<7; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &gatorTexture[i] );
-				int w = gatorImage[i]->width;
-				int h = gatorImage[i]->height;
-				glBindTexture ( GL_TEXTURE_2D, gatorTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-				                  GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-				                  GL_NEAREST );
-				unsigned char *gatorData = buildAlphaData ( gatorImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, gatorData );
-				free ( gatorData );
-			}
-		} //end constructor
+		diving = 0;
+		eating = 1;
+		current.frame =0;
+		current.x_pos = 500;
+		current.y_pos =400;
+		current.x_vel = -2;
+		current.y_vel = -0.5;
+		previous = current;
+		gatorImage[0] = get_image ( "./images/aligator" );
+		gatorImage[1] = get_image ( "./images/aligator1" );
+		gatorImage[2] = get_image ( "./images/aligator2" );
+		gatorImage[3] = get_image ( "./images/aligator3" );
+		gatorImage[4] = get_image ( "./images/aligator4" );
+		gatorImage[5] = get_image ( "./images/aligator5" );
+		gatorImage[6] = get_image ( "./images/aligator6" );
+		for ( int i=0; i<7; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &gatorTexture[i] );
+			int w = gatorImage[i]->width;
+			int h = gatorImage[i]->height;
+			glBindTexture ( GL_TEXTURE_2D, gatorTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+			                  GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+			                  GL_NEAREST );
+			unsigned char *gatorData = buildAlphaData ( gatorImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, gatorData );
+			free ( gatorData );
+		}
+	} //end constructor
 
-		//--------------------------------------------------------------------
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
-		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
-		void dive()
-		{
-			diving=1;
-		}
-		void eat()
-		{
-			eating=1;
-		}
-	};
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+	void dive()
+	{
+		diving=1;
+	}
+	void eat()
+	{
+		eating=1;
+	}
+};
 //end gator class ==============================================
 
-	class Water
+class Water
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *waterImage[4];
+	GLuint waterTexture[4];
+public:
+	// Constructor with default values for data members
+	Water()
 	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *waterImage[4];
-		GLuint waterTexture[4];
-	public:
-		// Constructor with default values for data members
-		Water()
-		{
-			current.frame =0;
-			current.x_pos = WIDTH/2;
-			current.y_pos =HEIGHT;
-			current.x_vel = 0;
-			current.y_vel = -1;
-			previous = current;
-			waterImage[0] = get_image ( "./images/water" );
-			waterImage[1] = get_image ( "./images/water1" );
-			for ( int i=0; i<2; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &waterTexture[i] );
-				int w = waterImage[i]->width;
-				int h = waterImage[i]->height;
-				glBindTexture ( GL_TEXTURE_2D, waterTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-				                  GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-				                  GL_NEAREST );
-				unsigned char *waterData = buildAlphaData ( waterImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, waterData );
-				free ( waterData );
-			}
-		} //end constructor
+		current.frame =0;
+		current.x_pos = WIDTH/2;
+		current.y_pos =HEIGHT;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		waterImage[0] = get_image ( "./images/water" );
+		waterImage[1] = get_image ( "./images/water1" );
+		for ( int i=0; i<2; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &waterTexture[i] );
+			int w = waterImage[i]->width;
+			int h = waterImage[i]->height;
+			glBindTexture ( GL_TEXTURE_2D, waterTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+			                  GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+			                  GL_NEAREST );
+			unsigned char *waterData = buildAlphaData ( waterImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, waterData );
+			free ( waterData );
+		}
+	} //end constructor
 
-		//--------------------------------------------------------------------
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
-		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
-	}; //end water class =========================================================
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+}; //end water class =========================================================
 
 
 
 
 // ===========================================================================
-	class Splash
-	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *splashImage[5];
-		GLuint splashTexture[5];
+class Splash
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *splashImage[5];
+	GLuint splashTexture[5];
 
-	public:
-		// Constructor with default values for data members
-		Splash()
-		{
-			current.frame = 0;
-			current.x_pos = -300;
-			current.y_pos =-800;
-			current.x_vel = 0;
-			current.y_vel = 0;
-			previous = current;
-			splashImage[0] = get_image ( "./images/splash" );
-			splashImage[1] = get_image ( "./images/splash1" );
-			splashImage[2] = get_image ( "./images/splash2" );
-			splashImage[3] = get_image ( "./images/splash3" );
-			splashImage[4] = get_image ( "./images/splash4" );
-			for ( int i =0; i<5; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &splashTexture[i] );
-				int w = splashImage[i]->width;
-				int h = splashImage[i]->height;
-				//
-				glBindTexture ( GL_TEXTURE_2D, splashTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-				                  GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-				                  GL_NEAREST );
-				unsigned char *splashData = buildAlphaData ( splashImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, splashData );
-				free ( splashData );
-			}
-		} //end constructor
-		//--------------------------------------------------------------------
-		float getFrame()
-		{
-			return current.frame;
-		}
-		void setFrame ( float x )
-		{
-			current.frame=x;
-		}
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
-		}
-		float getYpos()
-		{
-			return current.y_pos;
-		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-			current.frame=0;
-		}
-	}; //end splash class ======================================
-
-	class Turtle
+public:
+	// Constructor with default values for data members
+	Splash()
 	{
-	private:
-		Position current;
-		Position previous;
-		Ppmimage *turtleImage[6];
-		GLuint turtleTexture[6];
-	public:
-		// Constructor with default values for data members
-		Turtle()
-		{
-			int r= rand() %600+1;
-			current.frame =0;
-			current.x_pos = WIDTH-r;
-			current.y_pos =-HEIGHT/2 + r;
-			current.x_vel = 2;
-			current.y_vel = 0.1;
-			previous = current;
-			turtleImage[0] = get_image ( "./images/turtle" );
-			turtleImage[1] = get_image ( "./images/turtle1" );
-			turtleImage[2] = get_image ( "./images/turtle2" );
-			turtleImage[3] = get_image ( "./images/turtle3" );
-			turtleImage[4] = get_image ( "./images/turtle4" );
-			turtleImage[5] = get_image ( "./images/turtle5" );
-			for ( int i=0; i<6; i++ ) {
-				//create opengl texture elements
-				glGenTextures ( 1, &turtleTexture[i] );
-				int w = turtleImage[i]->width;
-				int h = turtleImage[i]->height;
-				//
-				glBindTexture ( GL_TEXTURE_2D, turtleTexture[i] );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-				                  GL_NEAREST );
-				glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-				                  GL_NEAREST );
-				unsigned char *turtleData = buildAlphaData ( turtleImage[i] );
-				glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-				               GL_RGBA, GL_UNSIGNED_BYTE, turtleData );
-				free ( turtleData );
-			}
-		} //end constructor
-		//--------------------------------------------------------------------
-		void render ( void );
-		float getXpos()
-		{
-			return current.x_pos;
+		current.frame = 0;
+		current.x_pos = -300;
+		current.y_pos =-800;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
+		splashImage[0] = get_image ( "./images/splash" );
+		splashImage[1] = get_image ( "./images/splash1" );
+		splashImage[2] = get_image ( "./images/splash2" );
+		splashImage[3] = get_image ( "./images/splash3" );
+		splashImage[4] = get_image ( "./images/splash4" );
+		for ( int i =0; i<5; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &splashTexture[i] );
+			int w = splashImage[i]->width;
+			int h = splashImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, splashTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+			                  GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+			                  GL_NEAREST );
+			unsigned char *splashData = buildAlphaData ( splashImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, splashData );
+			free ( splashData );
 		}
-		float getYpos()
-		{
-			return current.y_pos;
+	} //end constructor
+	//--------------------------------------------------------------------
+	float getFrame()
+	{
+		return current.frame;
+	}
+	void setFrame ( float x )
+	{
+		current.frame=x;
+	}
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+		current.frame=0;
+	}
+}; //end splash class ======================================
+
+
+// ===========================================================================
+class RocketPack
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *rocketPackImage[2];
+	GLuint rocketPackTexture[2];
+
+public:
+	// Constructor with default values for data members
+	RocketPack()
+	{
+		current.frame = 0;
+		current.x_pos = -300;
+		current.y_pos =-800;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
+		rocketPackImage[0] = get_image ( "./images/rocketPack" );
+
+		int i=0;
+			//create opengl texture elements
+			glGenTextures ( 1, &rocketPackTexture[i] );
+			int w = rocketPackImage[i]->width;
+			int h = rocketPackImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+			                  GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+			                  GL_NEAREST );
+			unsigned char *rocketPackData = buildAlphaData ( rocketPackImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, rocketPackData );
+			free ( rocketPackData );
+
+	} //end constructor
+	//--------------------------------------------------------------------
+	float getFrame()
+	{
+		return current.frame;
+	}
+	void setFrame ( float x )
+	{
+		current.frame=x;
+	}
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+		current.frame=0;
+	}
+}; //end rocketPack class ======================================
+
+
+
+class Turtle
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *turtleImage[6];
+	GLuint turtleTexture[6];
+public:
+	// Constructor with default values for data members
+	Turtle()
+	{
+		int r= rand() %600+1;
+		current.frame =0;
+		current.x_pos = WIDTH-r;
+		current.y_pos =-HEIGHT/2 + r;
+		current.x_vel = 2;
+		current.y_vel = 0.1;
+		previous = current;
+		turtleImage[0] = get_image ( "./images/turtle" );
+		turtleImage[1] = get_image ( "./images/turtle1" );
+		turtleImage[2] = get_image ( "./images/turtle2" );
+		turtleImage[3] = get_image ( "./images/turtle3" );
+		turtleImage[4] = get_image ( "./images/turtle4" );
+		turtleImage[5] = get_image ( "./images/turtle5" );
+		for ( int i=0; i<6; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &turtleTexture[i] );
+			int w = turtleImage[i]->width;
+			int h = turtleImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+			                  GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+			                  GL_NEAREST );
+			unsigned char *turtleData = buildAlphaData ( turtleImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+			               GL_RGBA, GL_UNSIGNED_BYTE, turtleData );
+			free ( turtleData );
 		}
-		float getXvel()
-		{
-			return current.x_vel;
-		}
-		float getYvel()
-		{
-			return current.y_vel;
-		}
-		void move ( float xp, float yp, float xv, float yv )
-		{
-			current = update_position ( &current,xp,yp,xv,yv );
-		}
-	}; //end turtle class
+	} //end constructor
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+}; //end turtle class
 
 // =======================================================
 // =========================================================

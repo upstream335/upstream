@@ -234,7 +234,7 @@ void render ( Game *game )
     game->water[0]->render();
     game->water[1]->render();
     game->water[2]->render();
-    drawScore ( game->score, game, 20 );
+
     game->turtle->render();
     drawLilies ( game );
     screenUpdate ( game );
@@ -247,6 +247,9 @@ void render ( Game *game )
     game->bridge->render();
     game->frog->render();
     game->fly->render();
+    game->hud->render();
+    game->rocketPack->render();
+    drawScore ( game->score, game, 20 );
     //place holder for sound button
     drawCircle ( 480, game->windowHeight-30, 10, 10 );
     // TEXT ====================================
@@ -259,15 +262,19 @@ void render ( Game *game )
         mode ="HARD";
     glBindTexture ( GL_TEXTURE_2D, 0 );
     Rect r;
-    r.bot = game->windowHeight - 50;
-    r.left = 300;
-    r.center = 300;
-    ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
-    ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
+    r.bot = game->windowHeight - 125;
+    r.left = 500;
+    //r.center = 600;
+    //ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
+    //ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
+    ggprint17 ( &r,100,0,"%d     %d",game->lives,game->frog->getNumberRockets());
     //std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
+   // std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
     maxScore ( game );
-    ggprint40 ( &r, 0, 0, "High Score: %d", game->highscore[0] );
-    r.bot -=50;
+    r.left = 300;
+    if(game->frog->getYpos()<=50)
+    ggprint40 ( &r, 50, 0, "High Score: %d", game->highscore[0] );
+
     //std::cout<<game->highscore[0]<<std::endl;
     //ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
     //ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);

@@ -7,8 +7,7 @@ typedef double Vec[3];
 struct Lilypad;
 struct LilyTexture;
 struct Score;
-struct Circle
-{
+struct Circle {
 	float radius;
 	float newPosX;
 	float newPosY;
@@ -34,19 +33,18 @@ typedef struct t_button {
 } Button;
 
 struct Demo {
-bool on;
-int moveLeft;
-int moveRight;
-int jump;
+	bool on;
+	int moveLeft;
+	int moveRight;
+	int jump;
 };
 
 #define EASY    1
 #define MED     2
 #define HARD    3
 
-struct Game
-{
-    int lives;
+struct Game {
+	int lives;
 	bool done;
 	int difficulty; //1=easy,2=med,3=hard
 	Demo demo;
@@ -102,18 +100,16 @@ struct Game
 		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
-
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;
-
 		// buttons
 		nbuttons = 0;
 		introbgImage=NULL;
 	}
 };
 
-extern void init_game(Game *game);
+extern void init_game ( Game *game );
 extern void demo ( Game *game );
 
 

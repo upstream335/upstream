@@ -253,7 +253,7 @@ public:
 	}
 	int getNumberRockets()
 	{
-        return numberRockets;
+		return numberRockets;
 	}
 }; //end frog class
 // ===========================================================================
@@ -711,23 +711,21 @@ public:
 		current.y_vel = 0;
 		previous = current;
 		rocketPackImage[0] = get_image ( "./images/rocketPack" );
-
 		int i=0;
-			//create opengl texture elements
-			glGenTextures ( 1, &rocketPackTexture[i] );
-			int w = rocketPackImage[i]->width;
-			int h = rocketPackImage[i]->height;
-			//
-			glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[i] );
-			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
-			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
-			unsigned char *rocketPackData = buildAlphaData ( rocketPackImage[i] );
-			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, rocketPackData );
-			free ( rocketPackData );
-
+		//create opengl texture elements
+		glGenTextures ( 1, &rocketPackTexture[i] );
+		int w = rocketPackImage[i]->width;
+		int h = rocketPackImage[i]->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[i] );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+		                  GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+		                  GL_NEAREST );
+		unsigned char *rocketPackData = buildAlphaData ( rocketPackImage[i] );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, rocketPackData );
+		free ( rocketPackData );
 	} //end constructor
 	//--------------------------------------------------------------------
 	float getFrame()

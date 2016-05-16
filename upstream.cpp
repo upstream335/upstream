@@ -256,12 +256,10 @@ void render ( Game *game )
 	game->fly->render();
 	game->hud->render();
 	game->rocketPack->render();
-<<<<<<< Updated upstream
 	game->meter->render();
-	drawScore ( game->score, game, 20 );
-=======
+
 	drawScore ( game->score, game, 20,20,game->windowHeight-25);
->>>>>>> Stashed changes
+
 	//place holder for sound button
 	drawCircle ( 480, game->windowHeight-30, 10, 10 );
 	// TEXT ====================================

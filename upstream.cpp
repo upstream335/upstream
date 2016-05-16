@@ -18,6 +18,7 @@ int main ( void )
 	init_buttons ( &game );
 	//Initializing sound sources && buffers
 	initSounds();
+	initBuffer("./wav/background.wav");
 	initBuffer("./wav/boing2.wav");
 	initBuffer("./wav/tick.wav");
 	initBuffer("./wav/fishsplash.wav");

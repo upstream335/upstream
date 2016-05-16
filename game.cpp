@@ -40,6 +40,9 @@ void init_game ( Game *game )
 	game->lily = new LilyTexture;
 	game->hscore = new Score;
 	game->rocketPack = new RocketPack;
+	game->hscorebox = new HighScoreBox;
+	game->hscorebox->pos[0] = game->windowWidth/2;
+	game->hscorebox->pos[1] = game->windowHeight/2;
 	game->nlily = 0;
 	game->timer = 0;
 	game->maxtimer = 35;

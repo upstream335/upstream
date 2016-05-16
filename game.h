@@ -7,6 +7,7 @@ typedef double Vec[3];
 struct Lilypad;
 struct LilyTexture;
 struct Score;
+struct HighScoreBox;
 struct Circle {
 	float radius;
 	float newPosX;
@@ -64,9 +65,11 @@ struct Game {
 	int lilytimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	int stresstest;
+	char playername[256];
 	Lilypad *ihead;
 	Score *hscore;
 	LilyTexture *lily;
+	HighScoreBox *hscorebox;
 	Circle c;
 	int n;
 	HUD *hud;
@@ -83,6 +86,7 @@ struct Game {
 	//for game menu
 	bool main_menu;
 	bool sub_menu;
+	bool gameover;
 	IntroBG *introbg;
 
 	Ppmimage *introbgImage;
@@ -104,6 +108,7 @@ struct Game {
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;
+		gameover = false;
 		// buttons
 		nbuttons = 0;
 		introbgImage=NULL;

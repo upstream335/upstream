@@ -171,6 +171,14 @@ void screenUpdate ( Game *game )
 				game->gator->getYpos()-move_down,
 				game->gator->getXvel(),
 				game->gator->getYvel() );
+        game->fly->move (game->fly->getXpos(),
+                    game->fly->getYpos()-move_down,
+					game->fly->getXvel(),
+					game->fly->getYvel() );
+        game->turtle->move (game->turtle->getXpos(),
+                    game->turtle->getYpos()-move_down,
+					game->turtle->getXvel(),
+					game->turtle->getYvel() );
 		for ( int i=0; i<4; i++ ) {
 			game->log[i]->move ( game->log[i]->getXpos(),
 					game->log[i]->getYpos()-move_down,
@@ -223,5 +231,7 @@ void gameOver ( Game *game )
 		game->frog->setYpos ( game->frog->getYpos()-10 );
 		game->frog->setXpos ( game->frog->getXpos()-800 );
 		game->splash->move ( -200,-200,0,0 );
+	} else {
+        game->gameover = true;
 	}
 }

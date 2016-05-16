@@ -56,6 +56,7 @@ int main ( void )
 			render_sub_menu ( &game );
 			glXSwapBuffers ( dpy, win );
 		}
+
 		if ( game.demo.on ) {
 			demo ( &game );
 		}
@@ -242,6 +243,7 @@ void render ( Game *game )
 	game->water[2]->render();
 	game->turtle->render();
 	drawLilies ( game );
+    //drawHighScoreBox(game);
 	screenUpdate ( game );
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->render();
@@ -254,8 +256,12 @@ void render ( Game *game )
 	game->fly->render();
 	game->hud->render();
 	game->rocketPack->render();
+<<<<<<< Updated upstream
 	game->meter->render();
 	drawScore ( game->score, game, 20 );
+=======
+	drawScore ( game->score, game, 20,20,game->windowHeight-25);
+>>>>>>> Stashed changes
 	//place holder for sound button
 	drawCircle ( 480, game->windowHeight-30, 10, 10 );
 	// TEXT ====================================

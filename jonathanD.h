@@ -26,6 +26,25 @@ struct Lilypad {
 	}
 };
 
+struct HighScoreBox {
+    Vec pos;
+    Ppmimage *hscoreboxImage[1];
+	GLuint hscoreboxTexture[1];
+	HighScoreBox() {
+        hscoreboxImage[0] = get_image("./images/woodtexture");
+        glGenTextures(1, &hscoreboxTexture[0]);
+        int w = hscoreboxImage[0]->width;
+        int h = hscoreboxImage[0]->height;
+        glBindTexture(GL_TEXTURE_2D, hscoreboxTexture[0]);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        unsigned char *hscoreboxData = buildAlphaData(hscoreboxImage[0]);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+        GL_RGBA, GL_UNSIGNED_BYTE, hscoreboxData);
+        free(hscoreboxData);
+		}
+};
+
 struct LilyTexture {
 	Ppmimage *lillyImage[3];
 	GLuint lillyTexture[3];
@@ -92,11 +111,13 @@ struct Score {
 	}
 };
 
+extern void getName(XEvent *e, Game *game);
+extern void drawHighScoreBox(Game *game);
 extern void drawBubble(Game *game);
 extern void checkLilies(Game *game);
 extern void drawLilies(Game *game);
 extern void deleteLily(Lilypad *node, Game *game);
 extern void clearLilies(Game *game);
-extern void drawScore(int s, Game *game,int);
+extern void drawScore(int s, Game *game,int,int,int);
 extern bool getHighScore(Game *game, char shost[], char spage[], bool cscore, bool pscore);
 #endif

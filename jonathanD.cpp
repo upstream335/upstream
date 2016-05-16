@@ -259,7 +259,7 @@ unsigned char *buildAlphaData2(Ppmimage *img)
 }
 
 //drawing score using sprites
-void drawScore(int s, Game *game,int wid)
+void drawScore(int s, Game *game,int wid, int xpos, int ypos)
 {
     if (wid==0) {
         wid = 20;
@@ -267,8 +267,6 @@ void drawScore(int s, Game *game,int wid)
     string score;
     stringstream out;
     int size;
-    int xpos = 20;
-    int ypos = game->windowHeight - 25;
     out << s;
     score = out.str();
     size = score.length();
@@ -309,17 +307,27 @@ void getName()
 void drawBubble(Game *game)
 {
     glBindTexture(GL_TEXTURE_2D, 0);
+    Rect r;
+    r.bot = game->fly->getYpos()+50;
+	r.left = game->fly->getXpos()+100;
+	r.center = 10;
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
-    int w = 50;
-    int h = 50;
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    int w = 100;
+	int h = 100;
     glTranslatef(game->fly->getXpos()+w, game->fly->getYpos()+h, 0);
-    glBegin(GL_QUADS);
-    glVertex2i(-w,-h);
-    glVertex2i(-w, h);
-    glVertex2i( w, h);
-    glVertex2i( w,-h);
-    glEnd();
-    glPopMatrix();
+	glBegin(GL_QUADS);
+		glVertex2i(-w,-h);
+		glVertex2i(-w, h);
+		glVertex2i( w, h);
+		glVertex2i( w,-h);
+	glEnd();
+	glPopMatrix();
+	ggfrog40b ( &r, 50, 0, "Ha Ha!" );
+
+
 }
 
 void flyBy(Game *game)
@@ -328,11 +336,156 @@ void flyBy(Game *game)
     int y =rand() %10+1;
     x=6-x;
     y=6-y;
-    game->fly->move ( game->fly->getXpos()+x/2,
-                    game->fly->getYpos()+y,x/10,y/10 );
+
+    game->fly->move (game->fly->getXpos(),
+                    game->fly->getYpos()-10,
+					game->fly->getXvel(),
+					game->fly->getYvel() );
+
 }
 
-bool checkHighScore(int score, Game *game)
+void drawHighScoreBox(Game *game)
+{
+    int wid = 150.0f;
+    glPushMatrix();
+    glTranslatef(game->hscorebox->pos[0], game->hscorebox->pos[1], 0);
+    glBindTexture(GL_TEXTURE_2D, game->hscorebox->hscoreboxTexture[0]);
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
+    glColor4ub(255,255,255,255);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2i(-wid,-wid);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2i(-wid, wid);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2i( wid, wid);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2i( wid,-wid);
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_TEXTURE_2D);
+
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glTranslatef(game->hscorebox->pos[0], game->hscorebox->pos[1], 0);
+    glColor3i(1,1,1);
+    glBegin(GL_QUADS);
+    glVertex2i(-100,20);
+	glVertex2i(100,20);
+	glVertex2i(100,-20);
+	glVertex2i(-100,-20);
+    glEnd();
+    glPopMatrix();
+
+    int xpos = game->hscorebox->pos[0];
+    int ypos = game->hscorebox->pos[1];
+
+	drawScore(game->highscore[0],game,20,xpos
+                ,ypos);
+}
+
+void resetName(Game *game)
+{
+    memset(game->playername, 0 , sizeof(game->playername));
+}
+
+void getName(XEvent *e, Game *game)
+{
+    if ( e->type == KeyPress ) {
+		int key = XLookupKeysym ( &e->xkey, 0 );
+		switch ( key ) {
+			case XK_a:
+				strcat(game->playername,"a");
+				break;
+            case XK_b:
+				strcat(game->playername,"b");
+				break;
+			case XK_c:
+				strcat(game->playername,"c");
+				break;
+            case XK_d:
+				strcat(game->playername,"d");
+				break;
+            case XK_e:
+				strcat(game->playername,"e");
+				break;
+            case XK_f:
+				strcat(game->playername,"f");
+				break;
+            case XK_g:
+				strcat(game->playername,"g");
+				break;
+            case XK_h:
+				strcat(game->playername,"h");
+				break;
+            case XK_i:
+				strcat(game->playername,"i");
+				break;
+            case XK_j:
+				strcat(game->playername,"j");
+				break;
+            case XK_k:
+				strcat(game->playername,"k");
+				break;
+			case XK_l:
+				strcat(game->playername,"l");
+				break;
+			case XK_m:
+                strcat(game->playername,"m");
+				break;
+			case XK_n:
+                strcat(game->playername,"n");
+				break;
+			case XK_o:
+                strcat(game->playername,"o");
+				break;
+			case XK_p:
+                strcat(game->playername,"p");
+				break;
+            case XK_q:
+                strcat(game->playername,"q");
+				break;
+			case XK_r:
+                strcat(game->playername,"r");
+				break;
+            case XK_s:
+                strcat(game->playername,"s");
+				break;
+            case XK_t:
+                strcat(game->playername,"t");
+				break;
+            case XK_u:
+                strcat(game->playername,"u");
+				break;
+			case XK_v:
+                strcat(game->playername,"v");
+				break;
+            case XK_w:
+                strcat(game->playername,"w");
+				break;
+            case XK_x:
+                strcat(game->playername,"x");
+				break;
+            case XK_y:
+                strcat(game->playername,"y");
+				break;
+            case XK_z:
+                strcat(game->playername,"z");
+				break;
+            case XK_Return:
+                //Submit score to site
+                break;
+			case XK_Escape:
+				break;
+		}
+	}
+}
+
+/*bool checkHighScore(int score, Game *game)
 {
     if (game->score == 0) {
         return false;
@@ -372,9 +525,9 @@ bool checkHighScore(int score, Game *game)
         }
     }
     return false;
-}
+}*/
 
-bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
+/*bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
 {
     struct sockaddr_in *remote;
     int sock;
@@ -454,10 +607,10 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
     free(ip);
     close(sock);
     return true;
-}
+}*/
 
 //HTTPget functions defined here
-void usage()
+/*void usage()
 {
     fprintf(stderr, "USAGE: htmlget host [page]\n\
             \thost: the website hostname. ex: coding.debuntu.org\n\
@@ -506,4 +659,4 @@ char *build_get_query(char *host, char *page)
             strlen(USERAGENT)+strlen(tpl)-5);
     sprintf(query, tpl, getpage, host, USERAGENT);
     return query;
-}
+}*/

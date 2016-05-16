@@ -18,11 +18,10 @@ int main ( void )
 	init_buttons ( &game );
 	//Initializing sound sources && buffers
 	initSounds();
-	initBuffer("./wav/rocket.wav");
 	initBuffer("./wav/boing2.wav");
 	initBuffer("./wav/tick.wav");
 	initBuffer("./wav/fishsplash.wav");
-	//initBuffer("./wav/rocket.wav");
+	initBuffer("./wav/rocket.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
 
 	while ( !game.done ) {

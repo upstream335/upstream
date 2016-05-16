@@ -73,6 +73,9 @@ int getSource(const char * sound)
 	else if (strcmp(sound,"./wav/fishsplash.wav") == 0) {
 		return 3;
 	}
+	else if (strcmp(sound,"./wav/rocket.wav") == 0) {
+		return 4;
+	}
 	else {
 		printf("%s hasn't been initialized\n\n", sound);
 		return -1;

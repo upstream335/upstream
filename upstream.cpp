@@ -33,7 +33,7 @@ int main ( void )
 			check_mouse ( &e, &game );
 			check_keys ( &e, &game );
 		}
-		//Game Introduction Main Menu
+		//Game Introduction - Main Menu
 		while ( !game.main_menu ) {
 			while ( XPending ( dpy ) ) {
 				XEvent e;
@@ -42,26 +42,46 @@ int main ( void )
 				check_menu_mouse ( &e, &game );
 				check_keys ( &e, &game );
 			}
+			demo ( &game );
+			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );
 		}
+		//In game - Paused Menu
 		while ( !game.sub_menu ) {
 			while ( XPending ( dpy ) ) {
 				XEvent e;
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
-				check_continue_mouse ( &e, &game );
+				check_paused_mouse ( &e, &game );
 				check_keys ( &e, &game );
 			}
 			render_sub_menu ( &game );
 			glXSwapBuffers ( dpy, win );
 		}
-
+		//Game Over Menu if frog died
+		if (game.gameover == true) {
+		  //cout << "frog died" << endl;
+		}
+		//cout << "gameover_menu = true" << endl;
+		while ( !game.gameover_menu && game.gameover == true) {
+			  while ( XPending ( dpy ) ) {
+				  XEvent e;
+				  XNextEvent ( dpy, &e );
+				  checkResize ( &e, &game );
+				  check_gameover_mouse ( &e, &game );
+				  check_keys ( &e, &game );
+			  }
+			  render_gameover_menu ( &game );
+			  glXSwapBuffers ( dpy, win );
+		 }
+		if(game.gameover == true) {
+		   game.gameover = false;
+		}
 		if ( game.demo.on ) {
 			demo ( &game );
 		}
-		// physics();
-		movement ( &game );
+		physics ( &game );
 		render ( &game );
 		glXSwapBuffers ( dpy, win );
 	}
@@ -183,7 +203,7 @@ void init_opengl ( Game *game )
 	glDisable ( GL_CULL_FACE );
 }
 
-void movement ( Game *game )
+void physics ( Game *game )
 {
 	collision ( game );
 	if ( game->demo.on ) {

@@ -65,6 +65,7 @@ void init_game ( Game *game )
 	}
 	//Game menu init texture
 	game->introbg = new IntroBG;
+	game->pausedbg = new PausedBG;
 }
 
 void demo ( Game *game )

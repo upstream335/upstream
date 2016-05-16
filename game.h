@@ -21,7 +21,7 @@ struct Circle {
 	int detail;
 };
 
-#define MAXBUTTONS 4
+#define MAXBUTTONS 13
 typedef struct t_button {
 	Rect r;
 	char text[32];
@@ -46,6 +46,7 @@ struct Demo {
 
 struct Game {
 	int lives;
+	int gameover;
 	bool done;
 	int difficulty; //1=easy,2=med,3=hard
 	Demo demo;
@@ -83,14 +84,16 @@ struct Game {
 	Splash *splash;
 	Turtle *turtle;
 	RocketPack *rocketPack;
-	//for game menu
+	
+	//Game menu
 	bool main_menu;
 	bool sub_menu;
-	bool gameover;
+	bool gameover_menu;
 	IntroBG *introbg;
+	PausedBG *pausedbg;
 
-	Ppmimage *introbgImage;
-	GLuint introbgTexture;
+	//Ppmimage *introbgImage;
+	//GLuint introbgTexture;
 	Button button[MAXBUTTONS];
 	int nbuttons;
 	//
@@ -105,13 +108,15 @@ struct Game {
 		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
+		
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;
+		gameover_menu = false;
 		gameover = false;
 		// buttons
 		nbuttons = 0;
-		introbgImage=NULL;
+		//introbgImage=NULL;
 	}
 };
 

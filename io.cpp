@@ -83,9 +83,20 @@ void check_menu_mouse ( XEvent *e, Game *game )
 				if (lbutton) {
 					switch(i) {
 						case 0:
+							//Main Menu
 							game->main_menu^=true;
 							break;
 						case 1:
+							//Difficulty
+							break;
+						case 2:
+							//High Scores
+							break;
+						case 3:
+							//Credits
+							break;							
+						case 4:
+							//Exit Game
 							game->done^=true;
 							game->main_menu^=true;
 							break;
@@ -97,7 +108,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 	return;
 }
 
-void check_continue_mouse ( XEvent *e, Game *game )
+void check_paused_mouse ( XEvent *e, Game *game )
 {
 	static int savex = 0;
 	static int savey = 0;
@@ -136,8 +147,85 @@ void check_continue_mouse ( XEvent *e, Game *game )
 			if (game->button[i].over) {
 				if (lbutton) {
 					switch(i) {
-						case 2:
+						case 5:
+							//Paused
+							break;
+						case 6:
+							//Sound
+							break;
+						case 7:
+							//Resume
 							game->sub_menu^=true;
+							break;
+						case 8:
+							//Restart game
+							game->sub_menu^=true;
+							reset_game(game);
+							break;							
+						case 9:
+							//Exit Game
+							game->done^=true;
+							game->sub_menu^=true;
+							break;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
+
+void check_gameover_mouse ( XEvent *e, Game *game )
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+		
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			rbutton=1;
+			if (rbutton){}
+		}
+	}	
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = game->windowHeight - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<game->nbuttons; i++) {
+		game->button[i].over=0;
+		if (x >= game->button[i].r.left &&
+				x <= game->button[i].r.right &&
+				y >= game->button[i].r.bot &&
+				y <= game->button[i].r.top) {
+			game->button[i].over=1;
+			if (game->button[i].over) {
+				if (lbutton) {
+					switch(i) {
+						case 10:
+							//Enter Your Name
+							break;
+						case 11:
+							//Play Again
+							game->gameover_menu^=true;
+							break;
+						case 12:
+							//Exit
+							game->done^=true;
+							game->gameover_menu^=true;
 							break;
 					}
 				}
@@ -154,10 +242,19 @@ int check_keys ( XEvent *e, Game *game )
 		int key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
 			case XK_m:
-				game->main_menu^=true;
+				if (game->sub_menu == false) {
+				  reset_game(game);
+				  break;
+				} else {
+				  game->main_menu^=true;
+				}
 				break;
 			case XK_p:
-				game->sub_menu^=true;
+				if (game->main_menu == false)
+				  break;
+				else
+				  game->sub_menu^=true;
+				break;
 			case XK_o:
 				reset_game(game);
 				break;

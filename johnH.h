@@ -128,6 +128,61 @@ public:
 	}
 };
 
+class PausedBG
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *pausedbgImage;
+	GLuint pausedbgTexture;
+public:
+	// Constructor with default values for data members
+	PausedBG()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH;
+		current.y_pos = HEIGHT;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		pausedbgImage = get_image ( "./images/pausedbg" );
+		//create opengl texture elements
+		glGenTextures ( 1, &pausedbgTexture );
+		int w = pausedbgImage->width;
+		int h = pausedbgImage->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, pausedbgTexture );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *pausedbgData = buildAlphaData ( pausedbgImage );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, pausedbgData );
+		free ( pausedbgData );
+	} //end constructor
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+};
+
 class Frog
 {
 private:

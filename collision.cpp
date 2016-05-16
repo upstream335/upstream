@@ -232,6 +232,6 @@ void gameOver ( Game *game )
 		game->frog->setXpos ( game->frog->getXpos()-800 );
 		game->splash->move ( -200,-200,0,0 );
 	} else {
-        game->gameover = true;
+	      game->gameover = true;
 	}
 }

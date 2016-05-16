@@ -14,6 +14,7 @@
 #include "ppm.h"
 #include "log.h"
 #include "fonts.h"
+using namespace std;
 
 #include "io.h"
 #include "quyN.h"
@@ -47,7 +48,7 @@ unsigned int upause=0;
 extern void initXWindows(Game *game);
 extern void cleanupXWindows(void);
 extern void checkResize(XEvent *e, Game *game);
-extern void movement(Game *game);
+extern void physics(Game *game);
 extern void render(Game *game);
 extern void init_opengl(Game *game);
 extern void timeCopy(struct timespec *dest, struct timespec *source);

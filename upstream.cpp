@@ -258,7 +258,7 @@ void render ( Game *game )
 	game->rocketPack->render();
 	game->meter->render();
 
-	drawScore ( game->score, game, 20,20,game->windowHeight-25);
+	drawScore ( game->score, game, 20,60,game->windowHeight-100);
 
 	//place holder for sound button
 	drawCircle ( 480, game->windowHeight-30, 10, 10 );

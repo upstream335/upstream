@@ -10,7 +10,7 @@
 //buffer/source[1] = boing
 //buffer/source[2] = tick
 //buffer/source[3] = splash
-//
+//buffer/source[4] = rocket 
 
 struct Game *g;
 ALuint source[10];
@@ -74,7 +74,7 @@ int getSource(const char * sound)
 		return 3;
 	}
 	else {
-		printf("That Sound File Doesn't exist\n\n");
+		printf("%s hasn't been initialized\n\n", sound);
 		return -1;
 	}
 }

@@ -761,7 +761,72 @@ public:
 	}
 }; //end rocketPack class ======================================
 
-
+class Meter
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *meterImage[2];
+	GLuint meterTexture[2];
+public:
+	// Constructor with default values for data members
+	Meter()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH-40;
+		current.y_pos = HEIGHT/2-50;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
+		meterImage[0] = get_image ( "./images/meter" );
+		int i=0;
+		//create opengl texture elements
+		glGenTextures ( 1, &meterTexture[i] );
+		int w = meterImage[i]->width;
+		int h = meterImage[i]->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, meterTexture[i] );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+		                  GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+		                  GL_NEAREST );
+		unsigned char *meterData = buildAlphaData ( meterImage[i] );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, meterData );
+		free ( meterData );
+	} //end constructor
+	//--------------------------------------------------------------------
+	float getFrame()
+	{
+		return current.frame;
+	}
+	void setFrame ( float x )
+	{
+		current.frame=x;
+	}
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+		current.frame=0;
+	}
+}; //end meter class ======================================
 
 class Turtle
 {

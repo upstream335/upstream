@@ -76,20 +76,20 @@ void Frog::render ( void )
 	glPushMatrix();
 	if ( rocketFrog) {
         //draw a line for rocket power remaining
-		glLineWidth ( 10 );
+		glLineWidth ( 15 );
 		glColor3f ( 200.0, 0.0, 0.0 );
 		glBindTexture ( GL_TEXTURE_2D, 0 );
 		glBegin ( GL_LINES );
 		// start position
-		glVertex2f ( WIDTH-10, (HEIGHT/2) +(200-current.frame)/3 );
+		glVertex2f ( WIDTH-20, (HEIGHT/2) +(120-current.frame)/5 );
 		// end position
-		glVertex2f ( WIDTH-10, (HEIGHT/2) -100 );
+		glVertex2f ( WIDTH-20, (HEIGHT/2) -100 );
 		glEnd();
 	}
 	if ( !rocketFrog ) {
 
 	 //draw a line for jump height
-		glLineWidth ( 10 );
+		glLineWidth ( 15 );
 		glColor3f ( 0.0, 200.0, 0.0 );
 		glBindTexture ( GL_TEXTURE_2D, 0 );
 		glBegin ( GL_LINES );
@@ -99,12 +99,12 @@ void Frog::render ( void )
 		velocity = current.y_vel*5;
 		}
 		else {
-            velocity = 100 + current.y_vel*5;
+            velocity = 60 + current.y_vel*5;
             }
-		glVertex2f ( WIDTH-30, (HEIGHT/2) -100 + velocity );
-		std::cout<<velocity<<std::endl;
+		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 + velocity );
+		//std::cout<<velocity<<std::endl;
 		// end position
-		glVertex2f ( WIDTH-30, (HEIGHT/2) -100 );
+		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 );
 		glEnd();
 
 		if ( current.y_pos<30 ) {
@@ -726,6 +726,41 @@ void Fly::render ( void )
 	glDisable ( GL_BLEND );
 	glEnable ( GL_TEXTURE_2D );
 } //end fly render=============================================
+
+
+void Meter::render ( void )
+{
+	if ( current.x_pos<-100 ) {
+		//meter is offscreen
+	}
+	float wid = 80.0f; // size of meter sprite
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+	glTranslatef ( current.x_pos, current.y_pos, 0 );
+	glBindTexture ( GL_TEXTURE_2D, meterTexture[0] );
+	glBindTexture ( GL_TEXTURE_2D, meterTexture[0] );
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid );
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+	glPopMatrix();
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+}
+// end meter render ===========================================
 
 
 

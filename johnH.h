@@ -268,6 +268,10 @@ public:
 	{
 		current.frame = frame;
 	}
+	int getFrame ( )
+	{
+			return current.frame;
+	}
 	float getYpos()
 	{
 		return current.y_pos;

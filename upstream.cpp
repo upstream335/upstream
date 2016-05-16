@@ -42,7 +42,7 @@ int main ( void )
 				check_menu_mouse ( &e, &game );
 				check_keys ( &e, &game );
 			}
-			demo ( &game );
+	//		demo ( &game );
 			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );

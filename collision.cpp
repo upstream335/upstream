@@ -94,9 +94,9 @@ void collision ( Game *game )
 		game->rocketPack->setFrame ( 500 );
 		//std::cout<<"dead rocketPack"<<std::endl;
 	}
-	if ( !game->frog->rocket() ) {
+	if ( game->frog->rocket() && game->frog->getFrame()==1) {
 
-        playSounds ( "./wav/rocket.wav",1.0f, false,game->muted );
+        playSounds ( "./wav/rocket.wav",0.5f, false,game->muted );
 	}
 
 	// collision frog with gator head

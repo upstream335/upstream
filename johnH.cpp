@@ -101,7 +101,7 @@ void Frog::render ( void )
 		else {
             velocity = 60 + current.y_vel*5;
             }
-		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 + velocity );
+		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 + velocity*1.5 );
 		//std::cout<<velocity<<std::endl;
 		// end position
 		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 );

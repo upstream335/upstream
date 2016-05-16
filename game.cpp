@@ -69,20 +69,36 @@ void init_game ( Game *game )
 
 void demo ( Game *game )
 {
-	int moving = rand() %5+1;
+	int moving = rand() %100+1;
 	int x =rand() %5+1;
 	// move right
-	if ( moving==1 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
-		game->demo.moveRight++;
-	// move left
-	if ( moving==2 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
-		game->demo.moveLeft++;
-	// jump
-	if ( moving==3 && game->demo.moveRight==0
-	        && game->demo.moveLeft==0 && game->demo.jump ==0 )
-		game->demo.jump++;
+	if ( !game->frog->rocket() ) {
+		if ( moving>5 && moving <10 && game->demo.moveRight==0
+		        && game->demo.moveLeft==0 &&
+		        game->demo.jump ==0 &&
+		        game->frog->getYpos() <80 )
+			game->demo.moveRight++;
+		// move left
+		if ( moving >10 && moving <15 && game->demo.moveRight==0
+		        && game->demo.moveLeft==0 &&
+		        game->demo.jump ==0 &&
+		        game->frog->getYpos() <80 )
+			game->demo.moveLeft++;
+		// jump
+		if ( moving >15 && moving <20 && game->demo.moveRight==0
+		        && game->demo.moveLeft==0 && game->demo.jump ==0 )
+			game->demo.jump++;
+		// rocket
+		if ( moving >20 && moving < 25 && game->demo.jump==0 &&
+		        game->demo.moveRight==0      &&
+		        game->demo.moveLeft==0 &&
+		        game->demo.jump ==0 &&
+		        game->frog->getXpos() <WIDTH-100 &&
+		        game->frog->getXpos() >100 ) {
+			game->frog->addRocket();
+			game->frog->toggleRocket();
+		}
+	}
 	if ( game->demo.moveRight>0 ) {
 		if ( game->frog->getXpos() <WIDTH )
 			game->c.center[0]+=x;
@@ -122,9 +138,3 @@ void demo ( Game *game )
 		}
 	}
 }
-
-
-
-
-
-

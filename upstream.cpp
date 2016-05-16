@@ -18,12 +18,13 @@ int main ( void )
 	init_buttons ( &game );
 	//Initializing sound sources && buffers
 	initSounds();
-	initBuffer("./wav/background.wav");
+	initBuffer("./wav/rocket.wav");
 	initBuffer("./wav/boing2.wav");
 	initBuffer("./wav/tick.wav");
 	initBuffer("./wav/fishsplash.wav");
+	//initBuffer("./wav/rocket.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
-	
+
 	while ( !game.done ) {
 		while ( XPending ( dpy ) ) {
 			XEvent e;
@@ -253,6 +254,7 @@ void render ( Game *game )
 	game->fly->render();
 	game->hud->render();
 	game->rocketPack->render();
+	game->meter->render();
 	drawScore ( game->score, game, 20 );
 	//place holder for sound button
 	drawCircle ( 480, game->windowHeight-30, 10, 10 );

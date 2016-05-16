@@ -147,6 +147,7 @@ public:
 	// Constructor with default values for data members
 	Frog()
 	{
+        rocketFrog =false;
 		isStanding = true;
 		current.frame = 0;
 		current.x_pos = 300;

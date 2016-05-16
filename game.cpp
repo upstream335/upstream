@@ -25,6 +25,7 @@ void init_game ( Game *game )
 	game->n=0;
 	game->ihead = NULL;
 	game->hud = new HUD;
+	game->meter = new Meter;
 	game->frog = new Frog;
 	game->gator = new Gator;
 	game->fly = new Fly;

@@ -70,6 +70,7 @@ struct Game {
 	Circle c;
 	int n;
 	HUD *hud;
+	Meter *meter;
 	Frog *frog;
 	Gator *gator;
 	Fly *fly;

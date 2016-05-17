@@ -209,7 +209,7 @@ void gameOver ( Game *game )
 		playSounds ( "./wav/fishsplash.wav",1.0f, false,game->muted );
 		game->splash->move ( game->frog->getXpos(),
 				game->frog->getYpos()+40,0,0 );
-		sendScoresToPHP(game->score, game->difficulty);
+		//sendScoresToPHP(game->score, game->difficulty);
 	}
 	//move frog,logs and gator offscreen
 	game->frog->move ( -200,-200,0,0 );
@@ -233,6 +233,14 @@ void gameOver ( Game *game )
 		game->frog->setXpos ( game->frog->getXpos()-800 );
 		game->splash->move ( -200,-200,0,0 );
 	} else {
-	      game->gameover = true;
+        //check if score is a highscore
+        if (checkHighScore(game))
+        {
+            cout << "isHighScore = true" << endl;
+            game->isHighScore = true;
+        } else {
+            game->isHighScore = false;
+        }
+        game->gameover = true;
 	}
 }

@@ -66,6 +66,12 @@ void init_game ( Game *game )
 	//Game menu init texture
 	game->introbg = new IntroBG;
 	game->pausedbg = new PausedBG;
+	char *host = (char*)"sleipnir.cs.csub.edu";
+    char *tpage = (char*)
+		"/~jhargreaves/upstream/lowScore.txt";
+    //get highscore into text
+    getHighScore(game, host, tpage,true,false);
+
 }
 
 void demo ( Game *game )

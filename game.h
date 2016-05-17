@@ -51,6 +51,7 @@ struct Game {
 	int difficulty; //1=easy,2=med,3=hard
 	Demo demo;
 	bool playing;
+	bool isHighScore;
 	int troll_lilypad;
 	int windowWidth;
 	int windowHeight;
@@ -84,7 +85,7 @@ struct Game {
 	Splash *splash;
 	Turtle *turtle;
 	RocketPack *rocketPack;
-	
+
 	//Game menu
 	bool main_menu;
 	bool sub_menu;
@@ -108,7 +109,7 @@ struct Game {
 		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
-		
+        isHighScore = false;
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;

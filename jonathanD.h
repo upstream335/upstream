@@ -31,7 +31,7 @@ struct HighScoreBox {
     Ppmimage *hscoreboxImage[1];
 	GLuint hscoreboxTexture[1];
 	HighScoreBox() {
-        hscoreboxImage[0] = get_image("./images/woodtexture");
+        hscoreboxImage[0] = get_image("./images/woodtexture2");
         glGenTextures(1, &hscoreboxTexture[0]);
         int w = hscoreboxImage[0]->width;
         int h = hscoreboxImage[0]->height;
@@ -111,6 +111,7 @@ struct Score {
 	}
 };
 
+extern bool checkHighScore(Game *game);
 extern void getName(XEvent *e, Game *game);
 extern void drawHighScoreBox(Game *game);
 extern void drawBubble(Game *game);

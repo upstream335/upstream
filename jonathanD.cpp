@@ -9,6 +9,7 @@
 #include "jonathanD.h"
 #include "ppm.h"
 #include "game.h"
+#include "kevinJ.h"
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -477,6 +478,7 @@ void getName(XEvent *e, Game *game)
                 strcat(game->playername,"z");
 				break;
             case XK_Return:
+                game->isHighScore = false;
                 //Submit score to site
                 break;
 			case XK_Escape:
@@ -485,22 +487,22 @@ void getName(XEvent *e, Game *game)
 	}
 }
 
-/*bool checkHighScore(int score, Game *game)
+bool checkHighScore(Game *game)
 {
     if (game->score == 0) {
         return false;
     }
     int difficulty = game->difficulty;
-    string dif;
+    int dif;
     switch (difficulty) {
         case 1:
-            dif = 'e';
+            dif = 1;
             break;
         case 2:
-            dif = 'm';
+            dif = 2;
             break;
         case 3:
-            dif = 'h';
+            dif = 3;
             break;
     }
     ifstream infile("hscore.txt");
@@ -509,25 +511,38 @@ void getName(XEvent *e, Game *game)
     }
     string score, mode;
     while (getline(infile, score, ',') && getline(infile, mode)) {
-        string mtmp = mode;
-        if (mtmp == dif) {
+        int mtmp = atoi(mode.c_str());
+        cout << mtmp << " " << dif << endl;
+        if (mtmp == difficulty) {
             string stmp = score;
+            cout << "mode correct\n";
             int _score = atoi(stmp.c_str());
             if (game->score > _score) {
-                char host[] = "sleipnir.cs.csub.edu";
+                cout << "This is a higher score\n";
+                return true;
+                // call kevin's function here.
+                sendScoresToPHP(game->score, game->difficulty);
+                /*char host[] = "sleipnir.cs.csub.edu";
                 char page[256] = "/~jhargreaves/upstream/scores.php?param="
                     "upstream54321,name,";
                 strcat(page, (const char*)stmp.c_str());
-                strcat(page,"3");
+                if (difficulty == 1) {
+                    strcat(page,"1");
+                } else if (difficulty == 2) {
+                    strcat(page,"2");
+                } else {
+                    strcat(page,"3");
+                }
+
                 return (getHighScore(game, host,
-                            page, false, true));
+                            page, false, true));*/
             }
         }
     }
     return false;
-}*/
+}
 
-/*bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
+bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
 {
     struct sockaddr_in *remote;
     int sock;
@@ -607,7 +622,7 @@ void getName(XEvent *e, Game *game)
     free(ip);
     close(sock);
     return true;
-}*/
+}
 
 //HTTPget functions defined here
 /*void usage()

@@ -71,8 +71,15 @@ int main ( void )
 				  checkResize ( &e, &game );
 				  check_gameover_mouse ( &e, &game );
 				  check_keys ( &e, &game );
+				  if (game.isHighScore) {
+                    getName(&e, &game);
+                    }
 			  }
-			  render_gameover_menu ( &game );
+			  if (game.isHighScore) {
+                    drawHighScoreBox(&game);
+			  } else {
+                render_gameover_menu ( &game );
+             }
 			  glXSwapBuffers ( dpy, win );
 		 }
 		if(game.gameover == true) {

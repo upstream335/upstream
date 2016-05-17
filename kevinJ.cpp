@@ -135,7 +135,7 @@ void maxScore(Game *game)
 	game->highscore[0] = max;
 }
 
-void sendScoresToPHP(int gameScore, int gameDiff)
+void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
 {
 	struct sockaddr_in *remote;
 	int sock;
@@ -148,8 +148,11 @@ void sendScoresToPHP(int gameScore, int gameDiff)
 
 	host = (char*)"sleipnir.cs.csub.edu";
 	tpage = (char*)
-		"/~jhargreaves/upstream/scores.php?param=upstream54321,player,";
+		"/~jhargreaves/upstream/scores.php?param=upstream54321,";
 	strcpy(page,tpage);
+	cout << playerName << endl;
+	strcat(page, playerName);
+	strcat(page, ",");
 	snprintf(score, 100, "%d", gameScore);
 	strcat(page, score);
 	strcat(page, ",");

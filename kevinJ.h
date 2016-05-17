@@ -26,7 +26,7 @@ extern void initSource(ALuint buffer);
 extern void stopMusic(void); 
 extern void playMusic(void); 
 extern void maxScore(Game *game);
-extern void sendScoresToPHP(int score, int diff);
+extern void sendScoresToPHP(char playerName[], int score, int diff);
 
 int create_tcp_socket();
 char *get_ip(char *host);

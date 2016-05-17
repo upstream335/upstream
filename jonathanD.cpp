@@ -430,9 +430,9 @@ void getName(XEvent *e, Game *game)
                 if (strlen(game->playername) == 0)
                 strcat(game->playername, "player");
                 game->isHighScore = false;
-                resetName(game);
                 // Kevin's function to write score to site
-                sendScoresToPHP(game->tempscore, game->difficulty);
+                sendScoresToPHP(game->playername, game->tempscore, game->difficulty);
+		resetName(game);
                 break;
 		}
     }

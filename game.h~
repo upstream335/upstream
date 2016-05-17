@@ -2,7 +2,7 @@
 #define _GAME_
 
 #include "johnH.h"
-#include <string>
+
 typedef double Vec[3];
 struct Lilypad;
 struct LilyTexture;
@@ -67,7 +67,6 @@ struct Game {
 	int lilytimer;
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	int stresstest;
-	int tempscore;
 	char playername[256];
 	Lilypad *ihead;
 	Score *hscore;
@@ -110,8 +109,7 @@ struct Game {
 		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
-        isHighScore = false;
-        playername[0] = '\0';
+        isHighScore = true;
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;

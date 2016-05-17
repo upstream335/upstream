@@ -6,11 +6,11 @@
 #include "kevinJ.h"
 
 //Global Sound Variable to set Background music source and buffer.
-//buffer/source[0] = background music 
+//buffer/source[0] = background music
 //buffer/source[1] = boing
 //buffer/source[2] = tick
 //buffer/source[3] = splash
-//buffer/source[4] = rocket 
+//buffer/source[4] = rocket
 
 struct Game *g;
 ALuint source[10];
@@ -99,7 +99,7 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
 	alSourcePlay(source[index]);
 }
 
-void cleanUpSound() 
+void cleanUpSound()
 {
 	for (int i = 0; i < 10; i++) {
 		alSourceStop(source[i]);
@@ -173,7 +173,7 @@ void sendScoresToPHP(int gameScore, int gameDiff)
 	}
 	remote->sin_port = htons(PORT);
 
-	if (connect(sock, (struct sockaddr *)remote, 
+	if (connect(sock, (struct sockaddr *)remote,
 				sizeof(struct sockaddr)) < 0) {
 		perror("Could not connect");
 		exit(1);
@@ -247,7 +247,7 @@ int create_tcp_socket()
 char *get_ip(char *host)
 {
 	struct hostent *hent;
-	int iplen = 15; 
+	int iplen = 15;
 	char *ip = (char *)malloc(iplen+1);
 	memset(ip, 0, iplen+1);
 	if ((hent = gethostbyname(host)) == NULL) {
@@ -269,7 +269,7 @@ char *build_get_query(char *host, char *page)
 		"GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
 	if (getpage[0] == '/') {
 		getpage = getpage + 1;
-		//fprintf(stderr,"Removing leading \"/\", converting %s to %s\n", 
+		//fprintf(stderr,"Removing leading \"/\", converting %s to %s\n",
 		//		page, getpage);
 	}
 	// -5 is to consider the %s %s %s in tpl and the ending \0

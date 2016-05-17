@@ -31,7 +31,7 @@ struct HighScoreBox {
     Ppmimage *hscoreboxImage[1];
 	GLuint hscoreboxTexture[1];
 	HighScoreBox() {
-        hscoreboxImage[0] = get_image("./images/woodtexture2");
+        hscoreboxImage[0] = get_image("./images/woodtexture3");
         glGenTextures(1, &hscoreboxTexture[0]);
         int w = hscoreboxImage[0]->width;
         int h = hscoreboxImage[0]->height;

@@ -64,22 +64,44 @@ int main ( void )
 		  //cout << "frog died" << endl;
 		}
 		//cout << "gameover_menu = true" << endl;
+		while (game.isHighScore) {
+            while ( XPending ( dpy ) ) {
+				  XEvent e;
+				  XNextEvent ( dpy, &e );
+				  checkResize ( &e, &game );
+				  check_gameover_mouse ( &e, &game );
+                  if (game.isHighScore) {
+                    getName(&e, &game);
+                  } else {
+                    check_keys ( &e, &game );
+                  }
+			  }
+			  if (game.isHighScore)
+                    drawHighScoreBox(&game);
+			  glXSwapBuffers ( dpy, win );
+			  glClearColor(0.0f,0.0f,0.0f,1.0f);
+			  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		}
+
 		while ( !game.gameover_menu && game.gameover == true) {
 			  while ( XPending ( dpy ) ) {
 				  XEvent e;
 				  XNextEvent ( dpy, &e );
 				  checkResize ( &e, &game );
 				  check_gameover_mouse ( &e, &game );
-				  check_keys ( &e, &game );
-				  if (game.isHighScore) {
-                    getName(&e, &game);
-                    }
+
+                 // if (game.isHighScore) {
+                  //  getName(&e, &game);
+                 // } else {
+                    check_keys ( &e, &game );
+                 // }
 			  }
-			  if (game.isHighScore) {
-                    drawHighScoreBox(&game);
-			  } else {
-                render_gameover_menu ( &game );
-             }
+			//  if (game.isHighScore) {
+            //        drawHighScoreBox(&game);
+			//  } else {
+                    render_gameover_menu ( &game );
+            //  }
 			  glXSwapBuffers ( dpy, win );
 		 }
 		if(game.gameover == true) {

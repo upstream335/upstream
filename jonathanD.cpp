@@ -300,9 +300,24 @@ void drawScore(int s, Game *game,int wid, int xpos, int ypos)
     }
 }
 
-void getName()
+int getDigits(int c)
 {
+    int digits = 0;
+    if (c < 0)
+        digits = 1;
+    while (c) {
+        c /= 10;
+        digits++;
+    }
+    return digits;
+}
 
+int getMidpoint(Game *game)
+{
+    int wid = 20;
+    int digits = getDigits(game->tempscore);
+    int halfpoint = (digits*30 - (wid/2))/2;
+    return halfpoint;
 }
 
 void drawBubble(Game *game)
@@ -381,12 +396,17 @@ void drawHighScoreBox(Game *game)
 	glVertex2i(-100,-20);
     glEnd();
     glPopMatrix();
-
-    int xpos = game->hscorebox->pos[0];
-    int ypos = game->hscorebox->pos[1];
-
-	drawScore(game->highscore[0],game,20,xpos
-                ,ypos);
+    Rect r;
+    r.bot = game->hscorebox->pos[1];
+	r.left = game->hscorebox->pos[0];
+	int xpos = game->hscorebox->pos[0]-getMidpoint(game);
+	int ypos = game->hscorebox->pos[1];
+	glColor3i(1,1,0);
+    //ggprint40 (&r,50,0,"%d", game->tempscore);
+	drawScore(game->tempscore,game,20,xpos,ypos);
+	r.bot = game->hscorebox->pos[1]-100;
+	r.left = game->hscorebox->pos[0];
+	ggprint40 (&r,50,0,"%s", &game->playername);
 }
 
 void resetName(Game *game)
@@ -396,9 +416,36 @@ void resetName(Game *game)
 
 void getName(XEvent *e, Game *game)
 {
+    int key;
+    // check for return key before other keys
     if ( e->type == KeyPress ) {
-		int key = XLookupKeysym ( &e->xkey, 0 );
+		key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
+            case XK_BackSpace:
+                if (strlen(game->playername)==8)
+                    game->playername[strlen(game->playername)-1] = '\0';
+                break;
+            case XK_Return:
+                // if nothing entered, default = player
+                if (strlen(game->playername) == 0)
+                strcat(game->playername, "player");
+                game->isHighScore = false;
+                resetName(game);
+                // Kevin's function to write score to site
+                sendScoresToPHP(game->tempscore, game->difficulty);
+                break;
+		}
+    }
+    // max length is 8 characters
+    if (strlen(game->playername) > 7)
+        return;
+    if ( e->type == KeyPress ) {
+		key = XLookupKeysym ( &e->xkey, 0 );
+		switch ( key ) {
+            case XK_BackSpace:
+                if (strlen(game->playername)>0 && strlen(game->playername)<=7 )
+                    game->playername[strlen(game->playername)-1] = '\0';
+                break;
 			case XK_a:
 				strcat(game->playername,"a");
 				break;
@@ -479,6 +526,7 @@ void getName(XEvent *e, Game *game)
 				break;
             case XK_Return:
                 game->isHighScore = false;
+                resetName(game);
                 //Submit score to site
                 break;
 			case XK_Escape:
@@ -512,30 +560,11 @@ bool checkHighScore(Game *game)
     string score, mode;
     while (getline(infile, score, ',') && getline(infile, mode)) {
         int mtmp = atoi(mode.c_str());
-        cout << mtmp << " " << dif << endl;
-        if (mtmp == difficulty) {
+        if (mtmp == dif) {
             string stmp = score;
-            cout << "mode correct\n";
             int _score = atoi(stmp.c_str());
             if (game->score > _score) {
-                cout << "This is a higher score\n";
                 return true;
-                // call kevin's function here.
-                sendScoresToPHP(game->score, game->difficulty);
-                /*char host[] = "sleipnir.cs.csub.edu";
-                char page[256] = "/~jhargreaves/upstream/scores.php?param="
-                    "upstream54321,name,";
-                strcat(page, (const char*)stmp.c_str());
-                if (difficulty == 1) {
-                    strcat(page,"1");
-                } else if (difficulty == 2) {
-                    strcat(page,"2");
-                } else {
-                    strcat(page,"3");
-                }
-
-                return (getHighScore(game, host,
-                            page, false, true));*/
             }
         }
     }
@@ -554,14 +583,11 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
     char *page;
 
     host = new char[256];
-    //strcpy(host,"sleipnir.cs.csub.edu");
     strcpy(host,shost);
     page = new char[256];
-    //strcpy(page, "/~jhargreaves/upstream/highscore.xml");
     strcpy(page, spage);
     sock = create_tcp_socket();
     ip = get_ip(host);
-    //fprintf(stderr, "IP is %s\n", ip);
     remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
     remote->sin_family = AF_INET;
     tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
@@ -623,55 +649,3 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
     close(sock);
     return true;
 }
-
-//HTTPget functions defined here
-/*void usage()
-{
-    fprintf(stderr, "USAGE: htmlget host [page]\n\
-            \thost: the website hostname. ex: coding.debuntu.org\n\
-            \tpage: the page to retrieve. ex: index.html, default: /\n");
-}
-
-int create_tcp_socket()
-{
-    int sock;
-    if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-        perror("Can't create TCP socket");
-        exit(1);
-    }
-    return sock;
-}
-
-
-char *get_ip(char *host)
-{
-    struct hostent *hent;
-    int iplen = 20; //XXX.XXX.XXX.XXX
-    char *ip = (char *)malloc(iplen+1);
-    memset(ip, 0, iplen+1);
-    if ((hent = gethostbyname(host)) == NULL) {
-        herror("Can't get IP");
-        exit(1);
-    }
-    if (inet_ntop(AF_INET, (void *)hent->h_addr_list[0], ip, iplen) == NULL) {
-        perror("Can't resolve host");
-        exit(1);
-    }
-    return ip;
-}
-
-char *build_get_query(char *host, char *page)
-{
-    char *query;
-    char *getpage = page;
-    //fixed warning: deprecated conversion from string constant to 'char*'
-    char tpl[256] = "GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
-    if (getpage[0] == '/') {
-        getpage = getpage + 1;
-    }
-    // -5 is to consider the %s %s %s in tpl and the ending \0
-    query = (char *)malloc(strlen(host)+strlen(getpage)+
-            strlen(USERAGENT)+strlen(tpl)-5);
-    sprintf(query, tpl, getpage, host, USERAGENT);
-    return query;
-}*/

@@ -106,6 +106,7 @@ void collision ( Game *game )
 			game->frog->getYpos() <= game->gator->getYpos()+ ( 5 + head ) &&
 			game->frog->getYpos() >= game->gator->getYpos()- ( 5 + head ) ) {
 		game->gator->eat();
+		game->tempscore = game->score;
 		gameOver ( game );
 	}
 	// collision frog with gator back
@@ -133,6 +134,7 @@ void collision ( Game *game )
 	}
 	//fell down
 	if ( game->frog->getYpos() <=40 &&  game->bridge->getYpos() <=100 ) {
+        game->tempscore = game->score;
 		gameOver ( game );
 		}
 

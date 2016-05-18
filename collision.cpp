@@ -95,8 +95,7 @@ void collision ( Game *game )
 		//std::cout<<"dead rocketPack"<<std::endl;
 	}
 	if ( game->frog->rocket() && game->frog->getFrame()==1) {
-
-        playSounds ( "./wav/rocket.wav",0.5f, false,game->muted );
+		playSounds ( "./wav/rocket.wav",0.5f, false,game->muted );
 	}
 
 	// collision frog with gator head
@@ -108,6 +107,7 @@ void collision ( Game *game )
 		game->gator->eat();
 		game->tempscore = game->score;
 		gameOver ( game );
+		game->gameover = true;
 	}
 	// collision frog with gator back
 	int back = 90/ game->difficulty;
@@ -134,9 +134,9 @@ void collision ( Game *game )
 	}
 	//fell down
 	if ( game->frog->getYpos() <=40 &&  game->bridge->getYpos() <=100 ) {
-        game->tempscore = game->score;
+		game->tempscore = game->score;
 		gameOver ( game );
-		}
+	}
 
 	//frog at bottom
 	if ( game->frog->getYpos() <= 40.0 ) {
@@ -173,14 +173,14 @@ void screenUpdate ( Game *game )
 				game->gator->getYpos()-move_down,
 				game->gator->getXvel(),
 				game->gator->getYvel() );
-        game->fly->move (game->fly->getXpos(),
-                    game->fly->getYpos()-move_down,
-					game->fly->getXvel(),
-					game->fly->getYvel() );
-        game->turtle->move (game->turtle->getXpos(),
-                    game->turtle->getYpos()-move_down,
-					game->turtle->getXvel(),
-					game->turtle->getYvel() );
+		game->fly->move (game->fly->getXpos(),
+				game->fly->getYpos()-move_down,
+				game->fly->getXvel(),
+				game->fly->getYvel() );
+		game->turtle->move (game->turtle->getXpos(),
+				game->turtle->getYpos()-move_down,
+				game->turtle->getXvel(),
+				game->turtle->getYvel() );
 		for ( int i=0; i<4; i++ ) {
 			game->log[i]->move ( game->log[i]->getXpos(),
 					game->log[i]->getYpos()-move_down,
@@ -204,6 +204,7 @@ void screenUpdate ( Game *game )
 		game->lilytimer = game->maxtimer;
 	}
 }
+
 void gameOver ( Game *game )
 {
 	// move splash on screen if offscreen
@@ -234,15 +235,14 @@ void gameOver ( Game *game )
 		game->frog->setYpos ( game->frog->getYpos()-10 );
 		game->frog->setXpos ( game->frog->getXpos()-800 );
 		game->splash->move ( -200,-200,0,0 );
+		game->gameover = true;
 	} else {
-        //check if score is a highscore
-        if (checkHighScore(game))
-        {
-            cout << "isHighScore = true" << endl;
-            game->isHighScore = true;
-        } else {
-            game->isHighScore = false;
-        }
-        game->gameover = true;
+		//check if score is a highscore
+		if (checkHighScore(game)) {
+			cout << "isHighScore = true" << endl;
+			game->isHighScore = true;
+		} else {
+			game->isHighScore = false;
+		}
 	}
 }

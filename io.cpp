@@ -184,7 +184,7 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 	int rbutton=0;
 	//
 	if (e->type == ButtonRelease)
-		
+
 		return;
 	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1) {
@@ -220,12 +220,12 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 							break;
 						case 11:
 							//Play Again
-							game->gameover_menu^=true;
+							game->gameover^=true;
 							break;
 						case 12:
 							//Exit
 							game->done^=true;
-							game->gameover_menu^=true;
+							game->gameover^=true;
 							break;
 					}
 				}
@@ -243,17 +243,17 @@ int check_keys ( XEvent *e, Game *game )
 		switch ( key ) {
 			case XK_m:
 				if (game->sub_menu == false) {
-				  reset_game(game);
-				  break;
+					reset_game(game);
+					break;
 				} else {
-				  game->main_menu^=true;
+					game->main_menu^=true;
 				}
 				break;
 			case XK_p:
 				if (game->main_menu == false)
-				  break;
+					break;
 				else
-				  game->sub_menu^=true;
+					game->sub_menu^=true;
 				break;
 			case XK_o:
 				reset_game(game);

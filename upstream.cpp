@@ -42,7 +42,7 @@ int main ( void )
 				check_menu_mouse ( &e, &game );
 				check_keys ( &e, &game );
 			}
-	//		demo ( &game );
+			//		demo ( &game );
 			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );
@@ -61,51 +61,47 @@ int main ( void )
 		}
 		//Game Over Menu if frog died
 		if (game.gameover == true) {
-		  //cout << "frog died" << endl;
+			//cout << "frog died" << endl;
 		}
-		//cout << "gameover_menu = true" << endl;
 		while (game.isHighScore) {
-            while ( XPending ( dpy ) ) {
-				  XEvent e;
-				  XNextEvent ( dpy, &e );
-				  checkResize ( &e, &game );
-				  check_gameover_mouse ( &e, &game );
-                  if (game.isHighScore) {
-                    getName(&e, &game);
-                  } else {
-                    check_keys ( &e, &game );
-                  }
-			  }
-			  if (game.isHighScore)
-                    drawHighScoreBox(&game);
-			  glXSwapBuffers ( dpy, win );
-			  glClearColor(0.0f,0.0f,0.0f,1.0f);
-			  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+			while ( XPending ( dpy ) ) {
+				XEvent e;
+				XNextEvent ( dpy, &e );
+				checkResize ( &e, &game );
+				check_gameover_mouse ( &e, &game );
+				if (game.isHighScore) {
+					getName(&e, &game);
+				} else {
+					check_keys ( &e, &game );
+				}
+			}
+			if (game.isHighScore)
+				drawHighScoreBox(&game);
+			glXSwapBuffers ( dpy, win );
+			//glClearColor(0.0f,0.0f,0.0f,1.0f);
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
-
-		while ( !game.gameover_menu && game.gameover == true) {
-			  while ( XPending ( dpy ) ) {
-				  XEvent e;
-				  XNextEvent ( dpy, &e );
-				  checkResize ( &e, &game );
-				  check_gameover_mouse ( &e, &game );
-
-                 // if (game.isHighScore) {
-                  //  getName(&e, &game);
-                 // } else {
-                    check_keys ( &e, &game );
-                 // }
-			  }
+		while (game.gameover) {
+			while ( XPending ( dpy ) ) {
+				XEvent e;
+				XNextEvent ( dpy, &e );
+				checkResize ( &e, &game );
+				check_gameover_mouse ( &e, &game );
+				// if (game.isHighScore) {
+				//  getName(&e, &game);
+				// } else {
+				check_keys ( &e, &game );
+				// }
+			}
 			//  if (game.isHighScore) {
-            //        drawHighScoreBox(&game);
+			//        drawHighScoreBox(&game);
 			//  } else {
-                    render_gameover_menu ( &game );
-            //  }
-			  glXSwapBuffers ( dpy, win );
-		 }
+			render_gameover_menu ( &game );
+			//  }
+			glXSwapBuffers ( dpy, win );
+		}
 		if(game.gameover == true) {
-		   game.gameover = false;
+			game.gameover = false;
 		}
 		if ( game.demo.on ) {
 			demo ( &game );
@@ -122,7 +118,7 @@ int main ( void )
 double timeDiff ( struct timespec *start, struct timespec *end )
 {
 	return ( double ) ( end->tv_sec - start->tv_sec ) +
-	       ( double ) ( end->tv_nsec - start->tv_nsec ) * oobillion;
+		( double ) ( end->tv_nsec - start->tv_nsec ) * oobillion;
 }
 
 void timeCopy ( struct timespec *dest, struct timespec *source )
@@ -164,11 +160,11 @@ void initXWindows ( Game *game )
 	XSetWindowAttributes swa;
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-	                 ButtonPress | ButtonReleaseMask |
-	                 PointerMotionMask |
-	                 StructureNotifyMask | SubstructureNotifyMask;
+		ButtonPress | ButtonReleaseMask |
+		PointerMotionMask |
+		StructureNotifyMask | SubstructureNotifyMask;
 	win = XCreateWindow ( dpy, root, 0, 0, w, h, 0, vi->depth,
-	                      InputOutput, vi->visual, CWColormap | CWEventMask, &swa );
+			InputOutput, vi->visual, CWColormap | CWEventMask, &swa );
 	set_title();
 	glc = glXCreateContext ( dpy, vi, NULL, GL_TRUE );
 	glXMakeCurrent ( dpy, win, glc );
@@ -243,13 +239,13 @@ void physics ( Game *game )
 	if ( game->playing==true && game->splash->getFrame() >=400 ) {
 		if ( !game->frog->rocket() && !game->demo.on ) {
 			game->frog->move ( ( float ) game->c.center[0],
-			                   ( float ) game->c.center[1],
-			                   ( float ) game->c.velocity[0],
-			                   ( float ) game->c.velocity[1] );
+					( float ) game->c.center[1],
+					( float ) game->c.velocity[0],
+					( float ) game->c.velocity[1] );
 		} else {
 			game->frog->move ( ( float ) game->c.center[0],
-			                   game->frog->getYpos(), game->frog->getXvel(),
-			                   game->frog->getYvel() );
+					game->frog->getYpos(), game->frog->getXvel(),
+					game->frog->getYvel() );
 			game->c.center[0] = game->frog->getXpos();
 			game->c.center[1] = game->frog->getYpos();
 			game->c.velocity[0] = game->frog->getXvel();
@@ -263,7 +259,7 @@ void physics ( Game *game )
 		x=6-x;
 		y=6-y;
 		game->fly->move ( game->fly->getXpos()+x/2,
-		                  game->fly->getYpos()+y,x/10,y/10 );
+				game->fly->getYpos()+y,x/10,y/10 );
 		checkLilies ( game );
 	}
 }
@@ -276,9 +272,9 @@ void drawCircle ( float x, float y, float radius, int detail )
 	glBegin ( GL_TRIANGLE_FAN );
 	for ( int i = 0; i <= detail; i++ ) {
 		glVertex2f (
-		    x + ( radius * cos ( i * radian / detail ) ),
-		    y + ( radius * sin ( i * radian / detail ) )
-		);
+				x + ( radius * cos ( i * radian / detail ) ),
+				y + ( radius * sin ( i * radian / detail ) )
+				);
 	}
 	glEnd();
 	glPopMatrix();
@@ -292,7 +288,7 @@ void render ( Game *game )
 	game->water[2]->render();
 	game->turtle->render();
 	drawLilies ( game );
-    //drawHighScoreBox(game);
+	//drawHighScoreBox(game);
 	screenUpdate ( game );
 	for ( int i=0; i<4; i++ ) {
 		game->log[i]->render();

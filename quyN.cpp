@@ -35,15 +35,16 @@
 void reset_game(Game *game)
 {
     //reset the game
+	game->lives = 3;
     game->difficulty = MED;
     game->demo.on = false;
     game->demo.jump     =   0;
     game->demo.moveLeft =   0;
     game->demo.moveRight =  0;
     game->score = 0;
-    game->scoreCount=0;
+    game->scoreCount = 0;
     game->muted = false;
-    game->n=0;
+    game->n = 0;
     game->ihead = NULL;
     game->nlily = 0;
     game->timer = 0;
@@ -57,9 +58,6 @@ void reset_game(Game *game)
     game->c.jumpSpeed = 0;
     game->c.jumpSpeedMax = 25;
     game->playing=true;
-    for ( int i = 0; i < 100; i++ ) {
-        game->highscore[i] = 0;
-    }
 }
 
 void IntroBG::render(void)

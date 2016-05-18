@@ -8,7 +8,6 @@ struct Lilypad;
 struct LilyTexture;
 struct Score;
 struct HighScoreBox;
-struct ButtonTextures;
 struct Circle {
 	float radius;
 	float newPosX;
@@ -71,11 +70,11 @@ struct Game {
 	int stresstest;
 	int tempscore;
 	char playername[256];
+	char hsname[256];
 	Lilypad *ihead;
 	Score *hscore;
 	LilyTexture *lily;
 	HighScoreBox *hscorebox;
-	ButtonTextures *buttont;
 	Circle c;
 	int n;
 	HUD *hud;
@@ -116,6 +115,7 @@ struct Game {
 		stresstest = 0;
         isHighScore = false;
         playername[0] = '\0';
+        hsname[0] = '|';
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;

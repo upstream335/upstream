@@ -1,8 +1,3 @@
-//  _______               __                             
-// |   |   |.-----.-----.|  |_.----.-----.---.-.--------.
-// |   |   ||  _  |__ --||   _|   _|  -__|  _  |        |
-// |_______||   __|_____||____|__| |_____|___._|__|__|__|
-//          |__|                                         
 ///////////////////////////////////////////////////////////////////////
 // CONTRIBUTORS: JONATHAN DINH
 //               QUY NGUYEN
@@ -59,10 +54,14 @@ int main ( void )
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
 				check_paused_mouse ( &e, &game );
-				//check_keys ( &e, &game );
+				check_keys ( &e, &game );
 			}
 			render_sub_menu ( &game );
 			glXSwapBuffers ( dpy, win );
+		}
+		//Game Over Menu if frog died
+		if (game.gameover == true) {
+			//cout << "frog died" << endl;
 		}
 		while (game.isHighScore) {
 			while ( XPending ( dpy ) ) {
@@ -88,10 +87,21 @@ int main ( void )
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
 				check_gameover_mouse ( &e, &game );
-				//check_keys ( &e, &game );
+				// if (game.isHighScore) {
+				//  getName(&e, &game);
+				// } else {
+				check_keys ( &e, &game );
+				// }
 			}
+			//  if (game.isHighScore) {
+			//        drawHighScoreBox(&game);
+			//  } else {
 			render_gameover_menu ( &game );
+			//  }
 			glXSwapBuffers ( dpy, win );
+		}
+		if(game.gameover == true) {
+			game.gameover = false;
 		}
 		if ( game.demo.on ) {
 			demo ( &game );
@@ -170,6 +180,7 @@ void reshapeWindow ( int width, int height, Game *game )
 {
 	//window has been resized.
 	//setupScreenRes(width, height, game);
+	//
 	glViewport ( 0, 0, ( GLint ) width, ( GLint ) height );
 	glMatrixMode ( GL_PROJECTION );
 	glLoadIdentity();

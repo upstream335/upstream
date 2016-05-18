@@ -6,7 +6,7 @@
 //          Game Attract Mode
 //
 // Purpose: I will be in charge of the game menu, introduction,
-//          attract mode (hard, medium, easy). I will attempt to
+//          attract mode (hard, medium, easy). I will attempt to 
 //          make a generic function for each.
 //
 // 1st goal (week 6): Game Menu and Prompts (checked)
@@ -62,7 +62,7 @@ void reset_game(Game *game)
 
 void IntroBG::render(void)
 {
-    float wid = 300.0f;
+    float wid = 300.0f; // size of introbg
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
 
@@ -95,7 +95,7 @@ void IntroBG::render(void)
 
 void PausedBG::render(void)
 {
-    float wid = 250.0f;
+    float wid = 250.0f; // size of introbg
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
 
@@ -131,11 +131,11 @@ void init_buttons(Game *game)
     //initialize all in-game buttons
     game->nbuttons=0;
     /************MAIN-MENU BOTTONS******************/
-
+    
     int n = 50;
-
+    
     //Play button - 1
-    strcpy(game->button[game->nbuttons].text, "");
+    strcpy(game->button[game->nbuttons].text, "PLAY");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 50;
@@ -165,9 +165,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Difficulty button - 2
-    strcpy(game->button[game->nbuttons].text, "");
+    strcpy(game->button[game->nbuttons].text, "MEDIUM");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 50;
@@ -197,9 +197,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Highscore button - 3
-    strcpy(game->button[game->nbuttons].text, "");
+    strcpy(game->button[game->nbuttons].text, "HIGHSCORE");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 50;
@@ -229,9 +229,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Credits button - 4
-    strcpy(game->button[game->nbuttons].text, "");
+    strcpy(game->button[game->nbuttons].text, "CREDITS");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 50;
@@ -261,9 +261,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Exit button - 5
-    strcpy(game->button[game->nbuttons].text, "");
+    strcpy(game->button[game->nbuttons].text, "EXIT");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 50;
@@ -295,9 +295,9 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     /************SUB-MENU BOTTONS******************/
-
+    
     //Paused button - 6
-    strcpy(game->button[game->nbuttons].text, "RESUME");
+    strcpy(game->button[game->nbuttons].text, "PAUSED");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -327,7 +327,7 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Mute button - 7
     strcpy(game->button[game->nbuttons].text, "SOUND");
     game->button[game->nbuttons].r.width = 120;
@@ -361,7 +361,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Resume button - 8
-    strcpy(game->button[game->nbuttons].text, "RESTART");
+    strcpy(game->button[game->nbuttons].text, "RESUME");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -393,7 +393,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Restart button - 9
-    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
+    strcpy(game->button[game->nbuttons].text, "RESTART");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -423,7 +423,7 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+       
     //Exit button - 10
     strcpy(game->button[game->nbuttons].text, "EXIT");
     game->button[game->nbuttons].r.width = 120;;
@@ -455,11 +455,11 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     /************GAMEOVER-MENU BOTTONS**************/
-
+    
     //Your Score button - 11
-    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
+    strcpy(game->button[game->nbuttons].text, "ENTER YOUR NAME");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -489,9 +489,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Play Again button - 12
-    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
+    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
       game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -521,9 +521,9 @@ void init_buttons(Game *game)
         game->button[game->nbuttons].color[2] * 0.5f;
     game->button[game->nbuttons].text_color = 0x00ffffff;
     game->nbuttons++;
-
+    
     //Exit button - 13
-    strcpy(game->button[game->nbuttons].text, "QUIT");
+    strcpy(game->button[game->nbuttons].text, "EXIT");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -579,44 +579,14 @@ void render_gameover_menu(Game *game)
 
 void render_main_menu_buttons(Game *game)
 {
-	/*
-    glEnable ( GL_ALPHA_TEST );
-    glAlphaFunc ( GL_GREATER, 0.0f );
-    glColor4ub ( 255,255,255,255 );
-
-    glBegin ( GL_QUADS );
-    glTexCoord2f ( 0.0f, 1.0f );
-    glVertex2i ( -wid,-wid);
-    glTexCoord2f ( 0.0f, 0.0f );
-    glVertex2i ( -wid, wid );
-    glTexCoord2f ( 1.0f, 0.0f );
-    glVertex2i ( wid, wid );
-    glTexCoord2f ( 1.0f, 1.0f );
-    glVertex2i ( wid,-wid );
-    glEnd();
-
-    glPopMatrix();
-
-    glDisable ( GL_ALPHA_TEST );
-    glDisable ( GL_TEXTURE_2D );
-    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
-    glEnable ( GL_BLEND );
-    glDisable ( GL_BLEND );
-    glEnable ( GL_TEXTURE_2D );
-	*/
-
     Rect r;
     int i;
     //draw menu all buttons
-
-
+    glBindTexture(GL_TEXTURE_2D, 0);
     for (i=0; i<5; i++) {
-
         if (game->button[i].over) {
-
-            //glBindTexture(GL_TEXTURE_2D, buttonTexture[i]);
-			int w=2;
-            //glColor3f(1.0f, 1.0f, 0.0f);
+            int w=2;
+            glColor3f(1.0f, 1.0f, 0.0f);
             //draw a highlight around button
             glLineWidth(3);
             glBegin(GL_LINE_LOOP);
@@ -633,35 +603,12 @@ void render_main_menu_buttons(Game *game)
         } else {
             glColor3fv(game->button[i].color);
         }
-        glPushMatrix();
-        glTranslatef(game->button[i].r.centerx,
-                    game->button[i].r.centery, 0);
-        int wid = 55;
-        glBindTexture(GL_TEXTURE_2D, game->buttont->buttonTexture[i]);
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, 0.0f);
-        glColor4ub(255,255,255,255);
         glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 1.0f);
-        glVertex2i(-wid,-wid);
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2i(-wid, wid);
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex2i( wid, wid);
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex2i( wid,-wid);
-        glEnd();
-        glPopMatrix();
-        glDisable(GL_ALPHA_TEST);
-        glDisable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_TEXTURE_2D);
-        /*glBegin(GL_QUADS);
         glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
         glVertex2i(game->button[i].r.left,  game->button[i].r.top);
         glVertex2i(game->button[i].r.right, game->button[i].r.top);
         glVertex2i(game->button[i].r.right, game->button[i].r.bot);
-        glEnd();*/
+        glEnd();
         r.left = game->button[i].r.centerx;
         r.bot  = game->button[i].r.centery-8;
         r.center = 1;
@@ -671,11 +618,10 @@ void render_main_menu_buttons(Game *game)
             ggprint16(&r, 0, game->button[i].text_color, game->button[i].text);
         }
     }
-    glPopMatrix();
 }
 
 void render_sub_menu_buttons(Game *game)
-{
+{    
     Rect r;
     int i;
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -717,7 +663,7 @@ void render_sub_menu_buttons(Game *game)
 }
 
 void render_gameover_menu_buttons(Game *game)
-{
+{    
     Rect r;
     int i;
     glBindTexture(GL_TEXTURE_2D, 0);

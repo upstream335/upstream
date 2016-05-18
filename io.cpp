@@ -50,6 +50,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 	int i,x,y;
 	int lbutton=0;
 	int rbutton=0;
+	//
 	if (e->type == ButtonRelease)
 		return;
 	if (e->type == ButtonPress) {
@@ -114,6 +115,7 @@ void check_paused_mouse ( XEvent *e, Game *game )
 	int i,x,y;
 	int lbutton=0;
 	int rbutton=0;
+	//
 	if (e->type == ButtonRelease)
 		return;
 	if (e->type == ButtonPress) {
@@ -146,29 +148,19 @@ void check_paused_mouse ( XEvent *e, Game *game )
 				if (lbutton) {
 					switch(i) {
 						case 5:
-							//Resume
-							game->sub_menu^=true;
+							//Paused
 							break;
 						case 6:
 							//Sound
-							game->muted ^= 1;
-							if ( game->muted ) {
-								stopMusic();
-								printf ( "Sounds OFF\n" );
-							} else {
-								playMusic();
-								printf ( "Sounds ON\n" );
-							}
 							break;
 						case 7:
-							//Resart game
+							//Resume
 							game->sub_menu^=true;
-							reset_game(game);
 							break;
 						case 8:
-							//Game Menu
+							//Restart game
 							game->sub_menu^=true;
-							game->main_menu^=true;
+							reset_game(game);
 							break;							
 						case 9:
 							//Exit Game
@@ -190,6 +182,7 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 	int i,x,y;
 	int lbutton=0;
 	int rbutton=0;
+	//
 	if (e->type == ButtonRelease)
 
 		return;
@@ -223,20 +216,14 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 				if (lbutton) {
 					switch(i) {
 						case 10:
-							//Play Again
-							game->gameover^=true;
-							if(!game->gameover)
-								reset_game(game);
+							//Enter Your Name
 							break;
 						case 11:
-							//Back to main menu
+							//Play Again
 							game->gameover^=true;
-							game->main_menu^=true;
-							if(!game->gameover)
-								reset_game(game);
 							break;
 						case 12:
-							//Quit the game
+							//Exit
 							game->done^=true;
 							game->gameover^=true;
 							break;
@@ -254,51 +241,42 @@ int check_keys ( XEvent *e, Game *game )
 	if ( e->type == KeyPress ) {
 		int key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
-			case XK_p:
-				if (!game->main_menu)
+			case XK_m:
+				if (game->sub_menu == false) {
+					reset_game(game);
 					break;
-				game->sub_menu^=true;
+				} else {
+					game->main_menu^=true;
+				}
+				break;
+			case XK_p:
+				if (game->main_menu == false)
+					break;
+				else
+					game->sub_menu^=true;
 				break;
 			case XK_o:
 				reset_game(game);
 				break;
 			case XK_j:
-				if (!game->main_menu)
-					break;
 				game->troll_lilypad ^= 1;
 				break;
 			case XK_k:
-				if (!game->main_menu)
-					break;
 				game->stresstest ^= 1;
 				break;
 			case XK_d:
-				if (!game->main_menu)
-					break;
 				game->difficulty++;
 				if ( game->difficulty>3 )
 					game->difficulty=EASY;
 				break;
 			case XK_r:
-				if (!game->main_menu)
-					break;
 				game->frog->toggleRocket();
 				game->frog->setFrame ( 0 );
 				break;
 			case XK_t:
-				if (!game->main_menu)
-					break;
 				game->demo.on^=1;
 				break;
 			case XK_Escape:
-				if(!game->main_menu && !game->done) {
-					game->main_menu^=true;
-					game->done^=true;
-					break;
-				} else if (!game->done && game->main_menu) {
-					game->done^=true;
-					break;
-				}
 				break;
 				return 1;
 		}

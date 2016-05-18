@@ -407,6 +407,17 @@ void drawHighScoreBox(Game *game)
 	ggprint40 (&r,50,0,"%s", &game->playername);
 }
 
+// remove the character | from name
+void removebar(Game *game)
+{
+    game->playername[strlen(game->playername) - 1] = '\0';
+}
+
+void addbar(Game *game)
+{
+    strcat(game->playername, "|");
+}
+
 void resetName(Game *game)
 {
     memset(game->playername, 0 , sizeof(game->playername));
@@ -414,36 +425,41 @@ void resetName(Game *game)
 
 void getName(XEvent *e, Game *game)
 {
+    if (strlen(game->playername)<11)
+        removebar(game);
     int key;
     // check for return key before other keys
     if ( e->type == KeyPress ) {
 		key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
             case XK_BackSpace:
-                if (strlen(game->playername)==10) {
+                if (strlen(game->playername)==11) {
                     game->playername[strlen(game->playername)-1] = '\0';
                     return;
                 }
                 break;
             case XK_Return:
                 // if nothing entered, default = player
+                if (strlen(game->playername)==11)
+                    removebar(game);
                 if (strlen(game->playername) == 0)
-                strcat(game->playername, "player");
+                    strcat(game->playername, "player");
                 game->isHighScore = false;
                 // Kevin's function to write score to site
                 sendScoresToPHP(game->playername, game->tempscore, game->difficulty);
+                game->tempscore = 0;
                 resetName(game);
                 break;
 		}
     }
     // max length is 8 characters
-    if (strlen(game->playername) > 9)
+    if (strlen(game->playername) > 10)
         return;
     if ( e->type == KeyPress ) {
 		key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
             case XK_BackSpace:
-                if (strlen(game->playername)>0 && strlen(game->playername)<=9 )
+                if (strlen(game->playername)>0 && strlen(game->playername)<=10 )
                     game->playername[strlen(game->playername)-1] = '\0';
                 break;
 			case XK_a:
@@ -556,13 +572,17 @@ void getName(XEvent *e, Game *game)
 				break;
             case XK_Return:
                 game->isHighScore = false;
+                game->tempscore = 0;
                 resetName(game);
                 break;
 			case XK_Escape:
                 game->isHighScore = false;
+                resetName(game);
+                game->tempscore = 0;
 				break;
 		}
 	}
+	addbar(game);
 }
 
 bool checkHighScore(Game *game, int s)

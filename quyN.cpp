@@ -62,7 +62,7 @@ void reset_game(Game *game)
 
 void IntroBG::render(void)
 {
-    float wid = 300.0f; // size of introbg
+    float wid = 300.0f;
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
 
@@ -95,7 +95,7 @@ void IntroBG::render(void)
 
 void PausedBG::render(void)
 {
-    float wid = 250.0f; // size of introbg
+    float wid = 250.0f;
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
 
@@ -297,7 +297,7 @@ void init_buttons(Game *game)
     /************SUB-MENU BOTTONS******************/
     
     //Paused button - 6
-    strcpy(game->button[game->nbuttons].text, "PAUSED");
+    strcpy(game->button[game->nbuttons].text, "RESUME");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -361,7 +361,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Resume button - 8
-    strcpy(game->button[game->nbuttons].text, "RESUME");
+    strcpy(game->button[game->nbuttons].text, "RESTART");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -393,7 +393,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Restart button - 9
-    strcpy(game->button[game->nbuttons].text, "RESTART");
+    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -459,7 +459,7 @@ void init_buttons(Game *game)
     /************GAMEOVER-MENU BOTTONS**************/
     
     //Your Score button - 11
-    strcpy(game->button[game->nbuttons].text, "ENTER YOUR NAME");
+    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -491,7 +491,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
     
     //Play Again button - 12
-    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
+    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
       game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -523,7 +523,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
     
     //Exit button - 13
-    strcpy(game->button[game->nbuttons].text, "EXIT");
+    strcpy(game->button[game->nbuttons].text, "QUIT");
     game->button[game->nbuttons].r.width = 120;;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -579,13 +579,40 @@ void render_gameover_menu(Game *game)
 
 void render_main_menu_buttons(Game *game)
 {
+	/*
+    glEnable ( GL_ALPHA_TEST );
+    glAlphaFunc ( GL_GREATER, 0.0f );
+    glColor4ub ( 255,255,255,255 );
+
+    glBegin ( GL_QUADS );
+    glTexCoord2f ( 0.0f, 1.0f );
+    glVertex2i ( -wid,-wid);
+    glTexCoord2f ( 0.0f, 0.0f );
+    glVertex2i ( -wid, wid );
+    glTexCoord2f ( 1.0f, 0.0f );
+    glVertex2i ( wid, wid );
+    glTexCoord2f ( 1.0f, 1.0f );
+    glVertex2i ( wid,-wid );
+    glEnd();
+
+    glPopMatrix();
+
+    glDisable ( GL_ALPHA_TEST );
+    glDisable ( GL_TEXTURE_2D );
+    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+    glEnable ( GL_BLEND );
+    glDisable ( GL_BLEND );
+    glEnable ( GL_TEXTURE_2D );
+	*/
+
     Rect r;
     int i;
     //draw menu all buttons
     glBindTexture(GL_TEXTURE_2D, 0);
     for (i=0; i<5; i++) {
         if (game->button[i].over) {
-            int w=2;
+            //glBindTexture(GL_TEXTURE_2D, buttonTexture[i]);
+			int w=2;
             glColor3f(1.0f, 1.0f, 0.0f);
             //draw a highlight around button
             glLineWidth(3);

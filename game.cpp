@@ -7,12 +7,14 @@
 #include <cmath>
 #include <stdlib.h>
 #include "jonathanD.h"
+#include "quyN.h"
 #include "game.h"
 
 void init_game ( Game *game )
 {
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
+	game->buttont = new ButtonTextures;
 	game->difficulty = MED;
 	game->lives = 3;
 	game->demo.on = false;

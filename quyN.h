@@ -17,15 +17,15 @@ struct ButtonTextures {
 	GLuint buttonTexture[9];
 	ButtonTextures() {
 		buttonImage[0] = get_image("./images/play");
-		buttonImage[1] = get_image("./images/score");
-		buttonImage[2] = get_image("./images/resume");
-		buttonImage[3] = get_image("./images/exit");
-		buttonImage[4] = get_image("./images/restart");
+		buttonImage[1] = get_image("./images/medium");
+		buttonImage[2] = get_image("./images/score");
+		buttonImage[3] = get_image("./images/restart");
+		buttonImage[4] = get_image("./images/exit");
 		buttonImage[5] = get_image("./images/paused");
 		buttonImage[6] = get_image("./images/mute");
 		buttonImage[7] = get_image("./images/easy");
-		buttonImage[8] = get_image("./images/medium");
-		buttonImage[9] = get_image("./images/hard");
+		buttonImage[8] = get_image("./images/hard");
+		buttonImage[9] = get_image("./images/resume");
 		for (int i = 0; i < 9; i++) {
 			//create opengl texture elements
 			glGenTextures(1, &buttonTexture[i]);

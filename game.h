@@ -8,6 +8,7 @@ struct Lilypad;
 struct LilyTexture;
 struct Score;
 struct HighScoreBox;
+struct ButtonTextures;
 struct Circle {
 	float radius;
 	float newPosX;
@@ -74,6 +75,7 @@ struct Game {
 	Score *hscore;
 	LilyTexture *lily;
 	HighScoreBox *hscorebox;
+	ButtonTextures *buttont;
 	Circle c;
 	int n;
 	HUD *hud;

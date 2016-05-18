@@ -297,7 +297,7 @@ void init_buttons(Game *game)
     /************SUB-MENU BOTTONS******************/
     
     //Paused button - 6
-    strcpy(game->button[game->nbuttons].text, "PAUSED");
+    strcpy(game->button[game->nbuttons].text, "RESUME");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -361,7 +361,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Resume button - 8
-    strcpy(game->button[game->nbuttons].text, "RESUME");
+    strcpy(game->button[game->nbuttons].text, "RESTART");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -393,7 +393,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
 
     //Restart button - 9
-    strcpy(game->button[game->nbuttons].text, "RESTART");
+    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -459,7 +459,7 @@ void init_buttons(Game *game)
     /************GAMEOVER-MENU BOTTONS**************/
     
     //Your Score button - 11
-    strcpy(game->button[game->nbuttons].text, "ENTER YOUR NAME");
+    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
     game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;
@@ -491,7 +491,7 @@ void init_buttons(Game *game)
     game->nbuttons++;
     
     //Play Again button - 12
-    strcpy(game->button[game->nbuttons].text, "PLAY AGAIN");
+    strcpy(game->button[game->nbuttons].text, "MAIN MENU");
       game->button[game->nbuttons].r.width = 120;
     game->button[game->nbuttons].r.height = 40;
     game->button[game->nbuttons].r.left = 250;

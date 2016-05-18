@@ -59,10 +59,6 @@ int main ( void )
 			render_sub_menu ( &game );
 			glXSwapBuffers ( dpy, win );
 		}
-		//Game Over Menu if frog died
-		if (game.gameover == true) {
-			//cout << "frog died" << endl;
-		}
 		while (game.isHighScore) {
 			while ( XPending ( dpy ) ) {
 				XEvent e;
@@ -87,21 +83,10 @@ int main ( void )
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
 				check_gameover_mouse ( &e, &game );
-				// if (game.isHighScore) {
-				//  getName(&e, &game);
-				// } else {
 				check_keys ( &e, &game );
-				// }
 			}
-			//  if (game.isHighScore) {
-			//        drawHighScoreBox(&game);
-			//  } else {
 			render_gameover_menu ( &game );
-			//  }
 			glXSwapBuffers ( dpy, win );
-		}
-		if(game.gameover == true) {
-			game.gameover = false;
 		}
 		if ( game.demo.on ) {
 			demo ( &game );

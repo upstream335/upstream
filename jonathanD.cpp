@@ -440,11 +440,12 @@ void getName(XEvent *e, Game *game)
                 break;
             case XK_Return:
                 // if nothing entered, default = player
+                if (strlen(game->playername)==11)
+                    removebar(game);
                 if (strlen(game->playername) == 0)
                 strcat(game->playername, "player");
                 game->isHighScore = false;
                 // Kevin's function to write score to site
-                removebar(game);
                 sendScoresToPHP(game->playername, game->tempscore, game->difficulty);
                 game->tempscore = 0;
                 resetName(game);

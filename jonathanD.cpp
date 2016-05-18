@@ -316,7 +316,7 @@ int getMidpoint(Game *game)
 {
     int wid = 20;
     int digits = getDigits(game->tempscore);
-    int halfpoint = (digits*30 - (wid/2))/2;
+    int halfpoint = (digits*30)/2 - wid;
     return halfpoint;
 }
 
@@ -360,9 +360,18 @@ void flyBy(Game *game)
 
 }
 
+void initHighScore(Game *game) {
+    char *host = (char*)"sleipnir.cs.csub.edu";
+    char *tpage = (char*)
+		"/~jhargreaves/upstream/lowScore.txt";
+    //get highscore into text
+    getHighScore(game, host, tpage,true,false);
+}
+
 void drawHighScoreBox(Game *game)
 {
-    int wid = 150.0f;
+    int wid = 190.0;
+    int height = 110.0;
     glPushMatrix();
     glTranslatef(game->hscorebox->pos[0], game->hscorebox->pos[1], 0);
     glBindTexture(GL_TEXTURE_2D, game->hscorebox->hscoreboxTexture[0]);
@@ -371,13 +380,13 @@ void drawHighScoreBox(Game *game)
     glColor4ub(255,255,255,255);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
-    glVertex2i(-wid,-wid);
+    glVertex2i(-wid,-height);
     glTexCoord2f(0.0f, 0.0f);
-    glVertex2i(-wid, wid);
+    glVertex2i(-wid, height);
     glTexCoord2f(1.0f, 0.0f);
-    glVertex2i( wid, wid);
+    glVertex2i( wid, height);
     glTexCoord2f(1.0f, 1.0f);
-    glVertex2i( wid,-wid);
+    glVertex2i( wid,-height);
     glEnd();
     glPopMatrix();
     glDisable(GL_ALPHA_TEST);
@@ -385,26 +394,15 @@ void drawHighScoreBox(Game *game)
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
 
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glTranslatef(game->hscorebox->pos[0], game->hscorebox->pos[1], 0);
-    glColor3i(1,1,1);
-    glBegin(GL_QUADS);
-    glVertex2i(-100,20);
-	glVertex2i(100,20);
-	glVertex2i(100,-20);
-	glVertex2i(-100,-20);
-    glEnd();
-    glPopMatrix();
     Rect r;
     r.bot = game->hscorebox->pos[1];
 	r.left = game->hscorebox->pos[0];
 	int xpos = game->hscorebox->pos[0]-getMidpoint(game);
-	int ypos = game->hscorebox->pos[1];
+	int ypos = game->hscorebox->pos[1]+25;
 	glColor3i(1,1,0);
-    //ggprint40 (&r,50,0,"%d", game->tempscore);
+
 	drawScore(game->tempscore,game,20,xpos,ypos);
-	r.bot = game->hscorebox->pos[1]-100;
+	r.bot = game->hscorebox->pos[1]-80;
 	r.left = game->hscorebox->pos[0];
 	ggprint40 (&r,50,0,"%s", &game->playername);
 }
@@ -422,8 +420,10 @@ void getName(XEvent *e, Game *game)
 		key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
             case XK_BackSpace:
-                if (strlen(game->playername)==8)
+                if (strlen(game->playername)==10) {
                     game->playername[strlen(game->playername)-1] = '\0';
+                    return;
+                }
                 break;
             case XK_Return:
                 // if nothing entered, default = player
@@ -432,18 +432,18 @@ void getName(XEvent *e, Game *game)
                 game->isHighScore = false;
                 // Kevin's function to write score to site
                 sendScoresToPHP(game->playername, game->tempscore, game->difficulty);
-		resetName(game);
+                resetName(game);
                 break;
 		}
     }
     // max length is 8 characters
-    if (strlen(game->playername) > 7)
+    if (strlen(game->playername) > 9)
         return;
     if ( e->type == KeyPress ) {
 		key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
             case XK_BackSpace:
-                if (strlen(game->playername)>0 && strlen(game->playername)<=7 )
+                if (strlen(game->playername)>0 && strlen(game->playername)<=9 )
                     game->playername[strlen(game->playername)-1] = '\0';
                 break;
 			case XK_a:
@@ -524,18 +524,48 @@ void getName(XEvent *e, Game *game)
             case XK_z:
                 strcat(game->playername,"z");
 				break;
+            case XK_0:
+                strcat(game->playername,"0");
+				break;
+            case XK_1:
+                strcat(game->playername,"1");
+				break;
+            case XK_2:
+                strcat(game->playername,"2");
+				break;
+            case XK_3:
+                strcat(game->playername,"3");
+				break;
+			case XK_4:
+                strcat(game->playername,"4");
+				break;
+            case XK_5:
+                strcat(game->playername,"5");
+				break;
+            case XK_6:
+                strcat(game->playername,"6");
+				break;
+            case XK_7:
+                strcat(game->playername,"7");
+				break;
+            case XK_8:
+                strcat(game->playername,"8");
+				break;
+            case XK_9:
+                strcat(game->playername,"9");
+				break;
             case XK_Return:
                 game->isHighScore = false;
                 resetName(game);
-                //Submit score to site
                 break;
 			case XK_Escape:
+                game->isHighScore = false;
 				break;
 		}
 	}
 }
 
-bool checkHighScore(Game *game)
+bool checkHighScore(Game *game, int s)
 {
     if (game->score == 0) {
         return false;
@@ -563,7 +593,8 @@ bool checkHighScore(Game *game)
         if (mtmp == dif) {
             string stmp = score;
             int _score = atoi(stmp.c_str());
-            if (game->score > _score) {
+            if (s > _score) {
+                cout << "true";
                 return true;
             }
         }

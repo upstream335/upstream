@@ -112,7 +112,7 @@ struct Score {
 };
 
 extern void initHighScore(Game *game);
-extern bool checkHighScore(Game *game,int score);
+extern bool checkHighScore(Game *game);
 extern void getName(XEvent *e, Game *game);
 extern void drawHighScoreBox(Game *game);
 extern void drawBubble(Game *game);

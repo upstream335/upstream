@@ -61,6 +61,7 @@ struct Game {
 	int highscore[100];
 	int scoreCount;
 	bool muted ;
+	bool hschecked;
 	int nlily;
 	int timer;
 	int maxtimer;
@@ -106,6 +107,7 @@ struct Game {
 	{
 		done = false;
 		c.isStanding = true;
+		tempscore = 0;
 		windowWidth = 600;
 		windowHeight = 760;
 		troll_lilypad = 0;

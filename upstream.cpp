@@ -78,8 +78,8 @@ int main ( void )
 			if (game.isHighScore)
 				drawHighScoreBox(&game);
 			glXSwapBuffers ( dpy, win );
-			//glClearColor(0.0f,0.0f,0.0f,1.0f);
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(0.0f,0.0f,0.0f,1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 		while (game.gameover) {
 			while ( XPending ( dpy ) ) {

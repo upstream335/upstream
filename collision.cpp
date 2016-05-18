@@ -105,9 +105,7 @@ void collision ( Game *game )
 			game->frog->getYpos() <= game->gator->getYpos()+ ( 5 + head ) &&
 			game->frog->getYpos() >= game->gator->getYpos()- ( 5 + head ) ) {
 		game->gator->eat();
-		game->tempscore = game->score;
 		gameOver ( game );
-		game->gameover = true;
 	}
 	// collision frog with gator back
 	int back = 90/ game->difficulty;
@@ -133,8 +131,7 @@ void collision ( Game *game )
 		}
 	}
 	//fell down
-	if ( game->frog->getYpos() <=40 &&  game->bridge->getYpos() <=100 ) {
-		game->tempscore = game->score;
+	if ( game->frog->getYpos() <=40 && game->bridge->getYpos() <=100 ) {
 		gameOver ( game );
 	}
 
@@ -207,6 +204,14 @@ void screenUpdate ( Game *game )
 
 void gameOver ( Game *game )
 {
+    if (checkHighScore(game,game->score)) {
+        game->tempscore = game->score;
+    }
+
+    if (!game->hschecked) {
+        game->hschecked = true;
+        initHighScore(game);
+    }
 	// move splash on screen if offscreen
 	if ( game->splash->getXpos() <0 ) {
 		playSounds ( "./wav/fishsplash.wav",1.0f, false,game->muted );
@@ -224,6 +229,8 @@ void gameOver ( Game *game )
 	clearLilies ( game );
 	//wait for splash to complete
 	if ( game->splash->getFrame() >=195 ) {
+        cout << game->tempscore << endl;
+
 		//move bridge back
 		game->bridge->move ( 300,150,0,0 );
 		game->lives--;
@@ -236,9 +243,9 @@ void gameOver ( Game *game )
 		game->frog->setXpos ( game->frog->getXpos()-800 );
 		game->splash->move ( -200,-200,0,0 );
 		game->gameover = true;
+		game->hschecked = false;
 	} else {
-		//check if score is a highscore
-		if (checkHighScore(game)) {
+        if (checkHighScore(game,game->tempscore)) {
 			cout << "isHighScore = true" << endl;
 			game->isHighScore = true;
 		} else {

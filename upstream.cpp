@@ -1,3 +1,10 @@
+/*     __  __           __
+ *    / / / /___  _____/ /_________  ____ _____ ___
+ *   / / / / __ \/ ___/ __/ ___/ _ \/ __ `/ __ `__ \
+ *  / /_/ / /_/ (__  ) /_/ /  /  __/ /_/ / / / / / /
+ *  \____/ .___/____/\__/_/   \___/\__,_/_/ /_/ /_/
+ *      /_/
+ */
 ///////////////////////////////////////////////////////////////////////
 // CONTRIBUTORS: JONATHAN DINH
 //               QUY NGUYEN
@@ -40,9 +47,8 @@ int main ( void )
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
 				check_menu_mouse ( &e, &game );
-				check_keys ( &e, &game );
 			}
-			//		demo ( &game );
+			//demo ( &game );
 			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );
@@ -83,7 +89,6 @@ int main ( void )
 				XNextEvent ( dpy, &e );
 				checkResize ( &e, &game );
 				check_gameover_mouse ( &e, &game );
-				check_keys ( &e, &game );
 			}
 			render_gameover_menu ( &game );
 			glXSwapBuffers ( dpy, win );
@@ -165,7 +170,6 @@ void reshapeWindow ( int width, int height, Game *game )
 {
 	//window has been resized.
 	//setupScreenRes(width, height, game);
-	//
 	glViewport ( 0, 0, ( GLint ) width, ( GLint ) height );
 	glMatrixMode ( GL_PROJECTION );
 	glLoadIdentity();
@@ -287,11 +291,7 @@ void render ( Game *game )
 	game->hud->render();
 	game->rocketPack->render();
 	game->meter->render();
-
 	drawScore ( game->score, game, 20,60,game->windowHeight-100);
-
-	//place holder for sound button
-	drawCircle ( 480, game->windowHeight-30, 10, 10 );
 	// TEXT ====================================
 	std::string mode;
 	if ( game->difficulty==EASY )

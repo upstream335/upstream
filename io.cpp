@@ -12,15 +12,6 @@ void check_mouse ( XEvent *e, Game *game )
 	if ( e->type == ButtonPress ) {
 		if ( e->xbutton.button==1 ) {
 			//Left button was pressed
-			if ( e->xbutton.x >= 465 && e->xbutton.x <= 500 &&
-					e->xbutton.y >= 10 && e->xbutton.y <= 30 ) {
-				printf ( "Sounds Muted\n" );
-				game->muted ^= 1;
-				if ( game->muted )
-					stopMusic();
-				else
-					playMusic();
-			}
 			if ( !game->c.isJumping ) {
 				game->c.isJumping = true;
 				game->c.isStanding = false;
@@ -253,54 +244,30 @@ int check_keys ( XEvent *e, Game *game )
 	if ( e->type == KeyPress ) {
 		int key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
-			case XK_p:
-				if (!game->main_menu)
-					break;
-				else
-					game->sub_menu^=true;
-				break;
 			case XK_o:
-				if (!game->main_menu)
-					break;
 				reset_game(game);
 				break;
 			case XK_j:
-				if (!game->main_menu)
-					break;
 				game->troll_lilypad ^= 1;
 				break;
 			case XK_k:
-				if (!game->main_menu)
-					break;
 				game->stresstest ^= 1;
 				break;
 			case XK_d:
-				if (!game->main_menu)
-					break;
 				game->difficulty++;
 				if ( game->difficulty>3 )
 					game->difficulty=EASY;
 				break;
 			case XK_r:
-				if (!game->main_menu)
-					break;
 				game->frog->toggleRocket();
 				game->frog->setFrame ( 0 );
 				break;
 			case XK_t:
-				if (!game->main_menu)
-					break;
 				game->demo.on^=1;
 				break;
 			case XK_Escape:
-				if (!game->done && !game->main_menu) {
-					game->main_menu^=true;
-					game->done^=true;
-					break;
-				} else if (!game->done && game->main_menu) {
-					game->done^=true;
-					break;
-				}
+				game->sub_menu^=true;
+				break;
 				return 1;
 		}
 	}

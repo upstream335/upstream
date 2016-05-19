@@ -48,8 +48,8 @@ public:
 	HUD()
 	{
 		current.frame = 0;
-		current.x_pos = WIDTH/2;
-		current.y_pos = 480;
+		current.x_pos = WIDTH/2-40;
+		current.y_pos = 510;
 		current.x_vel = 0;
 		current.y_vel = 0;
 		previous = current;
@@ -833,7 +833,7 @@ public:
 	{
 		current.frame = 0;
 		current.x_pos = WIDTH-40;
-		current.y_pos = HEIGHT/2-50;
+		current.y_pos = HEIGHT-20;
 		current.x_vel = 0;
 		current.y_vel = 0;
 		previous = current;

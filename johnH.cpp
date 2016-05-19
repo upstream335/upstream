@@ -35,7 +35,7 @@ void HUD::render ( void )
 	if ( current.x_pos<-100 ) {
 		//hud is offscreen
 	}
-	float wid = 280.0f; // size of bridge sprite
+	float wid = 240.0f; // size of HUD sprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );
@@ -81,9 +81,9 @@ void Frog::render ( void )
 		glBindTexture ( GL_TEXTURE_2D, 0 );
 		glBegin ( GL_LINES );
 		// start position
-		glVertex2f ( WIDTH-20, (HEIGHT/2) +(120-current.frame)/5 );
+		glVertex2f ( WIDTH-20, (HEIGHT+20) +(120-current.frame)/5 );
 		// end position
-		glVertex2f ( WIDTH-20, (HEIGHT/2) -100 );
+		glVertex2f ( WIDTH-20, (HEIGHT+20) -100 );
 		glEnd();
 	}
 	if ( !rocketFrog ) {
@@ -101,10 +101,10 @@ void Frog::render ( void )
 		else {
             velocity = 60 + current.y_vel*5;
             }
-		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 + velocity*1.5 );
+		glVertex2f ( WIDTH-80, (HEIGHT+20) -100 + velocity*1.5 );
 		//std::cout<<velocity<<std::endl;
 		// end position
-		glVertex2f ( WIDTH-80, (HEIGHT/2) -100 );
+		glVertex2f ( WIDTH-80, (HEIGHT+20) -100 );
 		glEnd();
 
 		if ( current.y_pos<30 ) {

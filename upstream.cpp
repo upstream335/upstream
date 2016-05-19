@@ -302,12 +302,12 @@ void render ( Game *game )
 		mode ="HARD";
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 	Rect r;
-	r.bot = game->windowHeight - 125;
-	r.left = 500;
+	r.bot = game->windowHeight - 120;
+	r.left = 420;
 	//r.center = 600;
 	//ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
 	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
-	ggprint17 ( &r,100,0,"%d     %d",game->lives,game->frog->getNumberRockets() );
+	ggprint17 ( &r,100,0,"%d    %d",game->lives,game->frog->getNumberRockets() );
 	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
 	maxScore ( game );

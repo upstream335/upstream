@@ -140,7 +140,8 @@ void demo ( Game *game )
 			game->demo.moveLeft = 0;
 		}
 	}
-	std::cout<<game->frog->getXpos()<<" Y="<<game->frog->getYpos()<<" right="<<game->demo.moveLeft<<std::endl;
+	//std::cout<<game->frog->getXpos() <<" Y="<<game->frog->getYpos()
+	//       <<" right="<<game->demo.moveLeft<<std::endl;
 	if ( game->demo.jump >0 ) {
 		game->demo.jump++;
 		game->c.isJumping = true;
@@ -165,16 +166,36 @@ void demo ( Game *game )
 			game->c.velocity[1]=0;
 		}
 	}
-	if(game->frog->getXpos() > WIDTH) {
-	game->frog->move ( game->frog->getXpos()-10,
-			                   game->frog->getYpos(),
-			                   game->frog->getXvel(),
-			                   game->frog->getYvel() );
-		}
-	if(game->frog->getXpos() < 0) {
-	game->frog->move ( game->frog->getXpos() +10,
-			                   game->frog->getYpos(),
-			                   game->frog->getXvel(),
-			                   game->frog->getYvel() );
-		}
+	if ( game->frog->getXpos() > WIDTH ) {
+		game->frog->move ( WIDTH-5,
+		                   game->frog->getYpos(),
+		                   game->frog->getXvel(),
+		                   game->frog->getYvel() );
+	}
+	if ( game->frog->getXpos() < 0 ) {
+		game->frog->move ( 5,
+		                   game->frog->getYpos(),
+		                   game->frog->getXvel(),
+		                   game->frog->getYvel() );
+	}
+	if ( game->frog->getYpos() > HEIGHT ) {
+		game->frog->move ( game->frog->getXpos(), HEIGHT-5,
+		                   game->frog->getXvel(),
+		                   game->frog->getYvel() );
+	}
+	if ( game->frog->getYpos() < 0 ) {
+		game->frog->move ( game->frog->getXpos(),10,
+		                   game->frog->getXvel(),
+		                   game->frog->getYvel() );
+	}
+	game->c.center[0]=game->frog->getXpos();
+	game->c.center[1]=game->frog->getYpos();
+	if ( !game->main_menu ) {
+		if ( game->frog->getMeter() )
+			game->frog->toggleMeter();
+	}
+	if ( game->main_menu ) {
+		if ( !game->frog->getMeter() )
+			game->frog->toggleMeter();
+	}
 }

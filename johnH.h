@@ -197,12 +197,14 @@ private:
 	int blink;
 	int left;
 	int right;
+	bool meter;
 
 public:
 	// Constructor with default values for data members
 	Frog()
 	{
-        rocketFrog = false;
+		meter = true;
+		rocketFrog = false;
 		isStanding = true;
 		current.frame = 0;
 		current.x_pos = 300;
@@ -270,7 +272,7 @@ public:
 	}
 	int getFrame ( )
 	{
-			return current.frame;
+		return current.frame;
 	}
 	float getYpos()
 	{
@@ -313,11 +315,19 @@ public:
 	}
 	void resetRocket()
 	{
-        numberRockets=1;
+		numberRockets=1;
 	}
 	int getNumberRockets()
 	{
 		return numberRockets;
+	}
+	void toggleMeter()
+	{
+		meter ^= meter;
+	}
+	bool getMeter()
+	{
+		return meter;
 	}
 }; //end frog class
 // ===========================================================================

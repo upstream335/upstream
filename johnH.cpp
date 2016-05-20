@@ -68,45 +68,44 @@ void HUD::render ( void )
 // Render frog =============================================
 void Frog::render ( void )
 {
-    if ( current.y_pos < 50){
-    current.y_vel=0;
-    }
+	if ( current.y_pos < 50 ) {
+		current.y_vel=0;
+	}
 	float wid = 30.0f; // size of frog sprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
-	if ( rocketFrog) {
-        //draw a line for rocket power remaining
+	if ( rocketFrog ) {
+		//draw a line for rocket power remaining
 		glLineWidth ( 15 );
 		glColor3f ( 200.0, 0.0, 0.0 );
 		glBindTexture ( GL_TEXTURE_2D, 0 );
 		glBegin ( GL_LINES );
 		// start position
-		glVertex2f ( WIDTH-20, (HEIGHT+20) +(120-current.frame)/5 );
+		glVertex2f ( WIDTH-20, ( HEIGHT+20 ) + ( 120-current.frame ) /5 );
 		// end position
-		glVertex2f ( WIDTH-20, (HEIGHT+20) -100 );
+		glVertex2f ( WIDTH-20, ( HEIGHT+20 ) -100 );
 		glEnd();
 	}
 	if ( !rocketFrog ) {
-
-	 //draw a line for jump height
-		glLineWidth ( 15 );
-		glColor3f ( 0.0, 200.0, 0.0 );
-		glBindTexture ( GL_TEXTURE_2D, 0 );
-		glBegin ( GL_LINES );
-		// start position
-		int velocity=0;
-		if ( current.y_vel >= 0){
-		velocity = current.y_vel*5;
+		if ( meter ) {
+			//draw a line for jump height
+			glLineWidth ( 15 );
+			glColor3f ( 0.0, 200.0, 0.0 );
+			glBindTexture ( GL_TEXTURE_2D, 0 );
+			glBegin ( GL_LINES );
+			// start position
+			int velocity=0;
+			if ( current.y_vel >= 0 ) {
+				velocity = current.y_vel*5;
+			} else {
+				velocity = 60 + current.y_vel*5;
+			}
+			glVertex2f ( WIDTH-80, ( HEIGHT+20 ) -100 + velocity*1.5 );
+			//std::cout<<velocity<<std::endl;
+			// end position
+			glVertex2f ( WIDTH-80, ( HEIGHT+20 ) -100 );
+			glEnd();
 		}
-		else {
-            velocity = 60 + current.y_vel*5;
-            }
-		glVertex2f ( WIDTH-80, (HEIGHT+20) -100 + velocity*1.5 );
-		//std::cout<<velocity<<std::endl;
-		// end position
-		glVertex2f ( WIDTH-80, (HEIGHT+20) -100 );
-		glEnd();
-
 		if ( current.y_pos<30 ) {
 			current.y_pos=40;
 			current.y_vel=0;
@@ -202,7 +201,7 @@ void Frog::render ( void )
 		if ( current.x_vel==0 && current.y_vel<0 )
 			glBindTexture ( GL_TEXTURE_2D, frogTexture[5] );
 	} else {
-        // ROCKET FROG ==========================
+		// ROCKET FROG ==========================
 		current.y_pos+=10;
 		int frame;
 		current.frame++;
@@ -217,8 +216,6 @@ void Frog::render ( void )
 			current.frame=0;
 			current.y_vel=0.2;
 		}
-
-
 	}
 	previous = current;
 	glTranslatef ( current.x_pos, current.y_pos, 0 );

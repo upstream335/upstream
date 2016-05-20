@@ -321,9 +321,13 @@ public:
 	{
 		return numberRockets;
 	}
-	void toggleMeter()
+	void meterOff()
 	{
-		meter ^= meter;
+		meter = false;
+	}
+	void meterOn()
+	{
+		meter = true;
 	}
 	bool getMeter()
 	{

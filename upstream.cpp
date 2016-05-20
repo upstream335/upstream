@@ -224,6 +224,11 @@ void physics ( Game *game )
 		game->c.newPosX =game->frog->getXpos();
 		game->c.newPosY =game->frog->getYpos();
 	}
+	std::cout<<"main menu=" << game->main_menu<<std::endl;
+	if ( game->main_menu ) {
+        game->frog->meterOn();
+			}
+
 	//move frog
 	if ( game->playing==true && game->splash->getFrame() >=400 ) {
 		if ( !game->frog->rocket() && !game->demo.on ) {

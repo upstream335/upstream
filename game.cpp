@@ -192,10 +192,7 @@ void demo ( Game *game )
 	game->c.center[1]=game->frog->getYpos();
 	if ( !game->main_menu ) {
 		if ( game->frog->getMeter() )
-			game->frog->toggleMeter();
+			game->frog->meterOff();
 	}
-	if ( game->main_menu ) {
-		if ( !game->frog->getMeter() )
-			game->frog->toggleMeter();
-	}
+
 }

@@ -48,7 +48,7 @@ int main ( void )
 				checkResize ( &e, &game );
 				check_menu_mouse ( &e, &game );
 			}
-			//demo ( &game );
+			demo ( &game );
 			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );

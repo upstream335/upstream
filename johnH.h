@@ -202,14 +202,14 @@ public:
 	// Constructor with default values for data members
 	Frog()
 	{
-        rocketFrog =false;
+        rocketFrog = false;
 		isStanding = true;
 		current.frame = 0;
 		current.x_pos = 300;
 		current.y_pos =150;
 		current.x_vel = 0;
 		current.y_vel = -1;
-		numberRockets = 2;
+		numberRockets = 1;
 		wink = 0;
 		blink = 0;
 		left = 0;
@@ -310,6 +310,10 @@ public:
 	void addRocket()
 	{
 		numberRockets++;
+	}
+	void resetRocket()
+	{
+        numberRockets=1;
 	}
 	int getNumberRockets()
 	{

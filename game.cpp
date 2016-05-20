@@ -66,17 +66,16 @@ void init_game ( Game *game )
 	//Game menu init texture
 	game->introbg = new IntroBG;
 	game->pausedbg = new PausedBG;
-	char *host = (char*)"sleipnir.cs.csub.edu";
-    char *tpage = (char*)
-		"/~jhargreaves/upstream/lowScore.txt";
-    //get highscore into text
-    getHighScore(game, host, tpage,true,false);
-
+	char *host = ( char* ) "sleipnir.cs.csub.edu";
+	char *tpage = ( char* )
+	              "/~jhargreaves/upstream/lowScore.txt";
+	//get highscore into text
+	getHighScore ( game, host, tpage,true,false );
 }
 
 void demo ( Game *game )
 {
-	int moving = rand() %100+1;
+	int moving = rand() %50+1;
 	int x =rand() %5+1;
 	// move right
 	if ( !game->frog->rocket() ) {
@@ -96,19 +95,27 @@ void demo ( Game *game )
 		        && game->demo.moveLeft==0 && game->demo.jump ==0 )
 			game->demo.jump++;
 		// rocket
-		if ( moving >20 && moving < 25 && game->demo.jump==0 &&
+		if ( moving >20 && moving < 22 && game->demo.jump==0 &&
 		        game->demo.moveRight==0      &&
 		        game->demo.moveLeft==0 &&
 		        game->demo.jump ==0 &&
 		        game->frog->getXpos() <WIDTH-100 &&
-		        game->frog->getXpos() >100 ) {
+		        game->frog->getXpos() >100 &&
+		        game->main_menu == true ) {
 			game->frog->addRocket();
 			game->frog->toggleRocket();
 		}
 	}
 	if ( game->demo.moveRight>0 ) {
-		if ( game->frog->getXpos() <WIDTH )
+		if ( game->frog->getXpos() <WIDTH ) {
+			if ( !game->main_menu ) {
+				game->frog->move ( game->frog->getXpos()+2,
+				                   game->frog->getYpos(),
+				                   game->frog->getXvel(),
+				                   game->frog->getYvel() );
+			}
 			game->c.center[0]+=x;
+		}
 		game->demo.moveRight++;
 		game->c.isJumping = false;
 		game->c.isStanding = true;
@@ -117,8 +124,15 @@ void demo ( Game *game )
 		}
 	}
 	if ( game->demo.moveLeft>0 ) {
-		if ( game->frog->getXpos() >20 )
+		if ( game->frog->getXpos() >20 ) {
+			if ( !game->main_menu ) {
+				game->frog->move ( game->frog->getXpos()-2,
+				                   game->frog->getYpos(),
+				                   game->frog->getXvel(),
+				                   game->frog->getYvel() );
+			}
 			game->c.center[0]-=x;
+		}
 		game->demo.moveLeft++;
 		game->c.isJumping = false;
 		game->c.isStanding = true;
@@ -126,12 +140,19 @@ void demo ( Game *game )
 			game->demo.moveLeft = 0;
 		}
 	}
+	std::cout<<game->frog->getXpos()<<" Y="<<game->frog->getYpos()<<" right="<<game->demo.moveLeft<<std::endl;
 	if ( game->demo.jump >0 ) {
 		game->demo.jump++;
 		game->c.isJumping = true;
 		game->c.isStanding = false;
 		if ( game->demo.jump<=2 ) {
 			game->c.velocity[1] = 15.0;
+		}
+		if ( !game->main_menu ) {
+			game->frog->move ( game->frog->getXpos(),
+			                   game->frog->getYpos() + game->c.velocity[1],
+			                   game->frog->getXvel(),
+			                   game->frog->getYvel() );
 		}
 		game->c.center[1] += game->c.velocity[1];
 		game->c.velocity[0] = 0;
@@ -144,4 +165,16 @@ void demo ( Game *game )
 			game->c.velocity[1]=0;
 		}
 	}
+	if(game->frog->getXpos() > WIDTH) {
+	game->frog->move ( game->frog->getXpos()-10,
+			                   game->frog->getYpos(),
+			                   game->frog->getXvel(),
+			                   game->frog->getYvel() );
+		}
+	if(game->frog->getXpos() < 0) {
+	game->frog->move ( game->frog->getXpos() +10,
+			                   game->frog->getYpos(),
+			                   game->frog->getXvel(),
+			                   game->frog->getYvel() );
+		}
 }

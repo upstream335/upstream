@@ -318,8 +318,8 @@ void render ( Game *game )
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
 	maxScore ( game );
 	r.left = 300;
-	if ( game->frog->getYpos() <=50 )
-		ggprint40 ( &r, 50, 0, "High Score: %d", game->highscore[0] );
+	//if ( game->frog->getYpos() <=50 )
+	//	ggprint40 ( &r, 50, 0, "High Score: %d", game->highscore[0] );
 	//std::cout<<game->highscore[0]<<std::endl;
 	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
 	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);

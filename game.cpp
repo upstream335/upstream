@@ -14,7 +14,7 @@ void init_game ( Game *game )
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
 	game->difficulty = MED;
-	game->lives = 3;
+	game->lives = 1;
 	game->demo.on = false;
 	game->demo.jump     =   0;
 	game->demo.moveLeft =   0;

@@ -66,6 +66,9 @@ void init_game ( Game *game )
 	//Game menu init texture
 	game->introbg = new IntroBG;
 	game->pausedbg = new PausedBG;
+	game->gameoverbg = new GameoverBG;
+
+	//Website update score stff
 	char *host = ( char* ) "sleipnir.cs.csub.edu";
 	char *tpage = ( char* )
 	              "/~jhargreaves/upstream/lowScore.txt";

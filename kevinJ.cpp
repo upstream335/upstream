@@ -87,10 +87,10 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
 	//Set volume and pitch to normal, no looping of sound.
 	//gain is volume of sound
 	int index = getSource(sound);
-	cout << "Sound: " << sound << " index: " << index << "\n";
+	//cout << "Sound: " << sound << " index: " << index << "\n";
 	if (muted) {
 		alSourceStop(source[index]);
-		printf("MUTED\n");
+		//printf("MUTED\n");
 		return;
 	}
 	alSourcef(source[index], AL_GAIN, gain);

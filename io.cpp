@@ -5,6 +5,8 @@ void check_mouse ( XEvent *e, Game *game )
 {
 	static int savex = 0;
 	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
 	static int n = 0;
 	if ( e->type == ButtonRelease ) {
 		return;
@@ -17,12 +19,17 @@ void check_mouse ( XEvent *e, Game *game )
 				game->c.isStanding = false;
 				game->c.velocity[1] = 15.0;
 			}
-			return;
+			lbutton=1;
 		}
 		if ( e->xbutton.button==3 ) {
 			//Right button was pressed
+			game->frog->toggleRocket();
+			game->frog->setFrame ( 0 );
 		}
 	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = game->windowHeight - y;
 	//Did the mouse move?
 	if ( savex != e->xbutton.x || savey != e->xbutton.y ) {
 		savex = e->xbutton.x;
@@ -31,6 +38,35 @@ void check_mouse ( XEvent *e, Game *game )
 			return;
 		game->c.newPosX = savex;
 		game->c.newPosY = savey;
+	}
+	for (i=0; i<game->nbuttons; i++) {
+		game->button[i].over=0;
+		if (x >= game->button[i].r.left &&
+				x <= game->button[i].r.right &&
+				y >= game->button[i].r.bot &&
+				y <= game->button[i].r.top) {
+			game->button[i].over=1;
+			if (game->button[i].over) {
+				if (lbutton) {
+					switch(i) {
+						case 13:
+							//Sound
+							game->muted ^= 1;
+							if ( game->muted ) {
+								stopMusic();
+								printf ( "Sounds OFF\n" );
+							} else {
+								playMusic();
+								printf ( "Sounds ON\n" );
+							}
+							break;
+						case 14:
+							//Help
+							break;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -79,6 +115,23 @@ void check_menu_mouse ( XEvent *e, Game *game )
 							break;
 						case 1:
 							//Difficulty
+							game->difficulty++;
+							if (game->difficulty > 3)
+								game->difficulty = EASY;
+							game->count++;
+							if (game->count == 1) {
+								strcpy(game->button[1].text, "EASY");
+								std::cout << "easy mode ON" << std::endl;
+							}
+							if (game->count == 2) {
+								strcpy(game->button[1].text, "MEDIUM");
+								std::cout << "medium mode ON" << std::endl;
+							}
+							if (game->count == 3) {
+								strcpy(game->button[1].text, "HARD");
+								std::cout << "hard mode ON" << std::endl;
+								game->count = 0;
+							}
 							break;
 						case 2:
 							//High Scores
@@ -252,11 +305,6 @@ int check_keys ( XEvent *e, Game *game )
 				break;
 			case XK_k:
 				game->stresstest ^= 1;
-				break;
-			case XK_d:
-				game->difficulty++;
-				if ( game->difficulty>3 )
-					game->difficulty=EASY;
 				break;
 			case XK_r:
 				game->frog->toggleRocket();

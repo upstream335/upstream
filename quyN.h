@@ -52,6 +52,6 @@ extern void render_gameover_menu(Game *game);
 extern void render_main_menu_buttons(Game *game);
 extern void render_sub_menu_buttons(Game *game);
 extern void render_gameover_menu_buttons(Game *game);
+extern void render_ingame_buttons(Game *game);
 
 #endif
-

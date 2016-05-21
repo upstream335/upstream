@@ -224,7 +224,7 @@ void physics ( Game *game )
 		game->c.newPosX =game->frog->getXpos();
 		game->c.newPosY =game->frog->getYpos();
 	}
-	std::cout<<"main menu=" << game->main_menu<<std::endl;
+	//std::cout<<"main menu=" << game->main_menu<<std::endl;
 	if ( game->main_menu ) {
         game->frog->meterOn();
 			}
@@ -288,6 +288,7 @@ void render ( Game *game )
 		game->log[i]->render();
 	}
 	//drawBubble(game);
+	render_ingame_buttons(game);
 	game->splash->render();
 	game->gator->render();
 	game->bridge->render();

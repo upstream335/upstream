@@ -132,6 +132,12 @@ void collision ( Game *game )
 			}
 		}
 	}
+	//
+	// check if frog left bridge
+	if ( game->frog->getYpos() > 60 && game->score > 0 ) {
+		//move bridge downward
+		game->bridge->move ( game->bridge->getXpos(), game->bridge->getYpos()-0.5, 0, 0 );
+	}
 	//fell down
 	if ( game->frog->getYpos() <=40 && game->bridge->getYpos() <=100 ) {
 		gameOver ( game );

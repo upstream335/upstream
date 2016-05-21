@@ -112,6 +112,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 0:
 							//Main Menu
 							game->main_menu^=true;
+							reset_game(game);
 							break;
 						case 1:
 							//Difficulty

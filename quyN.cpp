@@ -35,15 +35,13 @@
 void reset_game(Game *game)
 {
 	//reset the game
-	game->lives = 3;
-	game->difficulty = MED;
+	game->lives = 1;
 	game->demo.on = false;
 	game->demo.jump     =   0;
 	game->demo.moveLeft =   0;
 	game->demo.moveRight =  0;
 	game->score = 0;
 	game->scoreCount = 0;
-	game->muted = false;
 	game->n = 0;
 	game->ihead = NULL;
 	game->nlily = 0;

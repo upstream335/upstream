@@ -36,61 +36,61 @@ struct Position {
 extern Position update_position ( Position *c,float,float,float,float );
 extern unsigned char *buildAlphaData ( Ppmimage *img );
 extern Ppmimage*  get_image ( std::string filename );
-extern std::string loadScores ( int player);
+extern std::string loadScores ( int player );
 
 class helpBG
 {
 private:
-Position current;
-Position previous;
-Ppmimage *helpbgImage;
-GLuint helpbgTexture;
+	Position current;
+	Position previous;
+	Ppmimage *helpbgImage;
+	GLuint helpbgTexture;
 public:
 // Constructor with default values for data members
-helpBG()
-{
-current.frame = 0;
-current.x_pos = WIDTH;
-current.y_pos = HEIGHT;
-current.x_vel = 0;
-current.y_vel = -1;
-previous = current;
-helpbgImage = get_image ( "./images/helpbg" );
+	helpBG()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH;
+		current.y_pos = HEIGHT;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		helpbgImage = get_image ( "./images/helpbg" );
 //create opengl texture elements
-glGenTextures ( 1, &helpbgTexture );
-int w = helpbgImage->width;
-int h = helpbgImage->height;
+		glGenTextures ( 1, &helpbgTexture );
+		int w = helpbgImage->width;
+		int h = helpbgImage->height;
 //
-glBindTexture ( GL_TEXTURE_2D, helpbgTexture );
-glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
-glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
-unsigned char *helpbgData = buildAlphaData ( helpbgImage );
-glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-GL_RGBA, GL_UNSIGNED_BYTE, helpbgData );
-free ( helpbgData );
-} //end constructor
+		glBindTexture ( GL_TEXTURE_2D, helpbgTexture );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *helpbgData = buildAlphaData ( helpbgImage );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, helpbgData );
+		free ( helpbgData );
+	} //end constructor
 //--------------------------------------------------------------------
-void render ( void );
-float getXpos()
-{
-return current.x_pos;
-}
-float getYpos()
-{
-return current.y_pos;
-}
-float getXvel()
-{
-return current.x_vel;
-}
-float getYvel()
-{
-return current.y_vel;
-}
-void move ( float xp, float yp, float xv, float yv )
-{
-current = update_position ( &current,xp,yp,xv,yv );
-}
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
 };
 class HUD
 {

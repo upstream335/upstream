@@ -67,23 +67,22 @@ void init_game ( Game *game )
 	game->introbg = new IntroBG;
 	game->pausedbg = new PausedBG;
 	game->gameoverbg = new GameoverBG;
-
 	//Website update score stff
 	char *host = ( char* ) "sleipnir.cs.csub.edu";
 	char *tpage = ( char* )
 	              "/~jhargreaves/upstream/lowScore.txt";
 	//get lowest highscores into text
 	getHighScore ( game, host, tpage,true,false );
-
-    system("rm highscore.xml");
-    std::string command = "wget http://www.cs.csub.edu/~jhargreaves/upstream/highscore.xml";
-    system ( ( command ).c_str() );
+	system ( "rm highscore.xml" );
+	std::string command =
+	    "wget http://www.cs.csub.edu/~jhargreaves/upstream/highscore.xml";
+	system ( ( command ).c_str() );
 	//get highscore xml
-	for(int i=0;i<20;i++){
-        game->highScores[i] = loadScores(i);
-        std::cout<<"player#"<<i<<" = "<<game->highScores[i]<<std::endl;
-        }
+	for ( int i=0; i<20; i++ ) {
+		game->highScores[i] = loadScores ( i );
+		std::cout<<"player#"<<i<<" = "<<game->highScores[i]<<std::endl;
 	}
+}
 
 void demo ( Game *game )
 {
@@ -206,5 +205,4 @@ void demo ( Game *game )
 		if ( game->frog->getMeter() )
 			game->frog->meterOff();
 	}
-
 }

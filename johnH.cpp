@@ -779,14 +779,11 @@ std::string loadScores ( int player )
 		return "";
 	}
 	tinyxml2::XMLElement* node = root->FirstChildElement ( "player" )->ToElement();
-		if ( node == NULL ) {
-			std::cout<<"error xml"<<std::endl;
-			return "";
-		}
-
-
+	if ( node == NULL ) {
+		std::cout<<"error xml"<<std::endl;
+		return "";
+	}
 	while ( node->NextSiblingElement() !=NULL && counter<=player ) {
-
 		tinyxml2::XMLElement* element = node->FirstChildElement ( "name" )->ToElement();
 		if ( element == NULL ) {
 			std::cout<<"error xml"<<std::endl;
@@ -794,41 +791,27 @@ std::string loadScores ( int player )
 		}
 		playerString[counter][0] = element->GetText();
 		//std::cout <<"playerstring="<<playerString[counter][0]<<std::endl;
-
-
 		element = element->NextSiblingElement ( "score" )->ToElement();
 		if ( element == NULL ) {
 			std::cout<<"error xml"<<std::endl;
 			return "";
 		}
 		playerString[counter][1] = element->GetText();
-		//element->Attribute( &printer );
-		//playerString[counter][1] = printer.CStr();
-		//std::cout <<"playerstring="<<playerString[counter][1]<<std::endl;
-
-
 		element = element->NextSiblingElement ( "mode" )->ToElement();
 		if ( element == NULL ) {
 			std::cout<<"error xml"<<std::endl;
 			return "";
 		}
 		playerString[counter][2] = element->GetText();
-		//element->Attribute( &printer );
-		//playerString[counter][2] = printer.CStr();
-
-
-		node = node->NextSiblingElement( "player" )->ToElement();
+		node = node->NextSiblingElement ( "player" )->ToElement();
 		if ( node == NULL ) {
 			std::cout<<"error xml"<<std::endl;
 			return "";
 		}
 		counter++;
 	}
-	//std::cout<<"returning "<<playerString[player][0]+playerString[player][1]+playerString[player][2]<<std::endl;
-	return playerString[player][0]+", "+playerString[player][1]+", "+playerString[player][2];
-//doc->Print();
-//doc->SaveFile( "test.xml" );
-//return doc;
+	return playerString[player][0]+", "+playerString[player][1]+", "
+	       +playerString[player][2];
 }
 // end read high scores =========================
 

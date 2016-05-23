@@ -113,7 +113,6 @@ struct Game {
 		isHighScore = false;
 		playername[0] = '\0';
 		hsname[0] = '|';
-
 		//init for game menu
 		main_menu = false;
 		sub_menu = true;

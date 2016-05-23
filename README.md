@@ -4,7 +4,7 @@ A project game for cs335 Software Engineering.
 
 
 We will attempt to make a game called Upstream. The basic game concept is about a frog jumping upstream against a flowing river. The river will have Lily pads and logs flowing along it. The objective of the frog is to jump upstream opposite to the current of the river with the help of the lily pads and logs without falling into the river. 
-# Table of Contents
+# Team Upstream
 * [Team Members](#team-members)
 # <a name="team-members"></a>Team Members
 * "Quy "
@@ -13,12 +13,14 @@ We will attempt to make a game called Upstream. The basic game concept is about 
 * "Kevin "
 
 ## Installation / running the code
+* [Required files](#requirements)
+* # <a name="requirements"></a>
+This project primarily uses openGL and openAl, however it also uses / requires the following
 
-This project primarily uses openGL and openAl, howevr it also uses / requires the following;
-*fonts.h/fonts.cpp -Fonts for use with OpenGL,Gordon Griesel,2007 - 2015,Texture-mapped fonts.
-*ppm.cpp,author: Gordon Griesel date: Fall 2013 Read and write PPM files.
-*Image Magick must be installed to convert png images to ppms
-*TinyXML2 by Lee Thomason (www.grinninglizard.com)
+* "fonts.h/fonts.cpp -Fonts for use with OpenGL,Gordon Griesel,2007 - 2015,Texture-mapped fonts."
+* "ppm.cpp,author: Gordon Griesel date: Fall 2013 Read and write PPM files."
+* "Image Magick must be installed to convert png images to ppms"
+* "TinyXML2 by Lee Thomason (www.grinninglizard.com)"
 
 To compile switch to directory you copied repo to and type make
 

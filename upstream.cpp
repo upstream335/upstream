@@ -65,6 +65,18 @@ int main ( void )
 			render_sub_menu ( &game );
 			glXSwapBuffers ( dpy, win );
 		}
+		//In game - Help Menu
+		while ( game.help_menu ) {
+			while ( XPending ( dpy ) ) {
+				XEvent e;
+				XNextEvent ( dpy, &e );
+				checkResize ( &e, &game );
+				check_help_mouse ( &e, &game );
+				check_keys ( &e, &game );
+			}
+			render_help_menu ( &game );
+			glXSwapBuffers ( dpy, win );
+		}
 		while (game.isHighScore) {
 			while ( XPending ( dpy ) ) {
 				XEvent e;
@@ -321,7 +333,7 @@ void render ( Game *game )
 	//if ( game->frog->getYpos() <=50 )
 	//	ggprint40 ( &r, 50, 0, "High Score: %d", game->highscore[0] );
 	//std::cout<<game->highscore[0]<<std::endl;
-	//ggprint40(&r, 0, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
-	//ggprint40(&r, 0, 0, "FROG x: %f", game->c.newPosX);
+	//ggprint40(&r, 50, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
+	//ggprint40(&r, 50, 0, "FROG x: %f", game->c.newPosX);
 	// ==========================================================
 }

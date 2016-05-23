@@ -41,6 +41,8 @@ void init_game ( Game *game )
 	game->hscore = new Score;
 	game->rocketPack = new RocketPack;
 	game->hscorebox = new HighScoreBox;
+	game->helpbg = new helpBG;
+	game->help_menu = false;
 	game->hscorebox->pos[0] = game->windowWidth/2;
 	game->hscorebox->pos[1] = game->windowHeight/2;
 	game->nlily = 0;

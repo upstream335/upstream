@@ -101,6 +101,10 @@ struct Game {
 	int nbuttons;
 	int count;
 
+	//Help Menu
+	bool help_menu;
+	helpBG *helpbg;
+
 	Game()
 	{
 		done = false;

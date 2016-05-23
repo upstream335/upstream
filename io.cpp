@@ -62,6 +62,7 @@ void check_mouse ( XEvent *e, Game *game )
 							break;
 						case 14:
 							//Help
+							game->help_menu ^= true;
 							break;
 					}
 				}
@@ -303,6 +304,9 @@ int check_keys ( XEvent *e, Game *game )
 				break;
 			case XK_j:
 				game->troll_lilypad ^= 1;
+				break;
+			case XK_h:
+				game->help_menu ^= true;
 				break;
 			case XK_k:
 				game->stresstest ^= 1;

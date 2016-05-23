@@ -4,6 +4,7 @@
 #include <AL/al.h>
 #include <AL/alut.h>
 #include "game.h"
+#include "quyN.h"
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -17,7 +18,7 @@ using namespace std;
 #define PAGE "/"
 #define PORT 80
 #define USERAGENT "HTMLGET 1.0"
- 
+
 extern void playSounds(const char * sound, float gain, bool loop, bool muted);
 extern void initSounds();
 extern void cleanUpSound();
@@ -27,11 +28,14 @@ extern void stopMusic(void);
 extern void playMusic(void); 
 extern void maxScore(Game *game);
 extern void sendScoresToPHP(char playerName[], int score, int diff);
+extern void render_help_menu(Game *game);
+extern void check_help_mouse(XEvent *e, Game *game);
 
 int create_tcp_socket();
 char *get_ip(char *host);
 char *build_get_query(char *host, char *page);
 void usage();
- 
+
+
 #endif
 

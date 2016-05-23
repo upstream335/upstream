@@ -281,3 +281,75 @@ char *build_get_query(char *host, char *page)
 	sprintf(query, tpl, getpage, host, USERAGENT);
 	return query;
 }
+
+void helpBG::render(void)
+{
+	float wid = 250.0f;
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+
+	glTranslatef ( current.x_pos-300, current.y_pos-300, 0 );
+	glBindTexture ( GL_TEXTURE_2D, helpbgTexture );
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid);
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+
+	glPopMatrix();
+
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+}
+
+void render_help_menu(Game *game)
+{
+	game->helpbg->render();
+	glBindTexture ( GL_TEXTURE_2D, 0 );
+	Rect r;
+	r.bot = game->windowHeight - 170;
+	r.left = 300;
+	ggprint17 ( &r, 50, 0, "Help Page" );
+	//	r.bot -= 2;
+	r.left = 290;
+	ggprint13 ( &r, 50, 0, "The Object Of The Game Is To Get The Highest Score" );
+	r.left = 260;
+	ggprint13 ( &r, 50, 0, "Jumping On A Lilypad Earns Player 10 Points" );
+	r.left = 305;
+	ggprint13 ( &r, 50, 0, "Log Is 2 Points Per Tick. Eating A Fly Is Up To 450 Points" );
+	r.left = 300;
+	ggprint13 ( &r, 50, 0, "The Alligator Will Kill You Unless You Jump On His Back" );
+	r.left = 250;
+	ggprint13 ( &r, 30, 0, "Left Click -- Enable / Disabled Rocket Mode" );
+	r.left = 290;
+	ggprint13 ( &r, 30, 0, "J -- Troll Lilypads (Lilypads move in random direction)" );
+	r.left = 155;
+	ggprint13 ( &r, 30, 0, "K -- Stress Test" );
+}
+
+
+void check_help_mouse(XEvent *e, Game *game)
+{
+	if (e->type == ButtonRelease) {
+		return;
+	}
+	if (e->type == ButtonPress) {
+		if (e->xbutton.x >= 100 && e->xbutton.x <= 129 &&
+				e->xbutton.y >= 144 && e->xbutton.y <= 169) {
+			game->help_menu ^= 1;
+		}
+	}
+}

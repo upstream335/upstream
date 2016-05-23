@@ -88,7 +88,8 @@ struct Game {
 	Splash *splash;
 	Turtle *turtle;
 	RocketPack *rocketPack;
-	
+	std::string highScores[20];
+
 	//Game menu
 	bool main_menu;
 	bool sub_menu;

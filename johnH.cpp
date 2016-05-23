@@ -3,6 +3,7 @@
 //frog,log,gator,bridge
 //splash and background water
 #include "johnH.h"
+using namespace tinyxml2;
 
 //convert png to ppm read in texture and destroy ppm
 Ppmimage* get_image ( std::string filename )
@@ -759,7 +760,77 @@ void Meter::render ( void )
 }
 // end meter render ===========================================
 
+//read high scores XML ===============================
+std::string loadScores ( int player )
+{
+	int counter=0;
+	XMLDocument* doc = new XMLDocument();
+	doc->LoadFile ( "highscore.xml" );
+	int errorID = doc->ErrorID();
+	std::string err = doc->ErrorName();
+	std::string playerString[20][3];
+	XMLPrinter printer;
+	//std::cout << "Test file loaded. ErrorID = "<<errorID<<" "<<err<<std::endl;
+	if ( errorID!=0 )
+		return "";
+	tinyxml2::XMLNode* root = doc->FirstChildElement ( "players" );
+	if ( root == NULL ) {
+		std::cout<<"error xml root"<<std::endl;
+		return "";
+	}
+	tinyxml2::XMLElement* node = root->FirstChildElement ( "player" )->ToElement();
+		if ( node == NULL ) {
+			std::cout<<"error xml"<<std::endl;
+			return "";
+		}
 
+
+	while ( node->NextSiblingElement() !=NULL && counter<=player ) {
+
+		tinyxml2::XMLElement* element = node->FirstChildElement ( "name" )->ToElement();
+		if ( element == NULL ) {
+			std::cout<<"error xml"<<std::endl;
+			return "";
+		}
+		playerString[counter][0] = element->GetText();
+		//std::cout <<"playerstring="<<playerString[counter][0]<<std::endl;
+
+
+		element = element->NextSiblingElement ( "score" )->ToElement();
+		if ( element == NULL ) {
+			std::cout<<"error xml"<<std::endl;
+			return "";
+		}
+		playerString[counter][1] = element->GetText();
+		//element->Attribute( &printer );
+		//playerString[counter][1] = printer.CStr();
+		//std::cout <<"playerstring="<<playerString[counter][1]<<std::endl;
+
+
+		element = element->NextSiblingElement ( "mode" )->ToElement();
+		if ( element == NULL ) {
+			std::cout<<"error xml"<<std::endl;
+			return "";
+		}
+		playerString[counter][2] = element->GetText();
+		//element->Attribute( &printer );
+		//playerString[counter][2] = printer.CStr();
+
+
+		node = node->NextSiblingElement( "player" )->ToElement();
+		if ( node == NULL ) {
+			std::cout<<"error xml"<<std::endl;
+			return "";
+		}
+		counter++;
+	}
+	//std::cout<<"returning "<<playerString[player][0]+playerString[player][1]+playerString[player][2]<<std::endl;
+	return playerString[player][0]+", "+playerString[player][1]+", "+playerString[player][2];
+//doc->Print();
+//doc->SaveFile( "test.xml" );
+//return doc;
+}
+// end read high scores =========================
 
 // =============================================================
 unsigned char *buildAlphaData ( Ppmimage *img )

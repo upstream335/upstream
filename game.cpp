@@ -72,13 +72,22 @@ void init_game ( Game *game )
 	char *host = ( char* ) "sleipnir.cs.csub.edu";
 	char *tpage = ( char* )
 	              "/~jhargreaves/upstream/lowScore.txt";
-	//get highscore into text
+	//get lowest highscores into text
 	getHighScore ( game, host, tpage,true,false );
-}
+
+    system("rm highscore.xml");
+    std::string command = "wget http://www.cs.csub.edu/~jhargreaves/upstream/highscore.xml";
+    system ( ( command ).c_str() );
+	//get highscore xml
+	for(int i=0;i<20;i++){
+        game->highScores[i] = loadScores(i);
+        std::cout<<"player#"<<i<<" = "<<game->highScores[i]<<std::endl;
+        }
+	}
 
 void demo ( Game *game )
 {
-	int moving = rand() %50+1;
+	int moving = rand() %1000+1;
 	int x =rand() %5+1;
 	// move right
 	if ( !game->frog->rocket() ) {
@@ -110,9 +119,9 @@ void demo ( Game *game )
 		}
 	}
 	if ( game->demo.moveRight>0 ) {
-		if ( game->frog->getXpos() <WIDTH ) {
+		if ( game->frog->getXpos() <=WIDTH ) {
 			if ( !game->main_menu ) {
-				game->frog->move ( game->frog->getXpos()+2,
+				game->frog->move ( game->frog->getXpos()+3,
 				                   game->frog->getYpos(),
 				                   game->frog->getXvel(),
 				                   game->frog->getYvel() );
@@ -169,8 +178,8 @@ void demo ( Game *game )
 			game->c.velocity[1]=0;
 		}
 	}
-	if ( game->frog->getXpos() > WIDTH ) {
-		game->frog->move ( WIDTH-5,
+	if ( game->frog->getXpos() >= WIDTH ) {
+		game->frog->move ( WIDTH-6,
 		                   game->frog->getYpos(),
 		                   game->frog->getXvel(),
 		                   game->frog->getYvel() );

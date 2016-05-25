@@ -1021,8 +1021,10 @@ class Turtle
 private:
 	Position current;
 	Position previous;
-	Ppmimage *turtleImage[6];
-	GLuint turtleTexture[6];
+	Ppmimage *turtleImage[12];
+	GLuint turtleTexture[12];
+	bool golden;
+	int goldenFrames;
 public:
 	// Constructor with default values for data members
 	Turtle()
@@ -1034,13 +1036,21 @@ public:
 		current.x_vel = 2;
 		current.y_vel = 0.1;
 		previous = current;
+		golden = false;
+		goldenFrames =0;
 		turtleImage[0] = get_image ( "./images/turtle" );
 		turtleImage[1] = get_image ( "./images/turtle1" );
 		turtleImage[2] = get_image ( "./images/turtle2" );
 		turtleImage[3] = get_image ( "./images/turtle3" );
 		turtleImage[4] = get_image ( "./images/turtle4" );
 		turtleImage[5] = get_image ( "./images/turtle5" );
-		for ( int i=0; i<6; i++ ) {
+		turtleImage[6] = get_image ( "./images/turtleG" );
+		turtleImage[7] = get_image ( "./images/turtleG1" );
+		turtleImage[8] = get_image ( "./images/turtleG2" );
+		turtleImage[9] = get_image ( "./images/turtleG3" );
+		turtleImage[10] = get_image ( "./images/turtleG4" );
+		turtleImage[11] = get_image ( "./images/turtleG5" );
+		for ( int i=0; i<12; i++ ) {
 			//create opengl texture elements
 			glGenTextures ( 1, &turtleTexture[i] );
 			int w = turtleImage[i]->width;
@@ -1078,6 +1088,10 @@ public:
 	void move ( float xp, float yp, float xv, float yv )
 	{
 		current = update_position ( &current,xp,yp,xv,yv );
+	}
+	bool isGolden()
+	{
+		return golden;
 	}
 }; //end turtle class
 

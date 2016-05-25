@@ -542,6 +542,7 @@ void RocketPack::render ( void )
 void Turtle::render ( void )
 {
 	int r = rand() %600+1;
+	int goldenChance = rand() %2000+1;
 	current.x_pos += current.x_vel;
 	current.y_pos += current.y_vel;
 	//std::cout<<"turtle="<<current.frame<<","<<current.y_pos<< std::endl;
@@ -549,33 +550,59 @@ void Turtle::render ( void )
 		current.x_pos = 0-100;
 		current.y_pos = HEIGHT-r;
 	}
+	if ( goldenChance==1 || goldenFrames>0){
+		golden = true;
+		goldenFrames++;
+	}
+	if (goldenFrames>500) {
+		golden = false;
+		goldenFrames =0;
+	}
 	float wid = 40.0f; // size of turtlesprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );
 	glBindTexture ( GL_TEXTURE_2D, turtleTexture[0] );
 	if (  current.frame <20 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[0] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[6] );
 		current.frame++;
 	}
 	if ( current.frame>=20 && current.frame <=30 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[1] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[7] );
 		current.frame++;
 	}
 	if ( current.frame>=30 && current.frame <=40 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[2] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[8] );
 		current.frame++;
 	}
 	if ( current.frame>=40 && current.frame <=50 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[3] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[9] );
 		current.frame++;
 	}
 	if ( current.frame>=50 && current.frame <=60 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[4] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[10] );
 		current.frame++;
 	}
 	if ( current.frame>=60 ) {
+		if (!golden)
 		glBindTexture ( GL_TEXTURE_2D, turtleTexture[5] );
+		else
+			glBindTexture ( GL_TEXTURE_2D, turtleTexture[11] );
 		current.frame++;
 	}
 	if ( current.frame>100 )

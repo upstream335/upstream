@@ -73,6 +73,18 @@ void collision ( Game *game )
 				game->score+=2;
 			}
 		}
+		// ============================================
+		// collision frog with golden turtle
+		if ( game->turtle->isGolden()) {	
+			if ( game->frog->getXpos() <= game->turtle->getXpos()+15 &&
+			        game->frog->getXpos() >= game->turtle->getXpos()-15 &&
+			        game->frog->getYpos() <= game->turtle->getYpos()+50 &&
+			        game->frog->getYpos() >= game->turtle->getYpos()-50 ) {
+				game->c.velocity[1] = game->turtle->getYvel()+15;
+				playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+				game->score+=500;
+			}
+		}
 		// FLY =====================================================
 		int tongue=60/game->difficulty;
 		if ( game->frog->getXpos() >= game->fly->getXpos()- tongue &&
@@ -144,7 +156,7 @@ void collision ( Game *game )
 	}
 	//frog at bottom
 	if ( game->frog->getYpos() <= 40.0 &&
-	        game->bridge->getYpos() <=100 && game->lives < 1 ) {
+	        game->bridge->getYpos() <=100 && game->lives < 1 && !game->demo.on ) {
 		game->highscore[++game->scoreCount] = game->score;
 		game->score = 0;
 	}
@@ -212,6 +224,9 @@ void screenUpdate ( Game *game )
 
 void gameOver ( Game *game )
 {
+	if( game->demo.on) {
+		return;
+	}
 	if ( checkHighScore ( game,game->score ) ) {
 		game->tempscore = game->score;
 	}

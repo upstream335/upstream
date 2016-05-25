@@ -184,22 +184,31 @@ void demo ( Game *game )
 		                   game->frog->getYpos(),
 		                   game->frog->getXvel(),
 		                   game->frog->getYvel() );
+						   game->demo.moveRight = 0;
+						   game->demo.jump = 0;
+						   game->demo.moveLeft++;
 	}
-	if ( game->frog->getXpos() < 0 ) {
+	if ( game->frog->getXpos() <=5 ) {
 		game->frog->move ( 5,
 		                   game->frog->getYpos(),
 		                   game->frog->getXvel(),
 		                   game->frog->getYvel() );
+						   game->demo.moveLeft = 0;
+						   game->demo.jump = 0;
+						   game->demo.moveRight++;
 	}
 	if ( game->frog->getYpos() > HEIGHT ) {
 		game->frog->move ( game->frog->getXpos(), HEIGHT-5,
 		                   game->frog->getXvel(),
 		                   game->frog->getYvel() );
 	}
-	if ( game->frog->getYpos() < 0 ) {
+	if ( game->frog->getYpos() <= 10 ) {
 		game->frog->move ( game->frog->getXpos(),10,
 		                   game->frog->getXvel(),
 		                   game->frog->getYvel() );
+						   game->demo.moveRight = 0;
+						   game->demo.jump = 0;
+						   game->demo.moveLeft =0;
 	}
 	game->c.center[0]=game->frog->getXpos();
 	game->c.center[1]=game->frog->getYpos();

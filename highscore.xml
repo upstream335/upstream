@@ -56,6 +56,11 @@
     <mode>easy</mode>
   </player>
   <player>
+    <name>test</name>
+    <score>838</score>
+    <mode>medium</mode>
+  </player>
+  <player>
     <name>john</name>
     <score>490</score>
     <mode>hard</mode>
@@ -71,9 +76,9 @@
     <mode>hard</mode>
   </player>
   <player>
-    <name>test</name>
-    <score>838</score>
-    <mode>2</mode>
+    <name>rena</name>
+    <score>702</score>
+    <mode>easy</mode>
   </player>
   <player>
     <name>wwwwwwwwww</name>
@@ -94,10 +99,5 @@
     <name>asdf </name>
     <score>66</score>
     <mode>medium</mode>
-  </player>
-  <player>
-    <name>john</name>
-    <score>130</score>
-    <mode>easy</mode>
   </player>
 </players>

@@ -37,8 +37,8 @@ void initSource(ALuint buffer)
     alSourcef(source[sourceCount], AL_PITCH, 1.0f);
     alSourcei(source[sourceCount], AL_LOOPING, false);
     if (alGetError() != AL_NO_ERROR) {
-        printf("ERROR: setting source\n");
-        return;
+	printf("ERROR: setting source\n");
+	return;
     }
     sourceCount++;
 }
@@ -47,8 +47,8 @@ void initSounds()
 {
     alutInit(0, NULL);
     if (alGetError() != AL_NO_ERROR) {
-        printf("ERROR: alutInit()\n");
-        return;
+	printf("ERROR: alutInit()\n");
+	return;
     }
     alGetError();
     //Setup the listener.
@@ -62,23 +62,26 @@ void initSounds()
 int getSource(const char * sound)
 {
     if (strcmp(sound,"./wav/background.wav") == 0) {
-        return 0;
+	return 0;
     }
     else if (strcmp(sound,"./wav/boing2.wav") == 0) {
-        return 1;
+	return 1;
     }
     else if (strcmp(sound,"./wav/tick.wav") == 0) {
-        return 2;
+	return 2;
     }
     else if (strcmp(sound,"./wav/fishsplash.wav") == 0) {
-        return 3;
+	return 3;
     }
     else if (strcmp(sound,"./wav/rocket.wav") == 0) {
-        return 4;
+	return 4;
+    }
+    else if (strcmp(sound,"./wav/money.wav") == 0) {
+	return 5;
     }
     else {
-        printf("%s hasn't been initialized\n\n", sound);
-        return -1;
+	printf("%s hasn't been initialized\n\n", sound);
+	return -1;
     }
 }
 
@@ -89,9 +92,9 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
     int index = getSource(sound);
     //cout << "Sound: " << sound << " index: " << index << "\n";
     if (muted) {
-        alSourceStop(source[index]);
-        //printf("MUTED\n");
-        return;
+	alSourceStop(source[index]);
+	//printf("MUTED\n");
+	return;
     }
     alSourcef(source[index], AL_GAIN, gain);
     alSourcef(source[index], AL_PITCH, 1.0f);
@@ -102,14 +105,14 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
 void cleanUpSound()
 {
     for (int i = 0; i < 10; i++) {
-        alSourceStop(source[i]);
-        alDeleteSources(1, &source[i]);
-        alDeleteBuffers(1, &buffer[i]);
-        ALCcontext *Context = alcGetCurrentContext();
-        ALCdevice *Device = alcGetContextsDevice(Context);
-        alcMakeContextCurrent(NULL);
-        alcDestroyContext(Context);
-        alcCloseDevice(Device);
+	alSourceStop(source[i]);
+	alDeleteSources(1, &source[i]);
+	alDeleteBuffers(1, &buffer[i]);
+	ALCcontext *Context = alcGetCurrentContext();
+	ALCdevice *Device = alcGetContextsDevice(Context);
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(Context);
+	alcCloseDevice(Device);
     }
     alutExit();
 }
@@ -128,9 +131,9 @@ void maxScore(Game *game)
 {
     int max = game->highscore[0];
     for (int i = 0; i < game->scoreCount; i++) {
-        if (game->highscore[i] > max) {
-            max = game->highscore[i];
-        }
+	if (game->highscore[i] > max) {
+	    max = game->highscore[i];
+	}
     }
     game->highscore[0] = max;
 }
@@ -148,7 +151,7 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
 
     host = (char*)"sleipnir.cs.csub.edu";
     tpage = (char*)
-        "/~jhargreaves/upstream/scores.php?param=upstream54321,";
+	"/~jhargreaves/upstream/scores.php?param=upstream54321,";
     strcpy(page,tpage);
     cout << playerName << endl;
     strcat(page, playerName);
@@ -168,18 +171,18 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
     remote->sin_family = AF_INET;
     tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
     if (tmpres < 0) {
-        perror("Can't set remote->sin_addr.s_addr");
-        exit(1);
+	perror("Can't set remote->sin_addr.s_addr");
+	exit(1);
     } else if (tmpres == 0) {
-        fprintf(stderr, "%s is not a valid IP address\n", ip);
-        exit(1);
+	fprintf(stderr, "%s is not a valid IP address\n", ip);
+	exit(1);
     }
     remote->sin_port = htons(PORT);
 
     if (connect(sock, (struct sockaddr *)remote,
-                sizeof(struct sockaddr)) < 0) {
-        perror("Could not connect");
-        exit(1);
+		sizeof(struct sockaddr)) < 0) {
+	perror("Could not connect");
+	exit(1);
     }
     get = build_get_query(host, page);
     //fprintf(stderr, "Query is:\n<<START>>\n%s<<END>>\n", get);
@@ -187,39 +190,39 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
     //Send the query to the server
     unsigned int sent = 0;
     while (sent < strlen(get)) {
-        tmpres = send(sock, get+sent, strlen(get)-sent, 0);
-        if (tmpres == -1) {
-            perror("Can't send query");
-            exit(1);
-        }
-        sent += tmpres;
+	tmpres = send(sock, get+sent, strlen(get)-sent, 0);
+	if (tmpres == -1) {
+	    perror("Can't send query");
+	    exit(1);
+	}
+	sent += tmpres;
     }
     //now it is time to receive the page
     memset(buf, 0, sizeof(buf));
     int htmlstart = 0;
     char * htmlcontent;
     while ((tmpres = recv(sock, buf, BUFSIZ, 0)) > 0) {
-        if (htmlstart == 0) {
-            /* Under certain conditions this will not work.
-             * If the \r\n\r\n part is splitted into two messages
-             * it will fail to detect the beginning of HTML content
-             */
-            htmlcontent = strstr(buf, "\r\n\r\n");
-            if (htmlcontent != NULL) {
-                htmlstart = 1;
-                htmlcontent += 4;
-            }
-        } else {
-            htmlcontent = buf;
-        }
-        if (htmlstart) {
-            //  fprintf(stdout,"%s", htmlcontent);
-        }
+	if (htmlstart == 0) {
+	    /*Under certain conditions this will not work.
+	     *If the \r\n\r\n part is splitted into two messages
+	     *it will fail to detect the beginning of HTML content
+	     */
+	    htmlcontent = strstr(buf, "\r\n\r\n");
+	    if (htmlcontent != NULL) {
+		htmlstart = 1;
+		htmlcontent += 4;
+	    }
+	} else {
+	    htmlcontent = buf;
+	}
+	if (htmlstart) {
+	    //  fprintf(stdout,"%s", htmlcontent);
+	}
 
-        memset(buf, 0, tmpres);
+	memset(buf, 0, tmpres);
     }
     if (tmpres < 0) {
-        perror("Error receiving data");
+	perror("Error receiving data");
     }
     free(get);
     free(remote);
@@ -231,8 +234,8 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
 void usage()
 {
     fprintf(stderr, "USAGE: htmlget host [page]\n\
-            \thost: the website hostname. ex: coding.debuntu.org\n\
-            \tpage: the page to retrieve. ex: index.html, default: /\n");
+	    \thost: the website hostname. ex: coding.debuntu.org\n\
+	    \tpage: the page to retrieve. ex: index.html, default: /\n");
 }
 
 
@@ -240,8 +243,8 @@ int create_tcp_socket()
 {
     int sock;
     if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-        perror("Can't create TCP socket");
-        exit(1);
+	perror("Can't create TCP socket");
+	exit(1);
     }
     return sock;
 }
@@ -254,12 +257,12 @@ char *get_ip(char *host)
     char *ip = (char *)malloc(iplen+1);
     memset(ip, 0, iplen+1);
     if ((hent = gethostbyname(host)) == NULL) {
-        herror("Can't get IP");
-        exit(1);
+	herror("Can't get IP");
+	exit(1);
     }
     if (inet_ntop(AF_INET, (void *)hent->h_addr_list[0], ip, iplen+1) == NULL) {
-        perror("Can't resolve host");
-        exit(1);
+	perror("Can't resolve host");
+	exit(1);
     }
     return ip;
 }
@@ -269,15 +272,15 @@ char *build_get_query(char *host, char *page)
     char *query;
     char *getpage = page;
     char *tpl = (char *)
-        "GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
+	"GET /%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: %s\r\n\r\n";
     if (getpage[0] == '/') {
-        getpage = getpage + 1;
-        //fprintf(stderr,"Removing leading \"/\", converting %s to %s\n",
-        //		page, getpage);
+	getpage = getpage + 1;
+	//fprintf(stderr,"Removing leading \"/\", converting %s to %s\n",
+	//		page, getpage);
     }
     // -5 is to consider the %s %s %s in tpl and the ending \0
     query = (char *)malloc(strlen(host)+strlen(getpage)
-            +strlen(USERAGENT)+strlen(tpl)-5);
+	    +strlen(USERAGENT)+strlen(tpl)-5);
     sprintf(query, tpl, getpage, host, USERAGENT);
     return query;
 }
@@ -326,20 +329,20 @@ void render_help_menu(Game *game)
     //	r.bot -= 2;
     r.left = 290;
     ggprint13 ( &r, 50, 0, 
-            "The Object Of The Game Is To Get The Highest Score" );
+	    "The Object Of The Game Is To Get The Highest Score" );
     r.left = 260;
     ggprint13 ( &r, 50, 0, "Jumping On A Lilypad Earns Player 10 Points" );
     r.left = 305;
     ggprint13 ( &r, 50, 0, 
-            "Log Is 2 Points Per Tick. Eating A Fly Is Up To 450 Points" );
+	    "Log Is 2 Points Per Tick. Eating A Fly Is Up To 450 Points" );
     r.left = 300;
     ggprint13 ( &r, 50, 0, 
-            "The Alligator Will Kill You Unless You Jump On His Back" );
+	    "The Alligator Will Kill You Unless You Jump On His Back" );
     r.left = 250;
     ggprint13 ( &r, 30, 0, "Left Click -- Enable / Disabled Rocket Mode" );
     r.left = 290;
     ggprint13 ( &r, 30, 0, 
-            "J -- Troll Lilypads (Lilypads move in random direction)" );
+	    "J -- Troll Lilypads (Lilypads move in random direction)" );
     r.left = 155;
     ggprint13 ( &r, 30, 0, "K -- Stress Test" );
 }
@@ -348,12 +351,12 @@ void render_help_menu(Game *game)
 void check_help_mouse(XEvent *e, Game *game)
 {
     if (e->type == ButtonRelease) {
-        return;
+	return;
     }
     if (e->type == ButtonPress) {
-        if (e->xbutton.x >= 100 && e->xbutton.x <= 129 &&
-                e->xbutton.y >= 144 && e->xbutton.y <= 169) {
-            game->help_menu ^= 1;
-        }
+	if (e->xbutton.x >= 100 && e->xbutton.x <= 129 &&
+		e->xbutton.y >= 144 && e->xbutton.y <= 169) {
+	    game->help_menu ^= 1;
+	}
     }
 }

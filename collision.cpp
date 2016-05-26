@@ -81,7 +81,7 @@ void collision ( Game *game )
                     game->frog->getYpos() <= game->turtle->getYpos()+50 &&
                     game->frog->getYpos() >= game->turtle->getYpos()-50 ) {
                 game->c.velocity[1] = game->turtle->getYvel()+15;
-                playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+                playSounds ( "./wav/money.wav",1.0f, false, game->muted );
                 game->score+=500;
                 game->turtle->notGolden();
             }

@@ -52,6 +52,7 @@ struct Game {
 	Demo demo;
 	bool playing;
 	bool isHighScore;
+	bool rocketSound;
 	int troll_lilypad;
 	int windowWidth;
 	int windowHeight;

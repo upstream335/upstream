@@ -40,6 +40,11 @@ void collision ( Game *game )
                 game->c.center[0] = game->c.newPosX;
         }
     }
+			if ( game->frog->rocket() && game->frog->getFrame() ==1 ) {
+				playSounds ( "./wav/rocket.wav", 1.0f, false, game->muted);
+			}
+			if (game->rocketSound)
+				playSounds ( "./wav/rocket.wav", 1.0f, false, true);
     // NO collision below this Y value
     if ( game->frog->getYpos() > ( 50+ ( 20*game->difficulty ) ) ) {
         //check for frog(ball)'s collision with lilies
@@ -108,9 +113,6 @@ void collision ( Game *game )
             game->frog->addRocket();
             game->rocketPack->setFrame ( 500 );
             //std::cout<<"dead rocketPack"<<std::endl;
-        }
-        if ( game->frog->rocket() && game->frog->getFrame() ==1 ) {
-            playSounds ( "./wav/rocket.wav",0.5f, false,game->muted );
         }
         // collision frog with gator head
         int head = 5 * game->difficulty;

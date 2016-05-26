@@ -22,6 +22,7 @@ void init_game ( Game *game )
     game->score = 0;
     game->scoreCount=0;
     game->muted = false;
+	game->rocketSound = true;
     game->n=0;
     game->ihead = NULL;
     game->hud = new HUD;

@@ -6,6 +6,16 @@
     <mode>hard</mode>
   </player>
   <player>
+    <name>john</name>
+    <score>8150</score>
+    <mode>hard</mode>
+  </player>
+  <player>
+    <name>john</name>
+    <score>7730</score>
+    <mode>hard</mode>
+  </player>
+  <player>
     <name>quy</name>
     <score>5254</score>
     <mode>hard</mode>
@@ -14,6 +24,11 @@
     <name>kevin</name>
     <score>3956</score>
     <mode>hard</mode>
+  </player>
+  <player>
+    <name>john8gold</name>
+    <score>5574</score>
+    <mode>medium</mode>
   </player>
   <player>
     <name>kevin</name>
@@ -76,28 +91,13 @@
     <mode>hard</mode>
   </player>
   <player>
-    <name>rena</name>
-    <score>702</score>
-    <mode>easy</mode>
-  </player>
-  <player>
-    <name>wwwwwwwwww</name>
-    <score>226</score>
-    <mode>medium</mode>
-  </player>
-  <player>
-    <name>john</name>
-    <score>77</score>
-    <mode>medium</mode>
-  </player>
-  <player>
-    <name>john</name>
-    <score>50</score>
+    <name>amanda</name>
+    <score>292</score>
     <mode>hard</mode>
   </player>
   <player>
-    <name>asdf </name>
-    <score>66</score>
-    <mode>medium</mode>
+    <name>rena</name>
+    <score>702</score>
+    <mode>easy</mode>
   </player>
 </players>

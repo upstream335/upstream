@@ -83,6 +83,7 @@ void collision ( Game *game )
 				game->c.velocity[1] = game->turtle->getYvel()+15;
 				playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 				game->score+=500;
+				game->turtle->notGolden();
 			}
 		}
 		// FLY =====================================================

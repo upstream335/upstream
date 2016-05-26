@@ -1095,8 +1095,8 @@ public:
 	}
 	void notGolden()
 	{
-        goldenFrames = 0;
-        golden = false;
+		goldenFrames = 0;
+		golden = false;
 	}
 }; //end turtle class
 

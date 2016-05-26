@@ -48,10 +48,12 @@ int main ( void )
 				checkResize ( &e, &game );
 				check_menu_mouse ( &e, &game );
 			}
+			game.demo.on=true;
 			demo ( &game );
 			physics ( &game );
 			render_main_menu ( &game );
 			glXSwapBuffers ( dpy, win );
+			game.demo.on =false;
 		}
 		//In game - Paused Menu
 		while ( !game.sub_menu ) {

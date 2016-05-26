@@ -75,7 +75,7 @@ void collision ( Game *game )
 		}
 		// ============================================
 		// collision frog with golden turtle
-		if ( game->turtle->isGolden()) {	
+		if ( game->turtle->isGolden()) {
 			if ( game->frog->getXpos() <= game->turtle->getXpos()+15 &&
 			        game->frog->getXpos() >= game->turtle->getXpos()-15 &&
 			        game->frog->getYpos() <= game->turtle->getYpos()+50 &&
@@ -156,9 +156,11 @@ void collision ( Game *game )
 	}
 	//frog at bottom
 	if ( game->frog->getYpos() <= 40.0 &&
-	        game->bridge->getYpos() <=100 && game->lives < 1 && !game->demo.on ) {
+	        game->bridge->getYpos() <=100 && game->lives < 1  ) {
+
 		game->highscore[++game->scoreCount] = game->score;
 		game->score = 0;
+
 	}
 }
 

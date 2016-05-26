@@ -88,6 +88,7 @@ void init_game ( Game *game )
 
 void demo ( Game *game )
 {
+
 	int moving = rand() %1000+1;
 	int x =rand() %5+1;
 	// move right

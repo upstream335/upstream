@@ -15,24 +15,17 @@ We will attempt to make a game called Upstream. The basic game concept is about 
 ## Installation / running the code
 * [Required files](#requirements)
 * # <a name="requirements"></a>
-This project primarily uses openGL and openAl, however it also uses / requires the following
+This project primarily uses X11, openGL and openAl, however it also uses / requires the following
 
 * "fonts.h/fonts.cpp -Fonts for use with OpenGL,Gordon Griesel,2007 - 2015,Texture-mapped fonts."
 * "ppm.cpp,author: Gordon Griesel date: Fall 2013 Read and write PPM files."
 * "Image Magick must be installed to convert png images to ppms"
 * "TinyXML2 by Lee Thomason (www.grinninglizard.com)"
 
-To compile switch to directory you copied repo to and type make
+To compile switch to directory you copied repo to ie upstream/ and type make
 
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
+In the game a demo moves the frog during the main menu, while playing press j to randomize lillypad motions and k to 'stress test' which adds numerous lillypads.
 
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)

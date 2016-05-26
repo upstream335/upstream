@@ -121,7 +121,7 @@ public:
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 		unsigned char *hudData = buildAlphaData ( hudImage[i] );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, hudData );
+						GL_RGBA, GL_UNSIGNED_BYTE, hudData );
 		free ( hudData );
 	} //end constructor
 	void render ( void );
@@ -157,7 +157,7 @@ public:
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 		unsigned char *introbgData = buildAlphaData ( introbgImage[i] );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, introbgData );
+						GL_RGBA, GL_UNSIGNED_BYTE, introbgData );
 		free ( introbgData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -212,7 +212,7 @@ public:
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 		unsigned char *pausedbgData = buildAlphaData ( pausedbgImage );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, pausedbgData );
+						GL_RGBA, GL_UNSIGNED_BYTE, pausedbgData );
 		free ( pausedbgData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -267,7 +267,7 @@ public:
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 		unsigned char *gameoverData = buildAlphaData ( gameoverImage );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, gameoverData );
+						GL_RGBA, GL_UNSIGNED_BYTE, gameoverData );
 		free ( gameoverData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -354,12 +354,12 @@ public:
 			//
 			glBindTexture ( GL_TEXTURE_2D, frogTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
+								GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
+								GL_NEAREST );
 			unsigned char *frogData = buildAlphaData ( frogImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, frogData );
+							GL_RGBA, GL_UNSIGNED_BYTE, frogData );
 			free ( frogData );
 		}
 	} //end constructor
@@ -491,12 +491,12 @@ public:
 			int h = flyImage[i]->height;
 			glBindTexture ( GL_TEXTURE_2D, flyTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,
-			                  GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+								GL_TEXTURE_MAG_FILTER,GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,
-			                  GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+								GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 			unsigned char *flyData = buildAlphaData ( flyImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, flyData );
+							GL_RGBA, GL_UNSIGNED_BYTE, flyData );
 			free ( flyData );
 		}
 	} //end constructor
@@ -574,7 +574,7 @@ public:
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 		unsigned char *bridgeData = buildAlphaData ( bridgeImage[i] );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, bridgeData );
+						GL_RGBA, GL_UNSIGNED_BYTE, bridgeData );
 		free ( bridgeData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -635,7 +635,7 @@ public:
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
 			unsigned char *logData = buildAlphaData ( logImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, logData );
+							GL_RGBA, GL_UNSIGNED_BYTE, logData );
 			free ( logData );
 		}
 	} //end constructor
@@ -699,12 +699,12 @@ public:
 			int h = gatorImage[i]->height;
 			glBindTexture ( GL_TEXTURE_2D, gatorTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
+								GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
+								GL_NEAREST );
 			unsigned char *gatorData = buildAlphaData ( gatorImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, gatorData );
+							GL_RGBA, GL_UNSIGNED_BYTE, gatorData );
 			free ( gatorData );
 		}
 	} //end constructor
@@ -768,12 +768,12 @@ public:
 			int h = waterImage[i]->height;
 			glBindTexture ( GL_TEXTURE_2D, waterTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			unsigned char *waterData = buildAlphaData ( waterImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, waterData );
+							GL_RGBA, GL_UNSIGNED_BYTE, waterData );
 			free ( waterData );
 		}
 	} //end constructor
@@ -837,12 +837,12 @@ public:
 			//
 			glBindTexture ( GL_TEXTURE_2D, splashTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			unsigned char *splashData = buildAlphaData ( splashImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, splashData );
+							GL_RGBA, GL_UNSIGNED_BYTE, splashData );
 			free ( splashData );
 		}
 	} //end constructor
@@ -908,12 +908,12 @@ public:
 		//
 		glBindTexture ( GL_TEXTURE_2D, rocketPackTexture[i] );
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-		                  GL_NEAREST );
+						GL_NEAREST );
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-		                  GL_NEAREST );
+						GL_NEAREST );
 		unsigned char *rocketPackData = buildAlphaData ( rocketPackImage[i] );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, rocketPackData );
+						GL_RGBA, GL_UNSIGNED_BYTE, rocketPackData );
 		free ( rocketPackData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -975,12 +975,12 @@ public:
 		//
 		glBindTexture ( GL_TEXTURE_2D, meterTexture[i] );
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-		                  GL_NEAREST );
+						GL_NEAREST );
 		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-		                  GL_NEAREST );
+						GL_NEAREST );
 		unsigned char *meterData = buildAlphaData ( meterImage[i] );
 		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-		               GL_RGBA, GL_UNSIGNED_BYTE, meterData );
+						GL_RGBA, GL_UNSIGNED_BYTE, meterData );
 		free ( meterData );
 	} //end constructor
 	//--------------------------------------------------------------------
@@ -1058,12 +1058,12 @@ public:
 			//
 			glBindTexture ( GL_TEXTURE_2D, turtleTexture[i] );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
-			                  GL_NEAREST );
+							GL_NEAREST );
 			unsigned char *turtleData = buildAlphaData ( turtleImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-			               GL_RGBA, GL_UNSIGNED_BYTE, turtleData );
+							GL_RGBA, GL_UNSIGNED_BYTE, turtleData );
 			free ( turtleData );
 		}
 	} //end constructor

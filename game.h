@@ -83,6 +83,9 @@ struct Game {
 	Frog *frog;
 	Gator *gator;
 	Fly *fly;
+	int swarmSize;
+	Fly *swarm[20];
+	bool swarmOn;
 	Log *log[4];
 	Water *water[3];
 	Bridge *bridge;

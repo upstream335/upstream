@@ -92,7 +92,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 			rbutton=1;
 			if (rbutton){}
 		}
-	}	
+	}
 	x = e->xbutton.x;
 	y = e->xbutton.y;
 	y = game->windowHeight - y;
@@ -175,7 +175,7 @@ void check_paused_mouse ( XEvent *e, Game *game )
 			rbutton=1;
 			if (rbutton){}
 		}
-	}	
+	}
 	x = e->xbutton.x;
 	y = e->xbutton.y;
 	y = game->windowHeight - y;
@@ -253,7 +253,7 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 			rbutton=1;
 			if (rbutton){}
 		}
-	}	
+	}
 	x = e->xbutton.x;
 	y = e->xbutton.y;
 	y = game->windowHeight - y;
@@ -311,6 +311,9 @@ int check_keys ( XEvent *e, Game *game )
 				break;
 			case XK_k:
 				game->stresstest ^= 1;
+				break;
+			case XK_s:
+				game->swarmOn ^= 1;
 				break;
 			case XK_r:
 				game->frog->toggleRocket();

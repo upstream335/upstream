@@ -511,7 +511,7 @@ public:
 		current.frame = frame;
 	}
 
-	void render ( void );
+	void render ( float );
 
 	float getXpos()
 	{

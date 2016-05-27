@@ -247,7 +247,7 @@ void Frog::render ( void )
 void Bridge::render ( void )
 {
 	if ( current.y_pos < 80 ) {
-		
+
 		glColor3f ( 1.0, 1.0, 1.0 );
 		glPushMatrix();
 		//draw a line at bottom of screen
@@ -645,9 +645,9 @@ void Turtle::render ( void )
 
 
 // Render fly =============================================
-void Fly::render ( void )
+void Fly::render ( float sze )
 {
-	float wid = 20.0f; // size of fly sprite
+	float wid = sze; //20.0f; // size of fly sprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	if ( alive ) {
 		if ( current.y_pos<30 ) {

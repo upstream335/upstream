@@ -269,6 +269,19 @@ void physics ( Game *game )
         y=6-y;
         game->fly->move ( game->fly->getXpos()+x/2,
                 game->fly->getYpos()+y,x/10,y/10 );
+
+        // move swarm
+        if (game->swarmOn) {
+        for ( int i=0; i < game->swarmSize; i++ ) {
+        int x=rand() %10+1;
+        int y =rand() %10+1;
+        x=6-x;
+        y=6-y;
+        game->swarm[i]->move ( game->swarm[i]->getXpos()+x/2,
+                game->swarm[i]->getYpos()+y,x/10,y/10 );
+                }
+          }
+        // =============================
         checkLilies ( game );
     }
 }
@@ -308,7 +321,11 @@ void render ( Game *game )
     game->gator->render();
     game->bridge->render();
     game->frog->render();
-    game->fly->render();
+    game->fly->render(20);
+    if (game->swarmOn) {
+    for ( int i=0;i<game->swarmSize;i++)
+    game->swarm[i]->render(10);
+    }
     game->hud->render();
     game->rocketPack->render();
     game->meter->render();

@@ -102,6 +102,22 @@ void collision ( Game *game )
             game->fly->death ( game->frog->getXpos(),game->frog->getYpos() );
             //std::cout<<"dead fly"<<std::endl;
         }
+        // SWARM =====================================================
+        if ( game->swarmOn ) {
+        for (int i=0; i < game->swarmSize; i++) {
+        int tongue=30/game->difficulty;
+        if ( game->frog->getXpos() >= game->swarm[i]->getXpos()- tongue &&
+                game->frog->getXpos() <= game->swarm[i]->getXpos()+ tongue &&
+                game->frog->getYpos() <= game->swarm[i]->getYpos()+ tongue &&
+                game->frog->getYpos() >= game->swarm[i]->getYpos()- tongue ) {
+            playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+            game->score+=1;
+            game->swarm[i]->death ( game->frog->getXpos(),game->frog->getYpos() );
+            }
+            }
+
+            //std::cout<<"dead fly"<<std::endl;
+        }
         // pickup rocketPack =====================================================
         int reach=50/game->difficulty;
         if ( game->frog->getXpos() >= game->rocketPack->getXpos()- reach &&
@@ -117,11 +133,11 @@ void collision ( Game *game )
         // collision frog with gator head
         int head = 5 * game->difficulty;
         if ( game->frog->getXpos() <= game->gator->getXpos()- ( 5 + head )  &&
-                game->frog->getXpos() >= game->gator->getXpos()- 
+                game->frog->getXpos() >= game->gator->getXpos()-
                 ( 30 + head ) &&
-                game->frog->getYpos() <= game->gator->getYpos()+ 
+                game->frog->getYpos() <= game->gator->getYpos()+
                 ( 5 + head ) &&
-                game->frog->getYpos() >= game->gator->getYpos()- 
+                game->frog->getYpos() >= game->gator->getYpos()-
                 ( 5 + head ) ) {
             game->gator->eat();
             gameOver ( game );
@@ -129,7 +145,7 @@ void collision ( Game *game )
         // collision frog with gator back
         int back = 90/ game->difficulty;
         if ( game->frog->getXpos() <= game->gator->getXpos()+ back &&
-                game->frog->getXpos() >= game->gator->getXpos()- 
+                game->frog->getXpos() >= game->gator->getXpos()-
                 ( back-head ) &&
                 game->frog->getYpos() <= game->gator->getYpos()+ back/2 &&
                 game->frog->getYpos() >= game->gator->getYpos()-back/2 ) {
@@ -155,7 +171,7 @@ void collision ( Game *game )
     // check if frog left bridge
     if ( game->frog->getYpos() > 60 && game->score > 0 ) {
         //move bridge downward
-        game->bridge->move ( game->bridge->getXpos(), 
+        game->bridge->move ( game->bridge->getXpos(),
                 game->bridge->getYpos()-0.5, 0, 0 );
     }
     //fell down

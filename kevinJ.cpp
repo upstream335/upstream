@@ -324,19 +324,22 @@ void render_help_menu(Game *game)
 	Rect r;
 	r.bot = game->windowHeight - 170;
 	r.left = 300;
-	ggprint17 ( &r, 50, 0, "Help Page" );
+	ggprint17 ( &r, 40, 0, "Help Page" );
 	//r.bot -= 2;
 	r.left = 290;
-	ggprint13 ( &r, 50, 0, 
+	ggprint13 ( &r, 40, 0, 
 			"The Object Of The Game Is To Get The Highest Score" );
 	r.left = 260;
-	ggprint13 ( &r, 50, 0, "Jumping On A Lilypad Earns Player 10 Points" );
+	ggprint13 ( &r, 40, 0, "Jumping On A Lilypad Earns Player 10 Points" );
 	r.left = 305;
-	ggprint13 ( &r, 50, 0, 
+	ggprint13 ( &r, 40, 0, 
 			"Log Is 2 Points Per Tick. Eating A Fly Is Up To 450 Points" );
 	r.left = 300;
-	ggprint13 ( &r, 50, 0, 
+	ggprint13 ( &r, 40, 0, 
 			"The Alligator Will Kill You Unless You Jump On His Back" );
+	r.left = 295;
+	ggprint13 ( &r, 50, 0, 
+			"Jumping On The Golden Turtle Will Earn You 500 Points" );
 	r.left = 250;
 	ggprint13 ( &r, 30, 0, "Left Click -- Enable / Disabled Rocket Mode" );
 	r.left = 290;
@@ -344,17 +347,24 @@ void render_help_menu(Game *game)
 			"J -- Troll Lilypads (Lilypads move in random direction)" );
 	r.left = 155;
 	ggprint13 ( &r, 30, 0, "K -- Stress Test" );
+	r.left = 235;
+	ggprint13 ( &r, 30, 0, "S -- Swarm (Spawns Mass Baby Flys)" );
 }
 
 
 void check_help_mouse(XEvent *e, Game *game)
 {
+    		glBindTexture ( GL_TEXTURE_2D, 0 );
+		Rect r;
+    		r.bot = game->windowHeight - 120;
+		ggprint13 ( &r, 30, 0, "X %f", game->c.newPosX );
+		ggprint13 ( &r, 30, 0, "y %f", game->windowHeight - game->c.newPosY );
 	if (e->type == ButtonRelease) {
 		return;
 	}
 	if (e->type == ButtonPress) {
-		if (e->xbutton.x >= 100 && e->xbutton.x <= 129 &&
-				e->xbutton.y >= 144 && e->xbutton.y <= 169) {
+		if (e->xbutton.x >= 98 && e->xbutton.x <= 130 &&
+				e->xbutton.y >= 130 && e->xbutton.y <= 155) {
 			game->help_menu ^= 1;
 		}
 	}

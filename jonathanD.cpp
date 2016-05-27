@@ -3,7 +3,7 @@
 // Last Modified: 5/25/2016
 // Purpose: This file is responsible for all lilypads related functions such
 // as spawning lilypads, deleting lilypads, and behaviors of lilypads. Other
-// functions such as displaying score using sprites and communication with 
+// functions such as displaying score using sprites and communication with
 // server are included here as well.
 //
 
@@ -326,24 +326,13 @@ void drawBubble(Game *game)
 {
     glBindTexture(GL_TEXTURE_2D, 0);
     Rect r;
-    r.bot = game->fly->getYpos()+50;
-    r.left = game->fly->getXpos()+100;
+    r.bot = game->fly->getYpos()+20;
+    r.left = game->fly->getXpos()+50;
     r.center = 10;
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glPushMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    int w = 100;
-    int h = 100;
-    glTranslatef(game->fly->getXpos()+w, game->fly->getYpos()+h, 0);
-    glBegin(GL_QUADS);
-    glVertex2i(-w,-h);
-    glVertex2i(-w, h);
-    glVertex2i( w, h);
-    glVertex2i( w,-h);
-    glEnd();
-    glPopMatrix();
-    ggfrog40b ( &r, 50, 0, "Ha Ha!" );
+    if (game->isHighScore)
+        ggfrog40b ( &r, 50, 0, "WoW!" );
+    else if (game->showTaunt)
+        ggfrog40b ( &r, 50, 0, "Ha Ha!" );
 
 
 }
@@ -448,6 +437,7 @@ void getName(XEvent *e, Game *game)
                 if (strlen(game->playername) == 0)
                     strcat(game->playername, "player");
                 game->isHighScore = false;
+                game->showTaunt = true;
                 // Kevin's function to write score to site
                 sendScoresToPHP(game->playername, game->tempscore,
                                 game->difficulty);
@@ -576,11 +566,13 @@ void getName(XEvent *e, Game *game)
                 break;
             case XK_Return:
                 game->isHighScore = false;
+                game->showTaunt = false;
                 game->tempscore = 0;
                 resetName(game);
                 break;
             case XK_Escape:
                 game->isHighScore = false;
+                game->showTaunt = true;
                 resetName(game);
                 game->tempscore = 0;
                 break;
@@ -591,7 +583,7 @@ void getName(XEvent *e, Game *game)
 
 bool checkHighScore(Game *game, int s)
 {
-    if (game->score == 0) {
+    if (s == 0) {
         return false;
     }
     int difficulty = game->difficulty;
@@ -618,7 +610,6 @@ bool checkHighScore(Game *game, int s)
             string stmp = score;
             int _score = atoi(stmp.c_str());
             if (s > _score) {
-                cout << "true";
                 return true;
             }
         }

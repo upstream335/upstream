@@ -53,7 +53,6 @@ struct Game {
 	bool playing;
 	bool isHighScore;
 	bool rocketSound;
-	int x;  // fly x position in game over
 	int troll_lilypad;
 	int windowWidth;
 	int windowHeight;
@@ -64,7 +63,6 @@ struct Game {
 	int scoreCount;
 	bool muted ;
 	bool hschecked;
-	bool showTaunt;
 	int nlily;
 	int timer;
 	int maxtimer;
@@ -115,7 +113,6 @@ struct Game {
 	{
 		done = false;
 		c.isStanding = true;
-        showTaunt = true;
 		tempscore = 0;
 		windowWidth = 600;
 		windowHeight = 760;

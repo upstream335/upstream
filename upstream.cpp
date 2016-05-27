@@ -81,6 +81,7 @@ int main ( void )
             glXSwapBuffers ( dpy, win );
         }
         while (game.isHighScore) {
+            render(&game);
             while ( XPending ( dpy ) ) {
                 XEvent e;
                 XNextEvent ( dpy, &e );
@@ -99,6 +100,7 @@ int main ( void )
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         while (game.gameover) {
+            render(&game);
             while ( XPending ( dpy ) ) {
                 XEvent e;
                 XNextEvent ( dpy, &e );
@@ -315,7 +317,16 @@ void render ( Game *game )
     for ( int i=0; i<4; i++ ) {
         game->log[i]->render();
     }
-    //drawBubble(game);
+    if (game->gameover || game->isHighScore) {
+        game->x--;
+        if (game->x <=0)
+            game->x = game->windowWidth;
+        int y = 150;
+        y=y+(rand()%10-5);
+        game->fly->move ( game->x,y,game->x/10,y/10 );
+        drawBubble(game);
+    }
+
     render_ingame_buttons(game);
     game->splash->render();
     game->gator->render();

@@ -289,17 +289,16 @@ void gameOver ( Game *game )
         game->frog->setYpos ( game->frog->getYpos()-10 );
         game->frog->setXpos ( game->frog->getXpos()-800 );
         game->splash->move ( -200,-200,0,0 );
+        if ( checkHighScore ( game,game->tempscore ) && game->lives < 0 ) {
+            game->isHighScore = true;
+            game->showTaunt = false;
+        } else {
+            game->isHighScore = false;
+        }
         if ( game->lives < 0 ) {
             game->gameover = true;
             game->lives = 1;
         }
         game->hschecked = false;
-    } else {
-        if ( checkHighScore ( game,game->tempscore ) && game->lives < 1 ) {
-            cout << "isHighScore = true" << endl;
-            game->isHighScore = true;
-        } else {
-            game->isHighScore = false;
-        }
     }
 }

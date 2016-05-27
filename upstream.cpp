@@ -274,11 +274,16 @@ void physics ( Game *game )
 
         // move swarm
         if (game->swarmOn) {
+			
         for ( int i=0; i < game->swarmSize; i++ ) {
         int x=rand() %10+1;
         int y =rand() %10+1;
+        float xdif = game->frog->getXpos() - game->swarm[i]->getXpos();
+        float ydif = game->frog->getYpos() - game->swarm[i]->getYpos();
         x=6-x;
         y=6-y;
+        x=x+xdif/100;
+        y=y+ydif/100;
         game->swarm[i]->move ( game->swarm[i]->getXpos()+x/2,
                 game->swarm[i]->getYpos()+y,x/10,y/10 );
                 }

@@ -742,6 +742,64 @@ public:
 };
 //end gator class ==============================================
 
+class WaterBG
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *waterbgImage[2];
+	GLuint waterbgTexture[2];
+public:
+	// Constructor with default values for data members
+	WaterBG()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH;
+		current.y_pos = HEIGHT;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		waterbgImage[0] = get_image ( "./images/waterBG" );
+		waterbgImage[1] = get_image ( "./images/waterBG1" );
+		for ( int i=0; i<2; i++ ) {
+		//create opengl texture elements
+		glGenTextures ( 1, &waterbgTexture[i] );
+		int w = waterbgImage[i]->width;
+		int h = waterbgImage[i]->height;
+		//
+		glBindTexture ( GL_TEXTURE_2D, waterbgTexture[i] );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *waterbgData = buildAlphaData ( waterbgImage[i] );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+						GL_RGBA, GL_UNSIGNED_BYTE, waterbgData );
+		free ( waterbgData );
+		}
+	} //end constructor
+	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+};
+// ==============================================================
 class Water
 {
 private:
@@ -759,7 +817,7 @@ public:
 		current.x_vel = 0;
 		current.y_vel = -1;
 		previous = current;
-		waterImage[0] = get_image ( "./images/water" );
+		waterImage[0] = get_image ( "./images/water1" );
 		waterImage[1] = get_image ( "./images/water1" );
 		for ( int i=0; i<2; i++ ) {
 			//create opengl texture elements

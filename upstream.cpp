@@ -274,7 +274,7 @@ void physics ( Game *game )
 
         // move swarm
         if (game->swarmOn) {
-			
+
         for ( int i=0; i < game->swarmSize; i++ ) {
         int x=rand() %10+1;
         int y =rand() %10+1;
@@ -312,6 +312,7 @@ void drawCircle ( float x, float y, float radius, int detail )
 void render ( Game *game )
 {
     glClear ( GL_COLOR_BUFFER_BIT );
+    game->waterbg->render();
     game->water[0]->render();
     game->water[1]->render();
     game->water[2]->render();

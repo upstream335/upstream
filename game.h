@@ -90,6 +90,7 @@ struct Game {
 	bool swarmOn;
 	Log *log[4];
 	Water *water[3];
+	WaterBG *waterbg;
 	Bridge *bridge;
 	Splash *splash;
 	Turtle *turtle;

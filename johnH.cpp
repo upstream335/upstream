@@ -412,16 +412,62 @@ void Gator::render ( void )
 	glEnable ( GL_TEXTURE_2D );
 }
 // end Gator render ============================================
+void WaterBG::render ( void )
+{
+	if ( current.x_pos<-100 ) {
+		//hud is offscreen
+	}
+	float wid = 800.0f; // size of waterbg sprite
 
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+	glTranslatef ( current.x_pos, current.y_pos, 0 );
+	current.frame++;
+	int frame = current.frame % 2;
+	glBindTexture ( GL_TEXTURE_2D, waterbgTexture[frame] );
+	if ( current.frame<=10 ) {
+		glBindTexture ( GL_TEXTURE_2D, waterbgTexture[0] );
+		current.frame++;
+	}
+	if ( current.frame>10 && current.frame <=20 ) {
+		glBindTexture ( GL_TEXTURE_2D, waterbgTexture[1] );
+		current.frame++;
+	}
+	if ( current.frame>=20 )
+		current.frame=0;
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid );
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+	glPopMatrix();
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+}
+// end waterbg render ===========================================
+
+// =============================================================
 void Water::render ( void )
 {
 	current.x_pos += current.x_vel;
 	current.y_pos += current.y_vel;
 	if ( current.y_pos<-300 ) {
 		current.x_pos = WIDTH/2;
-		current.y_pos = HEIGHT+500;
+		current.y_pos = HEIGHT+300;
 	}
-	float wid = 600.0f; // size of water
+	float wid = 300; // size of water
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );

@@ -37,8 +37,11 @@ void init_game ( Game *game )
     game->swarmOn = false;
 
     game->turtle = new Turtle;
+
     for ( int i=0; i<4; i++ )
         game->log[i] = new Log;
+
+    game->waterbg = new WaterBG;
     game->water[0] = new Water;
     game->water[1] = new Water;
     game->water[2] = new Water;
@@ -65,9 +68,10 @@ void init_game ( Game *game )
     game->c.jumpSpeedMax = 25;
     game->frog->move ( game->c.center[0],game->c.center[1],0,0 );
     game->splash->move ( 0,-10,0,0 );
-    game->water[0]->move ( 400,0,0,-2 );
-    game->water[1]->move ( 400,500,0,-2 );
-    game->water[2]->move ( 400,1000,0,-2 );
+    game->waterbg->move (game->windowWidth/2,game->windowHeight/2,0,0);
+    game->water[0]->move ( game->windowWidth/2,0,0,-2.2 );
+    game->water[1]->move ( game->windowWidth/2,350,0,-2.2 );
+    game->water[2]->move ( game->windowWidth/2,700,0,-2.2 );
     game->playing=true;
     for ( int i = 0; i < 100; i++ ) {
         game->highscore[i] = 0;

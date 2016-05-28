@@ -110,14 +110,20 @@ void createLily(const int n, Game *game)
 void checkLilies(Game *game)
 {
     if (game->stresstest == 1) {
-        game->maxtimer = 2;
+        game->maxtimer = 1;
     } else {
         game->maxtimer = 35;
     }
     //game timer for when to spawn new lily
     game->timer++;
     if (game->timer >= game->lilytimer) {
-        createLily(1,game);
+        if (game->stresstest == 1) {\
+            for (int i = 0; i < 10; i++) {
+                createLily(1,game);
+            }
+        } else {
+            createLily(1,game);
+        }
         game->nlily++;
         game->timer = 0;
     }
@@ -180,13 +186,19 @@ void drawLilies(Game *game)
     Lilypad *node = game->ihead;
     while (node) {
         if (game->troll_lilypad == 1) {
+            int random = rand()%100+1;
+            if (random == 50) {
+                node->pos[1] += 20;
+            }
+            if (random == 51) {
+                node->pos[1] -= 20;
+            }
             if (!node->left) {
                 node->pos[0] += 2;
                 if (node->pos[0] > game->windowWidth) {
                     node->pos[0] = game->windowWidth;
                     node->left = true;
                 }
-
             } else {
                 node->pos[0] -= 2;
                 if (node->pos[0] < 0) {
@@ -572,7 +584,7 @@ void getName(XEvent *e, Game *game)
                 break;
             case XK_Escape:
                 game->isHighScore = false;
-                game->showTaunt = true;
+                game->showTaunt = false;
                 resetName(game);
                 game->tempscore = 0;
                 break;

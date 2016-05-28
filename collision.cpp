@@ -294,6 +294,7 @@ void gameOver ( Game *game )
             game->showTaunt = false;
         } else {
             game->isHighScore = false;
+            game->showTaunt = true;
         }
         if ( game->lives < 0 ) {
             game->gameover = true;

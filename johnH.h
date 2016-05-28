@@ -293,7 +293,77 @@ public:
 		current = update_position ( &current,xp,yp,xv,yv );
 	}
 };
+// =========================================================
+class Monster
+{
+	private:
+		Position current;
+		Position previous;
+		Ppmimage *monsterImage[2];
+		GLuint monsterTexture[2];
 
+	public:
+		// Constructor with default values for data members
+		Monster()
+		{
+			current.frame = 0;
+			current.x_pos = 0;
+			current.y_pos = HEIGHT - 150;
+			current.x_vel = 0;
+			current.y_vel = 0;
+			previous = current;
+			monsterImage[0] = get_image ( "./images/monster" );
+			int i=0;
+			//create opengl texture elements
+			glGenTextures ( 1, &monsterTexture[i] );
+			int w = monsterImage[i]->width;
+			int h = monsterImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, monsterTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+					GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+					GL_NEAREST );
+			unsigned char *monsterData = buildAlphaData ( monsterImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+					GL_RGBA, GL_UNSIGNED_BYTE, monsterData );
+			free ( monsterData );
+		} //end constructor
+		//--------------------------------------------------------------------
+		float getFrame()
+		{
+			return current.frame;
+		}
+		void setFrame ( float x )
+		{
+			current.frame=x;
+		}
+		void render ( void );
+		float getXpos()
+		{
+			return current.x_pos;
+		}
+		float getYpos()
+		{
+			return current.y_pos;
+		}
+		float getXvel()
+		{
+			return current.x_vel;
+		}
+		float getYvel()
+		{
+			return current.y_vel;
+		}
+		void move ( float xp, float yp, float xv, float yv )
+		{
+			current = update_position ( &current,xp,yp,xv,yv );
+			current.frame=0;
+		}
+};
+
+
+// =========================================================
 class Frog
 {
 private:

@@ -277,6 +277,7 @@ void gameOver ( Game *game )
 			playSounds ( "./wav/fishsplash.wav",1.0f, false,game->muted );
 			game->explosion->move ( game->frog->getXpos(),
 					game->frog->getYpos()+40,0,0 );
+					game->bossGO = false;
 		}
 		for (int i=0; i<game->nbullets; i++) {
 			Bullet *b = &game->barr[i];

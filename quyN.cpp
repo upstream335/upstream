@@ -384,7 +384,7 @@ void render_credits(Game *game)
     r.left = 400;
     ggprint13 ( &r, 40, 1, "QUY NGUYEN");
     r.left = 400;
-    ggprint13 ( &r, 40, 1, "KEVIN JENKINS");
+    ggprint13 ( &r, 40, 1, "KEVIN JENKIN");
 }
 
 void render_sub_menu(Game *game)

@@ -276,7 +276,6 @@ void usage()
 			\tpage: the page to retrieve. ex: index.html, default: /\n");
 }
 
-
 int create_tcp_socket()
 {
 	int sock;
@@ -286,7 +285,6 @@ int create_tcp_socket()
 	}
 	return sock;
 }
-
 
 char *get_ip(char *host)
 {
@@ -364,7 +362,6 @@ void render_help_menu(Game *game)
 	r.bot = game->windowHeight - 170;
 	r.left = 300;
 	ggprint17 ( &r, 40, 0, "Help Page" );
-	//r.bot -= 2;
 	r.left = 290;
 	ggprint13 ( &r, 40, 0, 
 			"The Object Of The Game Is To Get The Highest Score" );
@@ -388,6 +385,8 @@ void render_help_menu(Game *game)
 	ggprint13 ( &r, 30, 0, "K -- Stress Test" );
 	r.left = 235;
 	ggprint13 ( &r, 30, 0, "S -- Swarm (Spawns Mass Baby Flys)" );
+	ggprint40(&r, 50, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
+	ggprint40(&r, 50, 0, "FROG x: %f", game->windowWidth - game->c.newPosX);
 }
 
 
@@ -454,7 +453,6 @@ void Monster::render ( void )
     }
     if ( current.frame>90 )
         current.frame=0;
-    //glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
     glEnable ( GL_ALPHA_TEST );
     glAlphaFunc ( GL_GREATER, 0.0f );
     glColor4ub ( 255,255,255,255 );
@@ -482,21 +480,7 @@ void drawBullet(Game *g)
 	spawnBullet(g);
 	for (int i=0; i<g->nbullets; i++) {
 		Bullet *b = &g->barr[i];
-		//Log("draw bullet...\n");
 		glColor3f(1.0f, 1.0f, 1.0f);
-		/*glBegin(GL_QUAD_STRIP);
-		glVertex2f(b->pos[0],      b->pos[1]);
-		glVertex2f(b->pos[0]-4.0f, b->pos[1]);
-		glVertex2f(b->pos[0]+4.0f, b->pos[1]);
-		glVertex2f(b->pos[0],      b->pos[1]-4.0f);
-		glVertex2f(b->pos[0],      b->pos[1]+4.0f);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex2f(b->pos[0]-4.0f, b->pos[1]-4.0f);
-		glVertex2f(b->pos[0]-4.0f, b->pos[1]+4.0f);
-		glVertex2f(b->pos[0]+4.0f, b->pos[1]-4.0f);
-		glVertex2f(b->pos[0]+4.0f, b->pos[1]+4.0f);
-		glEnd();
-		*/
 		glBegin(GL_QUADS);
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glVertex2f(b->pos[0] - 5, b->pos[1] - 5);
@@ -506,7 +490,6 @@ void drawBullet(Game *g)
 		glEnd();
 	}
 }
-
 
 void deleteBullet(Game *g, Bullet *b)
 {
@@ -528,11 +511,9 @@ void updateBullet(Game *game)
 		//Check for collision with window edges
 		if (b->pos[0] < 0.0f) {
 			b->vel[0] *= -1;
-			//deleteBullet(game, b);
 		}
 		else if (b->pos[0] > (float)game->windowWidth) {
 			b->vel[0] *= -1;
-			//deleteBullet(game, b);
 		}
 		else if (b->pos[1] < 0.0f) {
 			deleteBullet(game, b);
@@ -540,8 +521,6 @@ void updateBullet(Game *game)
 		else if (b->pos[1] > (float)game->windowHeight) {
 			deleteBullet(game, b);
 		}
-		//b = b->next;
-		
 	}
 	
 }
@@ -560,15 +539,8 @@ void spawnBullet(Game *g)
 		b->pos[1] = g->monster->getYpos();
 		b->vel[0] = g->monster->getXvel();
 		b->vel[1] = g->monster->getYvel();
-		////convert ship angle to radians
-		//float rad = ((0.0+90.0f) / 360.0f) * PI * 2.0f;
-		//convert angle to a vector
-		//float xdir = cos(rad);
-		//float ydir = sin(rad);
-		//b->pos[0] += xdir*20.0f;
 		b->vel[1] += -3;
 		b->pos[1] += b->vel[1];
-		//b->vel[0] += xdir*6.0f + rnd()*0.1f;
 		b->color[0] = 0.0f;
 		b->color[1] = 0.0f;
 		b->color[2] = 0.0f;

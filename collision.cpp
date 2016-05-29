@@ -1,5 +1,6 @@
 #include "collision.h"
 #include <cmath>
+bool shotMonster = false;
 
 void collision ( Game *game )
 {
@@ -99,7 +100,7 @@ void collision ( Game *game )
 		d1 = b->pos[1] - game->frog->getYpos();
 		dist = ( d0*d0 + d1*d1 );
 		if ( dist < ( 30.0f * 30.0f ) ) {
-			game->bossGO =true;
+			shotMonster = true;
 			deleteBullet(game, b);
 			gameOver ( game );
 		}
@@ -195,6 +196,7 @@ void collision ( Game *game )
 		game->highscore[++game->scoreCount] = game->score;
 		game->score = 0;
 	}
+	shotMonster = false;
 }
 
 void screenUpdate ( Game *game )
@@ -269,7 +271,7 @@ void gameOver ( Game *game )
 		game->hschecked = true;
 		initHighScore ( game );
 	}
-	if ( game->bossGO ) {
+	if ( shotMonster ) {
 		// move explosion on screen if offscreen
 		if ( game->explosion->getXpos() < 0 ) {
 			playSounds ( "./wav/fishsplash.wav",1.0f, false,game->muted );

@@ -64,7 +64,6 @@ struct Game {
 	bool playing;
 	bool isHighScore;
 	bool rocketSound;
-	bool raveMode;
 	int x;  // fly x position in game over
 	int troll_lilypad;
 	int windowWidth;

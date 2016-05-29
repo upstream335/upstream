@@ -85,20 +85,7 @@ int getSource(const char * sound)
 	else {
 		printf("%s hasn't been initialized\n\n", sound);
 		return -1;
-	}struct Bullet {
-		Vec pos;
-		Vec vel;
-		float color[3];
-		struct timespec time;
-		struct Bullet *prev;
-		struct Bullet *next;
-		Bullet() {
-			prev = NULL;
-			next = NULL;
-		}
-	};
-
-
+	}
 }
 
 void playSounds(const char * sound, float gain, bool loop, bool muted)
@@ -389,7 +376,6 @@ void render_help_menu(Game *game)
 	ggprint40(&r, 50, 0, "FROG x: %f", game->windowWidth - game->c.newPosX);
 }
 
-
 void check_help_mouse(XEvent *e, Game *game)
 {
 	if (e->type == ButtonRelease) {
@@ -405,74 +391,74 @@ void check_help_mouse(XEvent *e, Game *game)
 
 void Monster::render ( void )
 {
-    float wid = 40.0f; // size of monster sprite
-    if (current.x_pos == 0)
-        current.x_vel = 2;
+	float wid = 40.0f; // size of monster sprite
+	if (current.x_pos == 0)
+		current.x_vel = 2;
 
-    if (current.x_pos == 600)
-        current.x_vel = -2;
+	if (current.x_pos == 600)
+		current.x_vel = -2;
 
-    current.x_pos += current.x_vel;
+	current.x_pos += current.x_vel;
 
 
-    glColor3f ( 1.0, 1.0, 1.0 );
-    glPushMatrix();
-    glTranslatef ( current.x_pos, current.y_pos, 0 );
-    glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
-    if (  current.frame <20 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
-        current.frame++;
-    }
-    if ( current.frame>=20 && current.frame <=30 ) {
-         glBindTexture ( GL_TEXTURE_2D, monsterTexture[1] );
-         current.frame++;
-    }
-    if ( current.frame>=30 && current.frame <=40 ) {
-         glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
-         current.frame++;
-    }
-    if ( current.frame>=40 && current.frame <=50 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[3] );
-        current.frame++;
-    }
-    if ( current.frame>=50 && current.frame <=60 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[4] );
-        current.frame++;
-    }
-    if ( current.frame>=60 && current.frame <=70 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[5] );
-        current.frame++;
-    }
-    if ( current.frame>=70 && current.frame <=80 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[6] );
-        current.frame++;
-    }
-    if ( current.frame>=80 && current.frame <=90 ) {
-        glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
-        current.frame++;
-    }
-    if ( current.frame>90 )
-        current.frame=0;
-    glEnable ( GL_ALPHA_TEST );
-    glAlphaFunc ( GL_GREATER, 0.0f );
-    glColor4ub ( 255,255,255,255 );
-    glBegin ( GL_QUADS );
-    glTexCoord2f ( 0.0f, 1.0f );
-    glVertex2i ( -wid,-wid );
-    glTexCoord2f ( 0.0f, 0.0f );
-    glVertex2i ( -wid, wid );
-    glTexCoord2f ( 1.0f, 0.0f );
-    glVertex2i ( wid, wid );
-    glTexCoord2f ( 1.0f, 1.0f );
-    glVertex2i ( wid,-wid );
-    glEnd();
-    glPopMatrix();
-    glDisable ( GL_ALPHA_TEST );
-    glDisable ( GL_TEXTURE_2D );
-    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
-    glEnable ( GL_BLEND );
-    glDisable ( GL_BLEND );
-    glEnable ( GL_TEXTURE_2D );
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+	glTranslatef ( current.x_pos, current.y_pos, 0 );
+	glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+	if (  current.frame <20 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+		current.frame++;
+	}
+	if ( current.frame>=20 && current.frame <=30 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[1] );
+		current.frame++;
+	}
+	if ( current.frame>=30 && current.frame <=40 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
+		current.frame++;
+	}
+	if ( current.frame>=40 && current.frame <=50 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[3] );
+		current.frame++;
+	}
+	if ( current.frame>=50 && current.frame <=60 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[4] );
+		current.frame++;
+	}
+	if ( current.frame>=60 && current.frame <=70 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[5] );
+		current.frame++;
+	}
+	if ( current.frame>=70 && current.frame <=80 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[6] );
+		current.frame++;
+	}
+	if ( current.frame>=80 && current.frame <=90 ) {
+		glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
+		current.frame++;
+	}
+	if ( current.frame>90 )
+		current.frame=0;
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid );
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+	glPopMatrix();
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
 }
 
 void drawBullet(Game *g)
@@ -482,7 +468,6 @@ void drawBullet(Game *g)
 		Bullet *b = &g->barr[i];
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_QUADS);
-		glColor3f(1.0f, 1.0f, 1.0f);
 		glVertex2f(b->pos[0] - 5, b->pos[1] - 5);
 		glVertex2f(b->pos[0] + 5, b->pos[1] - 5);
 		glVertex2f(b->pos[0] + 5, b->pos[1] + 5);
@@ -522,19 +507,15 @@ void updateBullet(Game *game)
 			deleteBullet(game, b);
 		}
 	}
-	
+
 }
+
 void spawnBullet(Game *g)
 {
-	//a little time between each bullet
-	struct timespec bt;
-	clock_gettime(CLOCK_REALTIME, &bt);
-	double ts = timeDiff(&g->bulletTimer, &bt);
-	if (ts > 2.0 && g->nbullets < 1) {
-		timeCopy(&g->bulletTimer, &bt);
+	//spawn another bullet after its off the screen
+	if (g->nbullets < 1) {
 		//shoot a bullet...
 		Bullet *b = &g->barr[g->nbullets];
-		timeCopy(&b->time, &bt);
 		b->pos[0] = g->monster->getXpos();
 		b->pos[1] = g->monster->getYpos();
 		b->vel[0] = g->monster->getXvel();

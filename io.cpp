@@ -307,7 +307,6 @@ int check_keys ( XEvent *e, Game *game )
 				game->swarmOn ^= 1;
 				break;
 			case XK_r:
-				game->raveMode ^= 1;
 				break;
 			case XK_t:
 				game->demo.on^=1;

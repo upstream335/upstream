@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <players>
   <player>
+    <name>weeeeeeeee</name>
+    <score>41684</score>
+    <mode>medium</mode>
+  </player>
+  <player>
     <name>jon</name>
     <score>21702</score>
     <mode>medium</mode>
@@ -13,7 +18,7 @@
   <player>
     <name>test</name>
     <score>27236</score>
-    <mode>1</mode>
+    <mode>easy</mode>
   </player>
   <player>
     <name>john</name>
@@ -94,10 +99,5 @@
     <name>test3</name>
     <score>1888</score>
     <mode>easy</mode>
-  </player>
-  <player>
-    <name>test</name>
-    <score>838</score>
-    <mode>medium</mode>
   </player>
 </players>

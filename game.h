@@ -60,6 +60,7 @@ struct Bullet {
 struct Game {
 	int lives;
 	int gameover;
+	bool bossGO;
 	bool done;
 	int difficulty; //1=easy,2=med,3=hard
 	Demo demo;

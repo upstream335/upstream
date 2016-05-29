@@ -551,7 +551,7 @@ void Splash::render ( void )
 
 void Explosion::render ( void )
 {
-	float wid = 50.0f; // size of explosion sprite
+	float wid = 100.0f; // size of explosion sprite
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
 	glTranslatef ( current.x_pos, current.y_pos, 0 );

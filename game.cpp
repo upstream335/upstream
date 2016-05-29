@@ -13,6 +13,7 @@ void init_game ( Game *game )
 {
     //game->windowWidth = 800;
     //game->windowHeight = 1024;
+    game->bossGO = false;
     game->x = game->windowWidth;
     game->difficulty = MED;
     game->lives = 1;
@@ -35,7 +36,7 @@ void init_game ( Game *game )
     game->gator = new Gator;
 	game->monster = new Monster;
     game->fly = new Fly;
-    game->swarmSize = 0;
+    game->swarmSize = 5;
     for ( int i=0; i<game->swarmSize; i++ )
         game->swarm[i] = new Fly;
     game->swarmOn = false;

@@ -367,8 +367,14 @@ class Monster
 			current.x_vel = 0;
 			current.y_vel = 0;
 			previous = current;
-			monsterImage[0] = get_image ( "./images/monster" );
-			int i=0;
+		monsterImage[0] = get_image ( "./images/monster" );
+		monsterImage[1] = get_image ( "./images/monster1" );
+		monsterImage[2] = get_image ( "./images/monster2" );
+		monsterImage[3] = get_image ( "./images/monster3" );
+		monsterImage[4] = get_image ( "./images/monster4" );
+		monsterImage[5] = get_image ( "./images/monster5" );
+		monsterImage[6] = get_image ( "./images/monster6" );
+		for ( int i =0; i<7; i++ ) {
 			//create opengl texture elements
 			glGenTextures ( 1, &monsterTexture[i] );
 			int w = monsterImage[i]->width;
@@ -382,7 +388,8 @@ class Monster
 			unsigned char *monsterData = buildAlphaData ( monsterImage[i] );
 			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
 					GL_RGBA, GL_UNSIGNED_BYTE, monsterData );
-			free ( monsterData );
+			free ( monsterData);
+			}
 		} //end constructor
 		//--------------------------------------------------------------------
 		float getFrame()

@@ -92,6 +92,7 @@ public:
 		current = update_position ( &current,xp,yp,xv,yv );
 	}
 };
+
 class HUD
 {
 private:
@@ -271,6 +272,60 @@ public:
 		free ( gameoverData );
 	} //end constructor
 	//--------------------------------------------------------------------
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+	}
+};
+
+class highscoreBG
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *highscorebgImage;
+	GLuint highscorebgTexture;
+public:
+	highscoreBG()
+	{
+		current.frame = 0;
+		current.x_pos = WIDTH;
+		current.y_pos = HEIGHT;
+		current.x_vel = 0;
+		current.y_vel = -1;
+		previous = current;
+		highscorebgImage = get_image ( "./images/highscorebg" );
+
+		glGenTextures ( 1, &highscorebgTexture );
+		int w = highscorebgImage->width;
+		int h = highscorebgImage->height;
+
+		glBindTexture ( GL_TEXTURE_2D, highscorebgTexture );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST );
+		glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST );
+		unsigned char *highscorebgData = buildAlphaData ( highscorebgImage );
+		glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+		               GL_RGBA, GL_UNSIGNED_BYTE, highscorebgData );
+		free ( highscorebgData );
+	}
+//--------------------------------------------------------------------
 	void render ( void );
 	float getXpos()
 	{

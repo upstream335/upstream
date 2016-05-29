@@ -151,13 +151,13 @@ Ppmimage *ppm6GetImage_local(const char *filename)
 		exit(EXIT_FAILURE);
 	}
 	//comments?
-	while(1) {
+	while (1) {
 		c = fgetc(fpi);
 		if (c != '#')
 			break;
 		//read until newline
 		ntries=0;
-		while(1) {
+		while (1) {
 			//to avoid infinite loop...
 			if (++ntries > 10000) {
 				printf("ERROR: too many blank lines in **%s**\n", filename);
@@ -174,7 +174,7 @@ Ppmimage *ppm6GetImage_local(const char *filename)
 	//
 	//get past any newline or carrage-return
 	ntries=0;
-	while(1) {
+	while (1) {
 		//to avoid infinite loop...
 		if (++ntries > 10000) {
 			printf("ERROR: too many blank lines in **%s**\n", filename);
@@ -965,25 +965,25 @@ void ggprint12(Rect *r, int advance, int cref, const char *fmt, ...)
 	glBindTexture(GL_TEXTURE_2D, a12_texture_no);
 	const int slen = strlen(text);
 	/*
-	glBegin(GL_QUADS);
-	for (k=0; k<slen; ++k) {
-	ascii = text[k] - 32;
-	lp = (float)(clen_a12[ascii]);
-	tx[0] = tx_a12[ascii][0];
-	tx[1] = tx_a12[ascii][1];
-	ty[0] = ty_a12[ascii][0];
-	ty[1] = ty_a12[ascii][1];
-	glTexCoord2f(tx[0],ty[0]);
-	glVertex2f(fx,fy);
-	glTexCoord2f(tx[0],ty[1]);
-	glVertex2f(fx,fy+hp);
-	glTexCoord2f(tx[1],ty[1]);
-	glVertex2f(fx+lp,fy+hp);
-	glTexCoord2f(tx[1],ty[0]);
-	glVertex2f(fx+lp,fy);
-	fx += lp + 1.0f;
-	}
-	*/
+	   glBegin(GL_QUADS);
+	   for (k=0; k<slen; ++k) {
+	   ascii = text[k] - 32;
+	   lp = (float)(clen_a12[ascii]);
+	   tx[0] = tx_a12[ascii][0];
+	   tx[1] = tx_a12[ascii][1];
+	   ty[0] = ty_a12[ascii][0];
+	   ty[1] = ty_a12[ascii][1];
+	   glTexCoord2f(tx[0],ty[0]);
+	   glVertex2f(fx,fy);
+	   glTexCoord2f(tx[0],ty[1]);
+	   glVertex2f(fx,fy+hp);
+	   glTexCoord2f(tx[1],ty[1]);
+	   glVertex2f(fx+lp,fy+hp);
+	   glTexCoord2f(tx[1],ty[0]);
+	   glVertex2f(fx+lp,fy);
+	   fx += lp + 1.0f;
+	   }
+	 */
 
 	if (r->center) {
 		for (k=0; k<slen; ++k) {
@@ -1255,7 +1255,6 @@ void get_compressed_tm(Texmap *tm, unsigned char *ptr1)
 		//else {
 		//printf("ERROR - un-handled character!!! %i\n", (int)(*ptr1));
 		break;
-	}
 	}
 
 	void build_gl_texmap(Texmap *tm, unsigned int *texnum)
@@ -1856,8 +1855,6 @@ void get_compressed_tm(Texmap *tm, unsigned char *ptr1)
 #endif //SHOW_COMPRESSED_PRINTOUT
 							*tempptr=1; tempptr++;
 						}
-						}
-					}
 					if (ccount > 72) {
 #ifdef SHOW_COMPRESSED_PRINTOUT
 						Log("\n");
@@ -1866,8 +1863,6 @@ void get_compressed_tm(Texmap *tm, unsigned char *ptr1)
 						lcount=0;
 						ccount=0;
 					}
-				}
-			}
 			if (zcount) {
 #ifdef SHOW_COMPRESSED_PRINTOUT
 				sprintf(ts,"%i,",zcount);
@@ -1894,7 +1889,6 @@ void get_compressed_tm(Texmap *tm, unsigned char *ptr1)
 			if (tm.c)
 				free(tm.c);
 			return 0;
-		}
 
 		void cleanup_fonts(void)
 		{

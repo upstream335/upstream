@@ -25,7 +25,6 @@ using namespace std;
 //macros
 #define random(a) (rand()%a)
 #define GRAVITY 0.1
-#define rnd() (((Flt)rand())/(Flt)RAND_MAX)
 #define random(a) (rand()%a)
 
 //X Windows variables

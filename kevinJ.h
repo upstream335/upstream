@@ -18,8 +18,11 @@ using namespace std;
 #define PAGE "/"
 #define PORT 80
 #define USERAGENT "HTMLGET 1.0"
+#define rnd() (((double)rand())/(double)RAND_MAX)
+#define PI 3.141592
 
 extern void playSounds(const char * sound, float gain, bool loop, bool muted);
+extern void muteSounds(Game *game);
 extern void initSounds();
 extern void cleanUpSound();
 extern void initBuffer(const char * sound);
@@ -30,6 +33,11 @@ extern void maxScore(Game *game);
 extern void sendScoresToPHP(char playerName[], int score, int diff);
 extern void render_help_menu(Game *game);
 extern void check_help_mouse(XEvent *e, Game *game);
+extern double timeDiff(struct timespec *start, struct timespec *end);
+extern void updateBullet(Game *game);
+extern void spawnBullet(Game *g);
+extern void deleteBullet(Game *g, Bullet *b);
+extern void drawBullet(Game *g);
 
 int create_tcp_socket();
 char *get_ip(char *host);

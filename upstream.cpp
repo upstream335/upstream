@@ -122,17 +122,6 @@ int main ( void )
     return 0;
 }
 
-double timeDiff ( struct timespec *start, struct timespec *end )
-{
-    return ( double ) ( end->tv_sec - start->tv_sec ) +
-        ( double ) ( end->tv_nsec - start->tv_nsec ) * oobillion;
-}
-
-void timeCopy ( struct timespec *dest, struct timespec *source )
-{
-    memcpy ( dest, source, sizeof ( struct timespec ) );
-}
-
 void set_title ( void )
 {
     //Set the window title bar.
@@ -291,6 +280,7 @@ void physics ( Game *game )
         // =============================
         checkLilies ( game );
     }
+	updateBullet(game);
 }
 
 void drawCircle ( float x, float y, float radius, int detail )
@@ -335,9 +325,12 @@ void render ( Game *game )
 
     render_ingame_buttons(game);
     game->splash->render();
+	game->explosion->render();
     game->gator->render();
     game->bridge->render();
     game->frog->render();
+	game->monster->render();
+	drawBullet(game);
     game->fly->render(20);
     if (game->swarmOn) {
     for ( int i=0;i<game->swarmSize;i++)

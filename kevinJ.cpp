@@ -11,6 +11,7 @@
 //buffer/source[2] = tick
 //buffer/source[3] = splash
 //buffer/source[4] = rocket
+//buffer/source[5] = money sound
 
 struct Game *g;
 ALuint source[10];
@@ -20,6 +21,8 @@ ALuint playBuffer[10];
 ALuint playSource[10];
 int bufferCount = 0;
 int sourceCount = 0;
+const double oobillion = 1.0 / 1e9;
+
 
 void initBuffer(const char * sound)
 {
@@ -82,7 +85,20 @@ int getSource(const char * sound)
 	else {
 		printf("%s hasn't been initialized\n\n", sound);
 		return -1;
-	}
+	}struct Bullet {
+		Vec pos;
+		Vec vel;
+		float color[3];
+		struct timespec time;
+		struct Bullet *prev;
+		struct Bullet *next;
+		Bullet() {
+			prev = NULL;
+			next = NULL;
+		}
+	};
+
+
 }
 
 void playSounds(const char * sound, float gain, bool loop, bool muted)
@@ -100,6 +116,18 @@ void playSounds(const char * sound, float gain, bool loop, bool muted)
 	alSourcef(source[index], AL_PITCH, 1.0f);
 	alSourcei(source[index], AL_LOOPING, loop);
 	alSourcePlay(source[index]);
+}
+
+void muteSounds(Game *game)
+{
+	game->muted ^= 1;
+	if ( game->muted ) {
+		stopMusic();
+		printf ( "Sounds OFF\n" );
+	} else {
+		playMusic();
+		printf ( "Sounds ON\n" );
+	}
 }
 
 void cleanUpSound()
@@ -125,6 +153,17 @@ void stopMusic()
 void playMusic()
 {
 	alSourcePlay(source[0]);
+}
+
+double timeDiff(struct timespec *start, struct timespec *end)
+{
+	return (double)(end->tv_sec - start->tv_sec) + 
+		(double)(end->tv_nsec - start->tv_nsec) * oobillion;
+}
+
+void timeCopy(struct timespec *dest, struct timespec *source)
+{
+	memcpy(dest, source, sizeof(struct timespec));
 }
 
 void maxScore(Game *game)
@@ -354,11 +393,6 @@ void render_help_menu(Game *game)
 
 void check_help_mouse(XEvent *e, Game *game)
 {
-    		glBindTexture ( GL_TEXTURE_2D, 0 );
-		Rect r;
-    		r.bot = game->windowHeight - 120;
-		ggprint13 ( &r, 30, 0, "X %f", game->c.newPosX );
-		ggprint13 ( &r, 30, 0, "y %f", game->windowHeight - game->c.newPosY );
 	if (e->type == ButtonRelease) {
 		return;
 	}
@@ -369,3 +403,142 @@ void check_help_mouse(XEvent *e, Game *game)
 		}
 	}
 }
+
+void Monster::render ( void )
+{
+	float wid = 40.0f; // size of monster sprite
+	if (current.x_pos == 0)
+		current.x_vel = 2;
+
+	if (current.x_pos == 600)
+		current.x_vel = -2;
+
+	current.x_pos += current.x_vel;
+
+
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+	glTranslatef ( current.x_pos, current.y_pos, 0 );
+	glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+	glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid );
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+	glPopMatrix();
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+}
+
+void drawBullet(Game *g)
+{
+	spawnBullet(g);
+	for (int i=0; i<g->nbullets; i++) {
+		Bullet *b = &g->barr[i];
+		//Log("draw bullet...\n");
+		glColor3f(1.0f, 1.0f, 1.0f);
+		/*glBegin(GL_QUAD_STRIP);
+		glVertex2f(b->pos[0],      b->pos[1]);
+		glVertex2f(b->pos[0]-4.0f, b->pos[1]);
+		glVertex2f(b->pos[0]+4.0f, b->pos[1]);
+		glVertex2f(b->pos[0],      b->pos[1]-4.0f);
+		glVertex2f(b->pos[0],      b->pos[1]+4.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f(b->pos[0]-4.0f, b->pos[1]-4.0f);
+		glVertex2f(b->pos[0]-4.0f, b->pos[1]+4.0f);
+		glVertex2f(b->pos[0]+4.0f, b->pos[1]-4.0f);
+		glVertex2f(b->pos[0]+4.0f, b->pos[1]+4.0f);
+		glEnd();
+		*/
+		glBegin(GL_QUADS);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f(b->pos[0] - 5, b->pos[1] - 5);
+		glVertex2f(b->pos[0] + 5, b->pos[1] - 5);
+		glVertex2f(b->pos[0] + 5, b->pos[1] + 5);
+		glVertex2f(b->pos[0] - 5, b->pos[1] + 5);
+		glEnd();
+	}
+}
+
+
+void deleteBullet(Game *g, Bullet *b)
+{
+	b = &g->barr[1 - 1];
+	g->nbullets--;
+}
+
+void updateBullet(Game *game)
+{
+	struct timespec bt;
+	clock_gettime(CLOCK_REALTIME, &bt);
+	for (int i=0; i<game->nbullets; i++) {
+		Bullet *b = &game->barr[i];
+		//How long has bullet been alive?
+		//double ts = timeDiff(&b->time, &bt);
+		//move the bullet
+		b->pos[0] += b->vel[0];
+		b->pos[1] += b->vel[1];
+		//Check for collision with window edges
+		if (b->pos[0] < 0.0f) {
+			b->vel[0] *= -1;
+			//deleteBullet(game, b);
+		}
+		else if (b->pos[0] > (float)game->windowWidth) {
+			b->vel[0] *= -1;
+			//deleteBullet(game, b);
+		}
+		else if (b->pos[1] < 0.0f) {
+			deleteBullet(game, b);
+		}
+		else if (b->pos[1] > (float)game->windowHeight) {
+			deleteBullet(game, b);
+		}
+		//b = b->next;
+		
+	}
+	
+}
+void spawnBullet(Game *g)
+{
+	//a little time between each bullet
+	struct timespec bt;
+	clock_gettime(CLOCK_REALTIME, &bt);
+	double ts = timeDiff(&g->bulletTimer, &bt);
+	if (ts > 2.0 && g->nbullets < 1) {
+		timeCopy(&g->bulletTimer, &bt);
+		//shoot a bullet...
+		Bullet *b = &g->barr[g->nbullets];
+		timeCopy(&b->time, &bt);
+		b->pos[0] = g->monster->getXpos();
+		b->pos[1] = g->monster->getYpos();
+		b->vel[0] = g->monster->getXvel();
+		b->vel[1] = g->monster->getYvel();
+		////convert ship angle to radians
+		//float rad = ((0.0+90.0f) / 360.0f) * PI * 2.0f;
+		//convert angle to a vector
+		//float xdir = cos(rad);
+		//float ydir = sin(rad);
+		//b->pos[0] += xdir*20.0f;
+		b->vel[1] += -3;
+		b->pos[1] += b->vel[1];
+		//b->vel[0] += xdir*6.0f + rnd()*0.1f;
+		b->color[0] = 0.0f;
+		b->color[1] = 0.0f;
+		b->color[2] = 0.0f;
+		g->nbullets++;
+	}
+}
+

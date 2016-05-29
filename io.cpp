@@ -52,14 +52,7 @@ void check_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 13:
 							//Sound
-							game->muted ^= 1;
-							if ( game->muted ) {
-								stopMusic();
-								printf ( "Sounds OFF\n" );
-							} else {
-								playMusic();
-								printf ( "Sounds ON\n" );
-							}
+							muteSounds(game);
 							break;
 						case 14:
 							//Help
@@ -200,14 +193,7 @@ void check_paused_mouse ( XEvent *e, Game *game )
 							break;
 						case 6:
 							//Sound
-							game->muted ^= 1;
-							if ( game->muted ) {
-								stopMusic();
-								printf ( "Sounds OFF\n" );
-							} else {
-								playMusic();
-								printf ( "Sounds ON\n" );
-							}
+							muteSounds(game);
 							break;
 						case 7:
 							//restart game
@@ -316,14 +302,16 @@ int check_keys ( XEvent *e, Game *game )
 				game->swarmOn ^= 1;
 				break;
 			case XK_r:
-				game->frog->toggleRocket();
-				game->frog->setFrame ( 0 );
+				game->raveMode ^= 1;
 				break;
 			case XK_t:
 				game->demo.on^=1;
 				break;
 			case XK_Escape:
 				game->sub_menu^=true;
+				break;
+			case XK_space:
+				spawnBullet(game);
 				break;
 				return 1;
 		}

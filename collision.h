@@ -13,6 +13,7 @@
 #include "jonathanD.h"
 
 extern void gameOver(Game *game);
+extern void bossGameOver(Game *game);
 extern void collision(Game *game);
 extern void screenUpdate(Game *game);
 extern void gameOver(Game *game);

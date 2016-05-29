@@ -40,6 +40,19 @@ struct Demo {
 	int jump;
 };
 
+struct Bullet {
+	Vec pos;
+	Vec vel;
+	float color[3];
+	struct timespec time;
+	struct Bullet *prev;
+	struct Bullet *next;
+	Bullet() {
+		prev = NULL;
+		next = NULL;
+	}
+};
+
 #define EASY    1
 #define MED     2
 #define HARD    3
@@ -53,6 +66,7 @@ struct Game {
 	bool playing;
 	bool isHighScore;
 	bool rocketSound;
+	bool raveMode;
 	int x;  // fly x position in game over
 	int troll_lilypad;
 	int windowWidth;
@@ -72,6 +86,9 @@ struct Game {
 	int lilyspawnpoint; //y coordinate of where lilies spawn
 	int stresstest;
 	int tempscore;
+	int nbullets;
+	Bullet *barr;
+	struct timespec bulletTimer;
 	char playername[256];
 	char hsname[256];
 	Lilypad *ihead;
@@ -85,6 +102,7 @@ struct Game {
 	Frog *frog;
 	Gator *gator;
 	Fly *fly;
+	Monster *monster;
 	int swarmSize;
 	Fly *swarm[20];
 	bool swarmOn;
@@ -93,6 +111,7 @@ struct Game {
 	WaterBG *waterbg;
 	Bridge *bridge;
 	Splash *splash;
+	Explosion *explosion;
 	Turtle *turtle;
 	RocketPack *rocketPack;
 	std::string highScores[20];

@@ -86,6 +86,7 @@ void init_game ( Game *game )
     game->introbg = new IntroBG;
     game->pausedbg = new PausedBG;
     game->gameoverbg = new GameoverBG;
+    game->highscorebg = new highscoreBG;
     //Website update score stff
     char *host = ( char* ) "sleipnir.cs.csub.edu";
     char *tpage = ( char* )

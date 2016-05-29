@@ -51,6 +51,8 @@ void check_mouse ( XEvent *e, Game *game )
 				if (lbutton) {
 					switch (i) {
 						case 13:
+						        game->c.isJumping = false;
+							game->c.isStanding = true;
 							//Sound
 							muteSounds(game);
 							break;
@@ -105,9 +107,10 @@ void check_menu_mouse ( XEvent *e, Game *game )
 				if (lbutton) {
 					switch (i) {
 						case 0:
-							//Main Menu
+							//Play
 							game->main_menu^=true;
 							reset_game(game);
+							//game->demo.on=false;
 							break;
 						case 1:
 							//Difficulty
@@ -131,9 +134,13 @@ void check_menu_mouse ( XEvent *e, Game *game )
 							break;
 						case 2:
 							//High Scores
+							game->credits=false;
+							game->highscoreboard^=true;	
 							break;
 						case 3:
 							//Credits
+							game->highscoreboard=false;
+							game->credits^=true;
 							break;
 						case 4:
 							//Exit Game
@@ -204,6 +211,7 @@ void check_paused_mouse ( XEvent *e, Game *game )
 							//main menu
 							game->sub_menu^=true;
 							game->main_menu^=true;
+							reset_game(game);
 							break;
 						case 9:
 							//Exit Game
@@ -286,9 +294,6 @@ int check_keys ( XEvent *e, Game *game )
 	if ( e->type == KeyPress ) {
 		int key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
-			case XK_o:
-				reset_game(game);
-				break;
 			case XK_j:
 				game->troll_lilypad ^= 1;
 				break;

@@ -17,6 +17,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include <string>
+#include <sstream>
 #include <cstring>
 #include <stdio.h>
 #include <cmath>
@@ -156,6 +158,39 @@ void GameoverBG::render(void)
     glEnable ( GL_BLEND );
     glDisable ( GL_BLEND );
     glEnable ( GL_TEXTURE_2D );
+}
+
+void highscoreBG::render(void)
+{
+	float wid = 220.0f;
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+
+	glTranslatef ( current.x_pos-220, current.y_pos-320, 0 );
+	glBindTexture ( GL_TEXTURE_2D, highscorebgTexture );
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid);
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+
+	glPopMatrix();
+
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
 }
 
 void init_buttons(Game *game)
@@ -304,6 +339,7 @@ void init_buttons(Game *game)
     strcpy(game->button[12].text, "QUIT");
     strcpy(game->button[13].text, "S");
     strcpy(game->button[14].text, "Help");
+
 }
 
 void render_main_menu(Game *game)
@@ -312,6 +348,49 @@ void render_main_menu(Game *game)
     game->introbg->render();
     game->frog->render();
     render_main_menu_buttons(game);
+    if (game->highscoreboard)
+	render_highscore(game);
+    if (game->credits)
+	render_credits(game);
+}
+
+void render_highscore(Game *game)
+{
+    Rect r;
+    stringstream ss;
+    string s;
+    const char* c;
+    game->highscorebg->render();
+    glBindTexture ( GL_TEXTURE_2D, 0 );
+    r.bot = game->windowHeight - 220;
+
+    for ( int i=0; i<10; i++ ) {
+	game->highScores[i] = loadScores ( i );
+	ss.str("");
+	ss<<"player#"<<i+1<<" = "<<game->highScores[i];
+	s = ss.str();
+	c = s.c_str();
+	r.left = 220;
+	ggprint13 ( &r, 30, 0, c);
+    }
+}
+
+void render_credits(Game *game)
+{
+    Rect r;
+    game->highscorebg->render();
+    glBindTexture ( GL_TEXTURE_2D, 0 );
+    r.bot = game->windowHeight - 220;
+    r.left = 400;
+    ggprint13 ( &r, 40, 1, "CREDITS:");
+    r.left = 400;
+    ggprint13 ( &r, 40, 1, "JONATHAN DINH");
+    r.left = 400;
+    ggprint13 ( &r, 40, 1, "JOHN HARGREAVES");
+    r.left = 400;
+    ggprint13 ( &r, 40, 1, "QUY NGUYEN");
+    r.left = 400;
+    ggprint13 ( &r, 40, 1, "KEVIN JENKINS");
 }
 
 void render_sub_menu(Game *game)

@@ -124,6 +124,14 @@ struct Game {
 	IntroBG *introbg;
 	PausedBG *pausedbg;
 	GameoverBG *gameoverbg;
+	
+	//highscore display
+	bool highscoreboard;
+	highscoreBG *highscorebg;
+	
+	//credits
+	bool credits;
+	
 	Button button[MAXBUTTONS];
 	int nbuttons;
 	int count;
@@ -136,7 +144,7 @@ struct Game {
 	{
 		done = false;
 		c.isStanding = true;
-        showTaunt = true;
+		showTaunt = true;
 		tempscore = 0;
 		windowWidth = 600;
 		windowHeight = 760;
@@ -150,6 +158,8 @@ struct Game {
 		sub_menu = true;
 		gameover_menu = false;
 		gameover = false;
+		highscoreboard = false;
+		credits = false;
 		count = 2;
 		// buttons count
 		nbuttons = 0;

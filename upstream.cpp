@@ -176,7 +176,7 @@ void reshapeWindow ( int width, int height, Game *game )
 {
     //window has been resized.
     //setupScreenRes(width, height, game);
-    glViewport ( 0, 0, ( GLint ) width, ( GLint ) height );
+    glViewport ( 0, 0, (GLint)width, (GLint height );
     glMatrixMode ( GL_PROJECTION );
     glLoadIdentity();
     glMatrixMode ( GL_MODELVIEW );
@@ -281,22 +281,6 @@ void physics ( Game *game )
         checkLilies ( game );
     }
 	updateBullet(game);
-}
-
-void drawCircle ( float x, float y, float radius, int detail )
-{
-    float radian = 2.0 * 3.14;
-    glPushMatrix();
-    glColor3ub ( 90,140,90 );
-    glBegin ( GL_TRIANGLE_FAN );
-    for ( int i = 0; i <= detail; i++ ) {
-        glVertex2f (
-                x + ( radius * cos ( i * radian / detail ) ),
-                y + ( radius * sin ( i * radian / detail ) )
-                );
-    }
-    glEnd();
-    glPopMatrix();
 }
 
 void render ( Game *game )

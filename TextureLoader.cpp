@@ -22,12 +22,12 @@ unsigned int& outWidth, unsigned int& outHeight, bool flipY)
 	if (!file) {printf("Image could not be opened\n"); return NULL;}
 	// Read the header, i.e. the 54 first bytes
 	// If less than 54 byes are read, problem
-	if ( fread(header, 1, 54, file)!=54 ){
+	if ( fread(header, 1, 54, file)!=54 ) {
 		printf("Not a correct BMP file\n");
 		return NULL;
 	}
 	// A BMP files always begins with "BM"
-	if ( header[0]!='B' || header[1]!='M' ){
+	if ( header[0]!='B' || header[1]!='M' ) {
 		printf("Not a correct BMP file\n");
 		return NULL;
 	}
@@ -55,15 +55,16 @@ unsigned int& outWidth, unsigned int& outHeight, bool flipY)
 	fread(data,1,imageSize,file);
 	// Everything is in memory now, the file wan be closed
 	fclose (file);
-	if (flipY){
+	if (flipY) {
 		// swap y-axis
 		unsigned char * tmpBuffer = new unsigned char[outWidth*3];
 		int size = outWidth*3;
-		for (int i=0;i<outHeight/2;i++){
+		for (int i=0;i<outHeight/2;i++) {
 			// copy row i to tmp
 			memcpy_s(tmpBuffer,size,data+outWidth*3*i,size);
 			// copy row h-i-1 to i
-			memcpy_s(data+outWidth*3*i, size, data+outWidth*3*(outHeight-i-1), size);
+			memcpy_s(data+outWidth*3*i, size, data+outWidth*3*(outHeight-i-1),
+			size);
 			// copy tmp to row h-i-1
 			memcpy_s(data+outWidth*3*(outHeight-i-1), size,tmpBuffer, size);
 		}

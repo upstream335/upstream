@@ -180,7 +180,8 @@ void ppm1ClearImage(Ppmimage *image, unsigned char color)
 	}
 }
 
-void ppm1Setpixel (Ppmimage *image, int x, int y, unsigned char val) {
+void ppm1Setpixel (Ppmimage *image, int x, int y, unsigned char val)
+{
 	unsigned char *data = (unsigned char *)image->data + (y * image->width + x);
 	*data = val;
 }
@@ -302,7 +303,8 @@ void ppm3SaveImage(Ppmimage *image, const char *filename)
 	fclose(fpo);
 }  
 
-void ppm3ClearImage(Ppmimage *image, unsigned char red, unsigned char green, unsigned char blue)
+void ppm3ClearImage(Ppmimage *image, unsigned char red, unsigned char green, 
+					unsigned char blue)
 {
 	int i;
 	int pix = image->width * image->height;
@@ -314,8 +316,12 @@ void ppm3ClearImage(Ppmimage *image, unsigned char red, unsigned char green, uns
 	}
 }
 
-void ppm3Setpixel (Ppmimage *image, int x, int y, int channel, unsigned char val) {
-	unsigned char *data = (unsigned char *)image->data + ((y * image->width * 3) + (x * 3) + channel);
+void ppm3Setpixel (Ppmimage *image, int x, int y, int channel,
+					unsigned char val) 
+{
+	unsigned char *data =
+	(unsigned char *)image->data + ((y * image->width * 3) + (x * 3) +
+	channel);
 	*data = val;
 }
 
@@ -468,7 +474,8 @@ void ppm6SaveImage(Ppmimage *image, const char *filename)
 	fclose(fpo);
 }
 
-void ppm6ClearImage(Ppmimage *image, unsigned char red, unsigned char green, unsigned char blue)
+void ppm6ClearImage(Ppmimage *image, unsigned char red, unsigned char green,
+					unsigned char blue)
 {
 	int i;
 	int pix = image->width * image->height;
@@ -480,7 +487,11 @@ void ppm6ClearImage(Ppmimage *image, unsigned char red, unsigned char green, uns
 	}
 }
 
-void ppm6Setpixel (Ppmimage *image, int x, int y, int channel, unsigned char val) {
-	unsigned char *data = (unsigned char *)image->data + ((y * image->width * 3) + (x * 3) + channel);
+void ppm6Setpixel (Ppmimage *image, int x, int y, int channel,
+					unsigned char val) 
+{
+	unsigned char *data =
+		(unsigned char *)image->data + 
+		((y * image->width * 3) + (x * 3) + channel);
 	*data = val;
 }

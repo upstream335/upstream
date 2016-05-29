@@ -341,7 +341,8 @@ void render ( Game *game )
 	//r.center = 600;
 	//ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
 	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
-	ggprint17 ( &r,100,0,"%d    %d",game->lives,game->frog->getNumberRockets() );
+	ggprint17 ( &r,100,0,"%d    %d",
+				game->lives,game->frog->getNumberRockets() );
 	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
 	maxScore ( game );

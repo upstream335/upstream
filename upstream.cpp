@@ -176,7 +176,7 @@ void reshapeWindow ( int width, int height, Game *game )
 {
     //window has been resized.
     //setupScreenRes(width, height, game);
-    glViewport ( 0, 0, (GLint)width, (GLint height );
+    glViewport ( 0, 0, (GLint)width, (GLint)height );
     glMatrixMode ( GL_PROJECTION );
     glLoadIdentity();
     glMatrixMode ( GL_MODELVIEW );

@@ -12,6 +12,7 @@
 //               KEVIN JENKIN
 ///////////////////////////////////////////////////////////////////////
 #include "upstream.h"
+#include "assert.h"
 
 int main ( void )
 {
@@ -338,7 +339,7 @@ void render ( Game *game )
 	Rect r;
 	r.bot = game->windowHeight - 120;
 	r.left = 420;
-	//r.center = 600;
+	r.center = 600;
 	//ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
 	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
 	ggprint17 ( &r,100,0,"%d    %d",
@@ -346,7 +347,7 @@ void render ( Game *game )
 	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
 	maxScore ( game );
-	r.left = 300;
+	//r.left = 300;
 	//if ( game->frog->getYpos() <=50 )
 	//	ggprint40 ( &r, 50, 0, "High Score: %d", game->highscore[0] );
 	//std::cout<<game->highscore[0]<<std::endl;

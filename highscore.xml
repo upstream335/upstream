@@ -11,6 +11,11 @@
     <mode>hard</mode>
   </player>
   <player>
+    <name>test</name>
+    <score>27236</score>
+    <mode>1</mode>
+  </player>
+  <player>
     <name>john</name>
     <score>8150</score>
     <mode>hard</mode>
@@ -94,10 +99,5 @@
     <name>test</name>
     <score>838</score>
     <mode>medium</mode>
-  </player>
-  <player>
-    <name>john</name>
-    <score>490</score>
-    <mode>hard</mode>
   </player>
 </players>

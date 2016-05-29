@@ -406,41 +406,75 @@ void check_help_mouse(XEvent *e, Game *game)
 
 void Monster::render ( void )
 {
-	float wid = 40.0f; // size of monster sprite
-	if (current.x_pos == 0)
-		current.x_vel = 2;
+    float wid = 40.0f; // size of monster sprite
+    if (current.x_pos == 0)
+        current.x_vel = 2;
 
-	if (current.x_pos == 600)
-		current.x_vel = -2;
+    if (current.x_pos == 600)
+        current.x_vel = -2;
 
-	current.x_pos += current.x_vel;
+    current.x_pos += current.x_vel;
 
 
-	glColor3f ( 1.0, 1.0, 1.0 );
-	glPushMatrix();
-	glTranslatef ( current.x_pos, current.y_pos, 0 );
-	glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
-	glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
-	glEnable ( GL_ALPHA_TEST );
-	glAlphaFunc ( GL_GREATER, 0.0f );
-	glColor4ub ( 255,255,255,255 );
-	glBegin ( GL_QUADS );
-	glTexCoord2f ( 0.0f, 1.0f );
-	glVertex2i ( -wid,-wid );
-	glTexCoord2f ( 0.0f, 0.0f );
-	glVertex2i ( -wid, wid );
-	glTexCoord2f ( 1.0f, 0.0f );
-	glVertex2i ( wid, wid );
-	glTexCoord2f ( 1.0f, 1.0f );
-	glVertex2i ( wid,-wid );
-	glEnd();
-	glPopMatrix();
-	glDisable ( GL_ALPHA_TEST );
-	glDisable ( GL_TEXTURE_2D );
-	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
-	glEnable ( GL_BLEND );
-	glDisable ( GL_BLEND );
-	glEnable ( GL_TEXTURE_2D );
+    glColor3f ( 1.0, 1.0, 1.0 );
+    glPushMatrix();
+    glTranslatef ( current.x_pos, current.y_pos, 0 );
+    glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+    if (  current.frame <20 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+        current.frame++;
+    }
+    if ( current.frame>=20 && current.frame <=30 ) {
+         glBindTexture ( GL_TEXTURE_2D, monsterTexture[1] );
+         current.frame++;
+    }
+    if ( current.frame>=30 && current.frame <=40 ) {
+         glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
+         current.frame++;
+    }
+    if ( current.frame>=40 && current.frame <=50 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[3] );
+        current.frame++;
+    }
+    if ( current.frame>=50 && current.frame <=60 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[4] );
+        current.frame++;
+    }
+    if ( current.frame>=60 && current.frame <=70 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[5] );
+        current.frame++;
+    }
+    if ( current.frame>=70 && current.frame <=80 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[6] );
+        current.frame++;
+    }
+    if ( current.frame>=80 && current.frame <=90 ) {
+        glBindTexture ( GL_TEXTURE_2D, monsterTexture[2] );
+        current.frame++;
+    }
+    if ( current.frame>90 )
+        current.frame=0;
+    //glBindTexture ( GL_TEXTURE_2D, monsterTexture[0] );
+    glEnable ( GL_ALPHA_TEST );
+    glAlphaFunc ( GL_GREATER, 0.0f );
+    glColor4ub ( 255,255,255,255 );
+    glBegin ( GL_QUADS );
+    glTexCoord2f ( 0.0f, 1.0f );
+    glVertex2i ( -wid,-wid );
+    glTexCoord2f ( 0.0f, 0.0f );
+    glVertex2i ( -wid, wid );
+    glTexCoord2f ( 1.0f, 0.0f );
+    glVertex2i ( wid, wid );
+    glTexCoord2f ( 1.0f, 1.0f );
+    glVertex2i ( wid,-wid );
+    glEnd();
+    glPopMatrix();
+    glDisable ( GL_ALPHA_TEST );
+    glDisable ( GL_TEXTURE_2D );
+    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+    glEnable ( GL_BLEND );
+    glDisable ( GL_BLEND );
+    glEnable ( GL_TEXTURE_2D );
 }
 
 void drawBullet(Game *g)

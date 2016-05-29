@@ -315,8 +315,8 @@ int check_keys ( XEvent *e, Game *game )
 			case XK_Escape:
 				game->sub_menu^=true;
 				break;
-			case XK_space:
-				spawnBullet(game);
+			case XK_b:
+				game->bossGO ^= true;
 				break;
 				return 1;
 		}

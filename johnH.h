@@ -354,8 +354,8 @@ class Monster
 	private:
 		Position current;
 		Position previous;
-		Ppmimage *monsterImage[2];
-		GLuint monsterTexture[2];
+		Ppmimage *monsterImage[7];
+		GLuint monsterTexture[7];
 
 	public:
 		// Constructor with default values for data members

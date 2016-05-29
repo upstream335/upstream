@@ -1007,6 +1007,80 @@ public:
 	}
 }; //end splash class ======================================
 
+class Explosion
+{
+private:
+	Position current;
+	Position previous;
+	Ppmimage *explosionImage[7];
+	GLuint explosionTexture[7];
+
+public:
+	// Constructor with default values for data members
+	Explosion()
+	{
+		current.frame = 0;
+		current.x_pos = -300;
+		current.y_pos =-800;
+		current.x_vel = 0;
+		current.y_vel = 0;
+		previous = current;
+		explosionImage[0] = get_image ( "./images/explosion" );
+		explosionImage[1] = get_image ( "./images/explosion1" );
+		explosionImage[2] = get_image ( "./images/explosion2" );
+		explosionImage[3] = get_image ( "./images/explosion3" );
+		explosionImage[4] = get_image ( "./images/explosion4" );
+		explosionImage[4] = get_image ( "./images/explosion5" );
+		explosionImage[4] = get_image ( "./images/explosion6" );
+		for ( int i =0; i<5; i++ ) {
+			//create opengl texture elements
+			glGenTextures ( 1, &explosionTexture[i] );
+			int w = explosionImage[i]->width;
+			int h = explosionImage[i]->height;
+			//
+			glBindTexture ( GL_TEXTURE_2D, explosionTexture[i] );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,
+							GL_NEAREST );
+			glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,
+							GL_NEAREST );
+			unsigned char *explosionData = buildAlphaData ( explosionImage[i] );
+			glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
+							GL_RGBA, GL_UNSIGNED_BYTE, explosionData );
+			free ( explosionData );
+		}
+	} //end constructor
+	//--------------------------------------------------------------------
+	float getFrame()
+	{
+		return current.frame;
+	}
+	void setFrame ( float x )
+	{
+		current.frame=x;
+	}
+	void render ( void );
+	float getXpos()
+	{
+		return current.x_pos;
+	}
+	float getYpos()
+	{
+		return current.y_pos;
+	}
+	float getXvel()
+	{
+		return current.x_vel;
+	}
+	float getYvel()
+	{
+		return current.y_vel;
+	}
+	void move ( float xp, float yp, float xv, float yv )
+	{
+		current = update_position ( &current,xp,yp,xv,yv );
+		current.frame=0;
+	}
+}; //end explosion class ======================================
 
 // ===========================================================================
 class RocketPack

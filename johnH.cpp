@@ -549,6 +549,49 @@ void Splash::render ( void )
 }
 // end splash render ===========================================
 
+void Explosion::render ( void )
+{
+	float wid = 50.0f; // size of explosion sprite
+	glColor3f ( 1.0, 1.0, 1.0 );
+	glPushMatrix();
+	glTranslatef ( current.x_pos, current.y_pos, 0 );
+	glBindTexture ( GL_TEXTURE_2D, explosionTexture[0] );
+	for ( int i=0; i<5; i++ ) {
+		current.frame++;
+		if ( current.frame >=i*30 && current.frame <=200 ) {
+			glBindTexture ( GL_TEXTURE_2D, explosionTexture[i] );
+		}
+		if ( current.frame >=200 ) {
+			current.x_pos = -500;
+			current.y_pos = -500;
+		}
+	}
+	if ( current.frame>500 )
+		current.frame=500;
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.0f );
+	glColor4ub ( 255,255,255,255 );
+	glBegin ( GL_QUADS );
+	glTexCoord2f ( 0.0f, 1.0f );
+	glVertex2i ( -wid,-wid );
+	glTexCoord2f ( 0.0f, 0.0f );
+	glVertex2i ( -wid, wid );
+	glTexCoord2f ( 1.0f, 0.0f );
+	glVertex2i ( wid, wid );
+	glTexCoord2f ( 1.0f, 1.0f );
+	glVertex2i ( wid,-wid );
+	glEnd();
+	glPopMatrix();
+	glDisable ( GL_ALPHA_TEST );
+	glDisable ( GL_TEXTURE_2D );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glEnable ( GL_BLEND );
+	glDisable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+}
+// end explosion render ========================================
+
+// =============================================================
 void RocketPack::render ( void )
 {
 	float wid = 30.0f; // size of splash sprite

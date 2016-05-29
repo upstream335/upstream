@@ -200,6 +200,8 @@ void init_buttons(Game *game)
     /************MAIN-MENU BOTTONS******************/
 
     int n = 0;
+    //int w = game->windowWidth;
+    //int h = game->windowHeight;
 
     //Main menu bottons
     for (int i=0; i<5; i++) {
@@ -219,8 +221,6 @@ void init_buttons(Game *game)
         game->button[i].r.centery =
             (game->button[i].r.bot +
              game->button[i].r.top) / 2;
-        game->button[i].down = 0;
-        game->button[i].click = 0;
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
@@ -254,8 +254,6 @@ void init_buttons(Game *game)
         game->button[i].r.centery =
             (game->button[i].r.bot +
              game->button[i].r.top) / 2;
-        game->button[i].down = 0;
-        game->button[i].click = 0;
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
@@ -283,8 +281,6 @@ void init_buttons(Game *game)
         game->button[i].r.centery =
             (game->button[i].r.bot +
              game->button[i].r.top) / 2;
-        game->button[i].down = 0;
-        game->button[i].click = 0;
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
@@ -312,8 +308,6 @@ void init_buttons(Game *game)
         game->button[i].r.centery =
             (game->button[i].r.bot +
              game->button[i].r.top) / 2;
-        game->button[i].down = 0;
-        game->button[i].click = 0;
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
@@ -407,6 +401,8 @@ void render_gameover_menu(Game *game)
 
 void render_main_menu_buttons(Game *game)
 {
+    //int w = game->windowWidth;
+    //int h = game->windowHeight;
     Rect r;
     //draw main menu buttons
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -425,11 +421,7 @@ void render_main_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        if (game->button[i].down) {
-            glColor3fv(game->button[i].dcolor);
-        } else {
-            glColor3fv(game->button[i].color);
-        }
+        glColor3fv(game->button[i].color);
         glBegin(GL_QUADS);
         glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
         glVertex2i(game->button[i].r.left,  game->button[i].r.top);
@@ -462,11 +454,7 @@ void render_sub_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        if (game->button[i].down) {
-            glColor3fv(game->button[i].dcolor);
-        } else {
-            glColor3fv(game->button[i].color);
-        }
+        glColor3fv(game->button[i].color);
         glBegin(GL_QUADS);
         glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
         glVertex2i(game->button[i].r.left,  game->button[i].r.top);
@@ -499,11 +487,7 @@ void render_gameover_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        if (game->button[i].down) {
-            glColor3fv(game->button[i].dcolor);
-        } else {
-            glColor3fv(game->button[i].color);
-        }
+        glColor3fv(game->button[i].color);
         glBegin(GL_QUADS);
         glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
         glVertex2i(game->button[i].r.left,  game->button[i].r.top);
@@ -536,11 +520,7 @@ void render_ingame_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        if (game->button[i].down) {
-            glColor3fv(game->button[i].dcolor);
-        } else {
-            glColor3fv(game->button[i].color);
-        }
+        glColor3fv(game->button[i].color);
         glBegin(GL_QUADS);
         glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
         glVertex2i(game->button[i].r.left,  game->button[i].r.top);

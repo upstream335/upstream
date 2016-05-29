@@ -30,6 +30,7 @@ void check_mouse ( XEvent *e, Game *game )
 	}
 	x = e->xbutton.x;
 	y = e->xbutton.y;
+	//x = game->windowWidth - x;
 	y = game->windowHeight - y;
 	//Did the mouse move?
 	if ( savex != e->xbutton.x || savey != e->xbutton.y ) {
@@ -73,7 +74,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 	static int savey = 0;
 	int i,x,y;
 	int lbutton=0;
-	int rbutton=0;
+	//int rbutton=0;
 	//
 	if (e->type == ButtonRelease)
 		return;
@@ -84,8 +85,8 @@ void check_menu_mouse ( XEvent *e, Game *game )
 		}
 		if (e->xbutton.button==3) {
 			//Right button is down
-			rbutton=1;
-			if (rbutton){}
+			//rbutton=1;
+			//if (rbutton){}
 		}
 	}
 	x = e->xbutton.x;
@@ -110,7 +111,6 @@ void check_menu_mouse ( XEvent *e, Game *game )
 							//Play
 							game->main_menu^=true;
 							reset_game(game);
-							//game->demo.on=false;
 							break;
 						case 1:
 							//Difficulty

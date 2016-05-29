@@ -26,10 +26,7 @@ typedef struct t_button {
 	Rect r;
 	char text[32];
 	int over;
-	int down;
-	int click;
 	float color[3];
-	float dcolor[3];
 	unsigned int text_color;
 } Button;
 
@@ -142,12 +139,14 @@ struct Game {
 
 	Game()
 	{
+		//game resolution
+	      	windowWidth = 600;
+		windowHeight = 760;
+		
 		done = false;
 		c.isStanding = true;
 		showTaunt = true;
 		tempscore = 0;
-		windowWidth = 600;
-		windowHeight = 760;
 		troll_lilypad = 0;
 		stresstest = 0;
 		isHighScore = false;

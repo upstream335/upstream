@@ -6,6 +6,8 @@ void collision ( Game *game )
 {
 	if ( !game->demo.on ) {
 		float gravity = 0.3*game->difficulty;
+		if (game->difficulty == 3)
+            gravity -= 0.1;
 		if ( game->c.isJumping ) {
 			game->c.center[1] += game->c.velocity[1];
 			game->c.velocity[0] = 0;
@@ -70,10 +72,10 @@ void collision ( Game *game )
                             game->score+=2;
                         } else if (game->troll_lilypad &&
                                     game->difficulty == 2) {
-                            game->score+=5;
+                            game->score+=4;
                         } else if (game->troll_lilypad &&
                                     game->difficulty == 3) {
-                            game->score+=9;
+                            game->score+=7;
                         }
                         game->score+=10;
                     }

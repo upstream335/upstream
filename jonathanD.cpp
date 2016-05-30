@@ -70,13 +70,13 @@ void createLily(const int n, Game *game)
     if (game->score >= 600) {
         wid = 32;
     }
-    if (game->score >= 1200) {
+    if (game->score >= 1000) {
         wid = 28;
     }
-    if (game->score >= 2100) {
+    if (game->score >= 1500) {
         wid = 23;
     }
-    if (game->score >= 3000) {
+    if (game->score >= 2100) {
         wid = 17;
     }
 

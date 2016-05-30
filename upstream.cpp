@@ -13,7 +13,9 @@
 ///////////////////////////////////////////////////////////////////////
 #include "upstream.h"
 #include "assert.h"
+#include <time.h>
 
+int frames = 0;
 int main ( void )
 {
 	srand ( time ( NULL ) );
@@ -36,7 +38,7 @@ int main ( void )
 	initBuffer("./wav/haha.wav");
 	initBuffer("./wav/wow.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
-
+    clock_gettime(CLOCK_REALTIME, &timeStart);
 	while ( !game.done ) {
 		while ( XPending ( dpy ) ) {
 			XEvent e;
@@ -120,6 +122,21 @@ int main ( void )
 		physics ( &game );
 		render ( &game );
 		glXSwapBuffers ( dpy, win );
+		clock_gettime(CLOCK_REALTIME, &timeCurrent);
+		timeSpan = timeDiff(&timeStart, &timeCurrent);
+		frames++;
+		if (timeSpan >= 1.0) {
+            Rect r;
+            r.bot = game.windowHeight - 120;
+            r.left = 400;
+            r.center = 600;
+            ggprint17 ( &r,100,0,"%d",
+                        frames );
+            frames = 0;
+            timeCopy(&timeStart, &timeCurrent);
+		}
+
+
 	}
 	cleanUpSound();
 	cleanupXWindows();
@@ -346,10 +363,10 @@ void render ( Game *game )
 	r.bot = game->windowHeight - 120;
 	r.left = 420;
 	r.center = 600;
-	//ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
-	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
 	ggprint17 ( &r,100,0,"%d    %d",
 				game->lives,game->frog->getNumberRockets() );
+    //ggfrog40b ( &r, 50, 0, "UPSTREAM!" );
+	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
 	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
 	maxScore ( game );

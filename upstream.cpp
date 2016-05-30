@@ -281,6 +281,9 @@ void physics ( Game *game )
 		// =============================
 		checkLilies ( game );
 	}
+	if ( game->score > 2000) {
+		game->bossGO =true;
+		}
 	updateBullet(game);
 }
 

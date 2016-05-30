@@ -62,10 +62,21 @@ void collision ( Game *game )
 					playSounds ( "./wav/boing2.wav",1.0f, false,game->muted );
 					deleteLily ( node,game );
 					//basic scoring for now -Kevin
-					if (game->stresstest)
+					if (game->stresstest) {
                         game->score+=1;
-                    else
+                    } else {
+                        if (game->troll_lilypad &&
+                                    game->difficulty == 1) {
+                            game->score+=2;
+                        } else if (game->troll_lilypad &&
+                                    game->difficulty == 2) {
+                            game->score+=5;
+                        } else if (game->troll_lilypad &&
+                                    game->difficulty == 3) {
+                            game->score+=9;
+                        }
                         game->score+=10;
+                    }
 				}
 				node = node->next;
 			}

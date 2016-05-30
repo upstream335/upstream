@@ -64,20 +64,20 @@ void drawRipple(int x, int y)
 void createLily(const int n, Game *game)
 {
     int wid;
-    if (game->score < 300) {
+    if (game->score < 600) {
         wid = 35;
     }
-    if (game->score >= 300) {
-        wid = 30;
+    if (game->score >= 600) {
+        wid = 32;
     }
-    if (game->score >= 800) {
-        wid = 25;
+    if (game->score >= 1200) {
+        wid = 28;
     }
-    if (game->score >= 1300) {
-        wid = 20;
+    if (game->score >= 2100) {
+        wid = 23;
     }
-    if (game->score >= 2000) {
-        wid = 15;
+    if (game->score >= 3000) {
+        wid = 17;
     }
 
     for (int i =0; i < n; i++) {

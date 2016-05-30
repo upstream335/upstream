@@ -12,6 +12,9 @@
 //buffer/source[3] = splash
 //buffer/source[4] = rocket
 //buffer/source[5] = money sound
+//buffer/source[6] = explosion
+//buffer/source[7] = haha
+//buffer/source[8] = wow
 
 struct Game *g;
 ALuint source[10];
@@ -81,6 +84,15 @@ int getSource(const char * sound)
 	}
 	else if (strcmp(sound,"./wav/money.wav") == 0) {
 		return 5;
+	}
+	else if (strcmp(sound,"./wav/explosion.wav") == 0) {
+		return 6;
+	}
+	else if (strcmp(sound,"./wav/haha.wav") == 0) {
+		return 7;
+	}
+	else if (strcmp(sound,"./wav/wow.wav") == 0) {
+		return 8;
 	}
 	else {
 		printf("%s hasn't been initialized\n\n", sound);

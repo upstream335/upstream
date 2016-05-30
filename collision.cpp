@@ -274,7 +274,7 @@ void gameOver ( Game *game )
 	if ( shotMonster ) {
 		// move explosion on screen if offscreen
 		if ( game->explosion->getXpos() < 0 ) {
-			playSounds ( "./wav/fishsplash.wav",1.0f, false,game->muted );
+			playSounds ( "./wav/explosion.wav",1.0f, false,game->muted );
 			game->explosion->move ( game->frog->getXpos(),
 					game->frog->getYpos()+40,0,0 );
 					//game->bossGO = false;
@@ -317,9 +317,11 @@ void gameOver ( Game *game )
 		if ( checkHighScore ( game,game->tempscore ) && game->lives < 0 ) {
 			game->isHighScore = true;
 			game->showTaunt = false;
-		} else {
+			playSounds ( "./wav/wow.wav", 0.5, false, game->muted );
+		} else if (game->lives < 0 ) {
 			game->isHighScore = false;
 			game->showTaunt = true;
+		
 		}
 		if ( game->lives < 0 ) {
 			game->gameover = true;

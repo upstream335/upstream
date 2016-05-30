@@ -142,7 +142,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 2:
 							//High Scores
 							game->credits=false;
-							game->highscoreboard^=true;	
+							game->highscoreboard^=true;
 							break;
 						case 3:
 							//Credits
@@ -308,6 +308,9 @@ int check_keys ( XEvent *e, Game *game )
 			case XK_o:
 				game->gameover^=true;
 				break;
+            case XK_f:
+                game->showfps ^= 1;
+                break;
 			case XK_i:
 				reset_game(game);
 				break;

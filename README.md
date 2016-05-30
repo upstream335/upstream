@@ -4,7 +4,8 @@ A project game for cs335 Software Engineering.
 ![Alt text](/images/frog.png?raw=true "Frog")
 
 
-We will attempt to make a game called Upstream. The basic game concept is about a frog jumping upstream against a flowing river. The river will have Lily pads and logs flowing along it. The objective of the frog is to jump upstream opposite to the current of the river with the help of the lily pads and logs without falling into the river. 
+This is a game called Upstream. The basic game concept is about a frog jumping upstream against a flowing river. The river has Lily pads and logs flowing along it. The objective of the frog is to jump upstream opposite to the current of the river with the help of the lily pads and logs without falling into the river. Beware of Alligators, look for golden turtles and watch out for the ominous Boss monster!!!
+
 # Team Upstream
 * [Team Members](#team-members)
 # <a name="team-members"></a>Team Members

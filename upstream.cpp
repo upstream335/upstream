@@ -134,7 +134,7 @@ int main ( void )
             timeCopy(&timeStart, &timeCurrent);
 		}
 	}
-	cleanUpSound();
+	//cleanUpSound();
 	cleanupXWindows();
 	return 0;
 }

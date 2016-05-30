@@ -37,6 +37,11 @@
 void reset_game(Game *game)
 {
     //reset the game
+    game->stresstest=0;
+    game->troll_lilypad=0;
+    game->help_menu=false;
+    
+    game->bossGO = false;
     game->lives = 1;
     game->demo.on = false;
     game->demo.jump     =   0;
@@ -59,6 +64,7 @@ void reset_game(Game *game)
     game->c.jumpSpeedMax = 25;
     game->playing=true;
     game->frog->resetRocket();
+    game->frog->move(WIDTH/2,40,0,0);
 }
 
 void IntroBG::render(void)

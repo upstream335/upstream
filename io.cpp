@@ -269,6 +269,7 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 						case 10:
 							//Play again
 							game->gameover^=true;
+							reset_game(game);
 							break;
 						case 11:
 							//Main menu

@@ -14,6 +14,8 @@
 #include "upstream.h"
 #include "assert.h"
 #include <time.h>
+#include <iostream>
+using namespace std;
 
 int frames = 0;
 int main ( void )
@@ -124,19 +126,13 @@ int main ( void )
 		glXSwapBuffers ( dpy, win );
 		clock_gettime(CLOCK_REALTIME, &timeCurrent);
 		timeSpan = timeDiff(&timeStart, &timeCurrent);
+		//cout << timeSpan << endl;
 		frames++;
 		if (timeSpan >= 1.0) {
-            Rect r;
-            r.bot = game.windowHeight - 120;
-            r.left = 400;
-            r.center = 600;
-            ggprint17 ( &r,100,0,"%d",
-                        frames );
+            game.fps = frames;
             frames = 0;
             timeCopy(&timeStart, &timeCurrent);
 		}
-
-
 	}
 	cleanUpSound();
 	cleanupXWindows();
@@ -369,6 +365,13 @@ void render ( Game *game )
 	//ggprint40 ( &r,50,0,"Current Score: %d Mode: %s",game->score,mode.c_str());
 	//std::cout<<" Score: "<<game->score<<" Mode: "<<mode<<std::endl;
 	// std::cout<<"  "<<game->frog->numberRockets<<" "<<mode<<std::endl;
+	if (game->stresstest) {
+        displayNlily(game->nlily);
+        displayFPS(game->fps, game);
+    } else if (game->showfps) {
+        displayFPS(game->fps, game);
+    }
+
 	maxScore ( game );
 	//r.left = 300;
 	//if ( game->frog->getYpos() <=50 )

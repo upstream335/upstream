@@ -38,6 +38,32 @@ struct Game game;
 unsigned char *buildAlphaData2(Ppmimage *img);
 float fade = 1.0;
 
+void displayFPS(int fps, Game *game)
+{
+    Rect r;
+
+    if (game->showfps) {
+        r.bot = game->windowHeight - 200;
+        r.left = game->windowWidth - 55;
+        r.center = 600;
+    } else {
+        r.bot = 210;
+        r.left = 310;
+        r.center = 600;
+    }
+    ggprint17( &r,100,0,"FPS: %d",fps );
+}
+
+void displayNlily(int nlily)
+{
+    Rect r;
+    r.bot = 235;
+    r.left = 300;
+    r.center = 600;
+    ggprint17 ( &r,100,0,"Lily count: %d",
+				nlily );
+}
+
 void drawRipple(int x, int y)
 {
     if (fade <= 0)
@@ -124,7 +150,6 @@ void checkLilies(Game *game)
         } else {
             createLily(1,game);
         }
-        game->nlily++;
         game->timer = 0;
     }
     //lilies falling down

@@ -121,6 +121,8 @@ struct Score {
 	}
 };
 
+extern void displayNlily(int a);
+extern void displayFPS(int a, Game *game);
 extern void initHighScore(Game *game);
 extern bool checkHighScore(Game *game,int score);
 extern void getName(XEvent *e, Game *game);

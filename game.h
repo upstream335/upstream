@@ -55,6 +55,9 @@ struct Bullet {
 #define HARD    3
 
 struct Game {
+	int lilycount;
+	int fps;
+	int showfps;
 	int lives;
 	int gameover;
 	bool bossGO;
@@ -120,14 +123,14 @@ struct Game {
 	IntroBG *introbg;
 	PausedBG *pausedbg;
 	GameoverBG *gameoverbg;
-	
+
 	//highscore display
 	bool highscoreboard;
 	highscoreBG *highscorebg;
-	
+
 	//credits
 	bool credits;
-	
+
 	Button button[MAXBUTTONS];
 	int nbuttons;
 	int count;
@@ -141,7 +144,7 @@ struct Game {
 		//game resolution
 	      	windowWidth = 600;
 		windowHeight = 760;
-		
+
 		done = false;
 		c.isStanding = true;
 		showTaunt = true;

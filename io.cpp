@@ -135,7 +135,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 2:
 							//High Scores
 							game->credits=false;
-							game->highscoreboard^=true;	
+							game->highscoreboard^=true;
 							break;
 						case 3:
 							//Credits
@@ -298,11 +298,15 @@ int check_keys ( XEvent *e, Game *game )
 			case XK_j:
 				game->troll_lilypad ^= 1;
 				break;
+            case XK_f:
+                game->showfps ^= 1;
+                break;
 			case XK_h:
 				game->help_menu ^= true;
 				break;
 			case XK_k:
 				game->stresstest ^= 1;
+				game->showfps = 0;
 				break;
 			case XK_s:
 				game->swarmOn ^= 1;

@@ -11,6 +11,11 @@
     <mode>easy</mode>
   </player>
   <player>
+    <name>player</name>
+    <score>936</score>
+    <mode>hard</mode>
+  </player>
+  <player>
     <name>john</name>
     <score>760</score>
     <mode>hard</mode>

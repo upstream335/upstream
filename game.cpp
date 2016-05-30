@@ -13,6 +13,9 @@ void init_game ( Game *game )
 {
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
+	game->fps = 0;
+	game->showfps = 0;
+	game->lilycount = 0;
 	game->bossGO = false;
 	game->x = game->windowWidth/2;
 	game->difficulty = MED;

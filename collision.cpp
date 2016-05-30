@@ -62,7 +62,10 @@ void collision ( Game *game )
 					playSounds ( "./wav/boing2.wav",1.0f, false,game->muted );
 					deleteLily ( node,game );
 					//basic scoring for now -Kevin
-					game->score+=10;
+					if (game->stresstest)
+                        game->score+=1;
+                    else
+                        game->score+=10;
 				}
 				node = node->next;
 			}
@@ -323,7 +326,7 @@ void gameOver ( Game *game )
 			game->showTaunt = true;
 			playSounds ( "./wav/haha.wav", 0.5, false, game->muted );
 
-				
+
 		}
 		if ( game->lives < 0 ) {
 			game->gameover = true;

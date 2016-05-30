@@ -14,7 +14,7 @@ void init_game ( Game *game )
 	//game->windowWidth = 800;
 	//game->windowHeight = 1024;
 	game->bossGO = false;
-	game->x = game->windowWidth;
+	game->x = game->windowWidth/2;
 	game->difficulty = MED;
 	game->lives = 1;
 	game->demo.on = false;

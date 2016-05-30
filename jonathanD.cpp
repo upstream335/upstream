@@ -655,17 +655,17 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
     tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
     if (tmpres < 0) {
         perror("Can't set remote->sin_addr.s_addr");
-        exit(1);
-    } else if (tmpres == 0) {
+    	return false;
+	} else if (tmpres == 0) {
         fprintf(stderr, "%s is not a valid IP address\n", ip);
-        exit(1);
-    }
+    	return false;
+	}
     remote->sin_port = htons(PORT);
 
     if (connect(sock,(struct sockaddr *)remote,sizeof(struct sockaddr)) < 0) {
         perror("Could not connect");
-        exit(1);
-    }
+    	return false;
+	}
     get = build_get_query(host, page);
     //Send the query to the server
     unsigned int sent = 0;
@@ -673,8 +673,8 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
         tmpres = send(sock, get+sent, strlen(get)-sent, 0);
         if (tmpres == -1) {
             perror("Can't send query");
-            exit(1);
-        }
+        	return false;
+		}
         sent += tmpres;
     }
     //download highscore from server into text for processing

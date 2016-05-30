@@ -291,7 +291,11 @@ void drawScore(int s, Game *game,int wid, int xpos, int ypos)
         //draw score
         glPushMatrix();
         glTranslatef(xpos, ypos, 0);
-        glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
+        if (game->isHighScore) {
+			glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
+		} else {
+			glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit+10]);
+		}
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0.0f);
         glColor4ub(255,255,255,255);

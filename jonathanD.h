@@ -81,8 +81,8 @@ struct Ripple {
 
 struct Score {
 	Vec pos;
-	Ppmimage *scoreImage[10];
-	GLuint scoreTexture[10];
+	Ppmimage *scoreImage[20];
+	GLuint scoreTexture[20];
 	Score() {
 		scoreImage[0] = get_image("./images/zero");
 		scoreImage[1] = get_image("./images/one");
@@ -94,7 +94,17 @@ struct Score {
 		scoreImage[7] = get_image("./images/seven");
 		scoreImage[8] = get_image("./images/eight");
 		scoreImage[9] = get_image("./images/nine");
-		for (int i = 0; i < 10; i++) {
+		scoreImage[10] = get_image("./images/zeroP");
+		scoreImage[11] = get_image("./images/oneP");
+		scoreImage[12] = get_image("./images/twoP");
+		scoreImage[13] = get_image("./images/threeP");
+		scoreImage[14] = get_image("./images/fourP");
+		scoreImage[15] = get_image("./images/fiveP");
+		scoreImage[16] = get_image("./images/sixP");
+		scoreImage[17] = get_image("./images/sevenP");
+		scoreImage[18] = get_image("./images/eightP");
+		scoreImage[19] = get_image("./images/nineP");
+		for (int i = 0; i < 20; i++) {
 			//create opengl texture elements
 			glGenTextures(1, &scoreTexture[i]);
 			int w = scoreImage[i]->width;

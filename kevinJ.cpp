@@ -204,23 +204,25 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
 
 	sock = create_tcp_socket();
 	ip = get_ip(host);
+	if (ip == 0)
+		return;
 	//fprintf(stderr, "IP is %s\n", ip);
 	remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
 	remote->sin_family = AF_INET;
 	tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
 	if (tmpres < 0) {
 		perror("Can't set remote->sin_addr.s_addr");
-		exit(1);
+		return;
 	} else if (tmpres == 0) {
 		fprintf(stderr, "%s is not a valid IP address\n", ip);
-		exit(1);
+		return;
 	}
 	remote->sin_port = htons(PORT);
 
 	if (connect(sock, (struct sockaddr *)remote,
 				sizeof(struct sockaddr)) < 0) {
 		perror("Could not connect");
-		exit(1);
+		return;
 	}
 	get = build_get_query(host, page);
 	//fprintf(stderr, "Query is:\n<<START>>\n%s<<END>>\n", get);
@@ -231,7 +233,7 @@ void sendScoresToPHP(char playerName[], int gameScore, int gameDiff)
 		tmpres = send(sock, get+sent, strlen(get)-sent, 0);
 		if (tmpres == -1) {
 			perror("Can't send query");
-			exit(1);
+			return;
 		}
 		sent += tmpres;
 	}
@@ -280,7 +282,7 @@ int create_tcp_socket()
 	int sock;
 	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
 		perror("Can't create TCP socket");
-		exit(1);
+		return 0;
 	}
 	return sock;
 }
@@ -293,11 +295,10 @@ char *get_ip(char *host)
 	memset(ip, 0, iplen+1);
 	if ((hent = gethostbyname(host)) == NULL) {
 		herror("Can't get IP");
-		exit(1);
+		return ip;
 	}
 	if (inet_ntop(AF_INET, (void *)hent->h_addr_list[0], ip, iplen+1) == NULL) {
 		perror("Can't resolve host");
-		exit(1);
 	}
 	return ip;
 }

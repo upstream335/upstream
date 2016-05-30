@@ -1,5 +1,6 @@
 ## Upstream
 A project game for cs335 Software Engineering.
+![Alt text](/images/introbg.png?raw=true "upstream")
 ![Alt text](/images/frog.png?raw=true "Frog")
 
 

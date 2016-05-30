@@ -40,7 +40,6 @@ void reset_game(Game *game)
     game->stresstest=0;
     game->troll_lilypad=0;
     game->help_menu=false;
-    
     game->bossGO = false;
     game->lives = 1;
     game->demo.on = false;
@@ -72,13 +71,11 @@ void IntroBG::render(void)
     float wid = 300.0f;
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
-
     glTranslatef ( current.x_pos-300, current.y_pos-300, 0 );
     glBindTexture ( GL_TEXTURE_2D, introbgTexture[0] );
     glEnable ( GL_ALPHA_TEST );
     glAlphaFunc ( GL_GREATER, 0.0f );
     glColor4ub ( 255,255,255,255 );
-
     glBegin ( GL_QUADS );
     glTexCoord2f ( 0.0f, 1.0f );
     glVertex2i ( -wid,-wid-150);
@@ -89,9 +86,7 @@ void IntroBG::render(void)
     glTexCoord2f ( 1.0f, 1.0f );
     glVertex2i ( wid,-wid-150 );
     glEnd();
-
     glPopMatrix();
-
     glDisable ( GL_ALPHA_TEST );
     glDisable ( GL_TEXTURE_2D );
     glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
@@ -105,13 +100,11 @@ void PausedBG::render(void)
     float wid = 250.0f;
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
-
     glTranslatef ( current.x_pos-300, current.y_pos-300, 0 );
     glBindTexture ( GL_TEXTURE_2D, pausedbgTexture );
     glEnable ( GL_ALPHA_TEST );
     glAlphaFunc ( GL_GREATER, 0.0f );
     glColor4ub ( 255,255,255,255 );
-
     glBegin ( GL_QUADS );
     glTexCoord2f ( 0.0f, 1.0f );
     glVertex2i ( -wid,-wid);
@@ -122,9 +115,7 @@ void PausedBG::render(void)
     glTexCoord2f ( 1.0f, 1.0f );
     glVertex2i ( wid,-wid );
     glEnd();
-
     glPopMatrix();
-
     glDisable ( GL_ALPHA_TEST );
     glDisable ( GL_TEXTURE_2D );
     glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
@@ -138,13 +129,11 @@ void GameoverBG::render(void)
     float wid = 250.0f;
     glColor3f ( 1.0, 1.0, 1.0 );
     glPushMatrix();
-
     glTranslatef ( current.x_pos-300, current.y_pos-300, 0 );
     glBindTexture ( GL_TEXTURE_2D, gameoverTexture );
     glEnable ( GL_ALPHA_TEST );
     glAlphaFunc ( GL_GREATER, 0.0f );
     glColor4ub ( 255,255,255,255 );
-
     glBegin ( GL_QUADS );
     glTexCoord2f ( 0.0f, 1.0f );
     glVertex2i ( -wid,-wid);
@@ -155,9 +144,7 @@ void GameoverBG::render(void)
     glTexCoord2f ( 1.0f, 1.0f );
     glVertex2i ( wid,-wid );
     glEnd();
-
     glPopMatrix();
-
     glDisable ( GL_ALPHA_TEST );
     glDisable ( GL_TEXTURE_2D );
     glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
@@ -171,13 +158,11 @@ void highscoreBG::render(void)
 	float wid = 220.0f;
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
-
 	glTranslatef ( current.x_pos-220, current.y_pos-320, 0 );
 	glBindTexture ( GL_TEXTURE_2D, highscorebgTexture );
 	glEnable ( GL_ALPHA_TEST );
 	glAlphaFunc ( GL_GREATER, 0.0f );
 	glColor4ub ( 255,255,255,255 );
-
 	glBegin ( GL_QUADS );
 	glTexCoord2f ( 0.0f, 1.0f );
 	glVertex2i ( -wid,-wid);
@@ -188,9 +173,7 @@ void highscoreBG::render(void)
 	glTexCoord2f ( 1.0f, 1.0f );
 	glVertex2i ( wid,-wid );
 	glEnd();
-
 	glPopMatrix();
-
 	glDisable ( GL_ALPHA_TEST );
 	glDisable ( GL_TEXTURE_2D );
 	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
@@ -204,11 +187,7 @@ void init_buttons(Game *game)
     //initialize all in-game buttons
     game->nbuttons=0;
     /************MAIN-MENU BOTTONS******************/
-
     int n = 0;
-    //int w = game->windowWidth;
-    //int h = game->windowHeight;
-
     //Main menu bottons
     for (int i=0; i<5; i++) {
         game->button[i].r.width = 120;
@@ -230,17 +209,10 @@ void init_buttons(Game *game)
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
-        game->button[i].text_color = 0x00ffffff;
         game->nbuttons++;
         n+=50;
     }
-
-    strcpy(game->button[0].text, "PLAY");
-    strcpy(game->button[1].text, "MEDIUM");
-    strcpy(game->button[2].text, "HIGHSCORE");
-    strcpy(game->button[3].text, "CREDITS");
-    strcpy(game->button[4].text, "EXIT");
-
+    
     n = 0;
     //sub-menu buttons
     for (int i=5; i<10; i++) {
@@ -263,7 +235,6 @@ void init_buttons(Game *game)
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
-        game->button[i].text_color = 0x00ffffff;
         game->nbuttons++;
         n+=50;
     }
@@ -290,7 +261,6 @@ void init_buttons(Game *game)
         game->button[i].color[0] = 0.3f;
         game->button[i].color[1] = 0.7f;
         game->button[i].color[2] = 0.3f;
-        game->button[i].text_color = 0x00ffffff;
         game->nbuttons++;
         n+=50;
     }
@@ -322,21 +292,6 @@ void init_buttons(Game *game)
         n+=50;
     }
 
-    strcpy(game->button[0].text, "PLAY");
-    strcpy(game->button[1].text, "MEDIUM");
-    strcpy(game->button[2].text, "HIGHSCORE");
-    strcpy(game->button[3].text, "CREDITS");
-    strcpy(game->button[4].text, "EXIT");
-
-    strcpy(game->button[5].text, "RESUME");
-    strcpy(game->button[6].text, "SOUND");
-    strcpy(game->button[7].text, "RESTART");
-    strcpy(game->button[8].text, "MAIN MENU");
-    strcpy(game->button[9].text, "EXIT");
-
-    strcpy(game->button[10].text, "PLAY AGAIN");
-    strcpy(game->button[11].text, "MAIN MENU");
-    strcpy(game->button[12].text, "QUIT");
     strcpy(game->button[13].text, "S");
     strcpy(game->button[14].text, "Help");
 
@@ -407,11 +362,6 @@ void render_gameover_menu(Game *game)
 
 void render_main_menu_buttons(Game *game)
 {
-    //int w = game->windowWidth;
-    //int h = game->windowHeight;
-    Rect r;
-    //draw main menu buttons
-    glBindTexture(GL_TEXTURE_2D, 0);
     for (int i=0; i<5; i++) {
         if (game->button[i].over) {
             int w=2;
@@ -427,25 +377,117 @@ void render_main_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        glColor3fv(game->button[i].color);
+	if (i == 1) {
+	    i++;
+	    if (game->button[i].over) {
+	      int w=2;
+	      glColor3f(1.0f, 1.0f, 0.0f);
+	      //draw a highlight around button
+	      glLineWidth(3);
+	      glBegin(GL_LINE_LOOP);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.top+w);
+	      glVertex2i(game->button[i].r.right+w, game->button[i].r.top+w);
+	      glVertex2i(game->button[i].r.right+w, game->button[i].r.bot-w);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
+	      glEnd();
+	      glLineWidth(1);
+	    }
+	}
+	glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[i]);
+        glPushMatrix();
+        glTranslatef(game->button[i].r.centerx, game->button[i].r.centery, 0);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
         glBegin(GL_QUADS);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.bot);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2i(-50, -50);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2i(-50, 50);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2i( 50, 50);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2i( 50,-50);
         glEnd();
-        r.left = game->button[i].r.centerx;
-        r.bot  = game->button[i].r.centery-8;
-        r.center = 1;
-        ggprint16(&r, 0, game->button[i].text_color, game->button[i].text);
+        glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+    }
+    
+    if (game->difficulty == 3) {
+	glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[15]);
+	glPushMatrix();
+	glTranslatef(game->button[1].r.centerx, game->button[1].r.centery, 0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-50, -50);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-50, 50);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( 50, 50);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( 50,-50);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_2D);
+    } else if (game->difficulty == 2) {
+	glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[1]);
+	glPushMatrix();
+	glTranslatef(game->button[1].r.centerx, game->button[1].r.centery, 0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-50, -50);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-50, 50);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( 50, 50);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( 50,-50);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_2D);
+    } else if (game->difficulty == 1) {
+        glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[14]);
+	glPushMatrix();
+	glTranslatef(game->button[1].r.centerx, game->button[1].r.centery, 0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-50, -50);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-50, 50);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( 50, 50);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( 50,-50);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_2D);
     }
 }
 
 void render_sub_menu_buttons(Game *game)
 {
-    Rect r;
-    //draw paused menu buttons
-    glBindTexture(GL_TEXTURE_2D, 0);
     for (int i=5; i<10; i++) {
         if (game->button[i].over) {
             int w=2;
@@ -460,25 +502,95 @@ void render_sub_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        glColor3fv(game->button[i].color);
-        glBegin(GL_QUADS);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.bot);
-        glEnd();
-        r.left = game->button[i].r.centerx;
-        r.bot  = game->button[i].r.centery-8;
-        r.center = 1;
-        ggprint16(&r, 0, game->button[i].text_color, game->button[i].text);
+	if (i == 6) {
+	    i++;
+	    if (game->button[i].over) {
+	      int w=2;
+	      glColor3f(1.0f, 1.0f, 0.0f);
+	      //draw a highlight around button
+	      glLineWidth(3);
+	      glBegin(GL_LINE_LOOP);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.top+w);
+	      glVertex2i(game->button[i].r.right+w, game->button[i].r.top+w);
+	      glVertex2i(game->button[i].r.right+w, game->button[i].r.bot-w);
+	      glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
+	      glEnd();
+	      glLineWidth(1);
+	    }
+	}
+	  glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[i]);
+	  glPushMatrix();
+	  glTranslatef(game->button[i].r.centerx, game->button[i].r.centery, 0);
+	  glEnable(GL_ALPHA_TEST);
+	  glAlphaFunc(GL_GREATER, 0.0f);
+	  glColor4ub(255,255,255,255);
+	  glBegin(GL_QUADS);
+	  glTexCoord2f(0.0f, 1.0f);
+	  glVertex2i(-50, -50);
+	  glTexCoord2f(0.0f, 0.0f);
+	  glVertex2i(-50, 50);
+	  glTexCoord2f(1.0f, 0.0f);
+	  glVertex2i( 50, 50);
+	  glTexCoord2f(1.0f, 1.0f);
+	  glVertex2i( 50,-50);
+	  glEnd();
+	  glPopMatrix();
+	  glDisable(GL_ALPHA_TEST);
+	  glDisable(GL_TEXTURE_2D);
+	  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	  glEnable(GL_TEXTURE_2D);
+      }
+    
+    if (game->muted) {
+	glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[13]);
+	glPushMatrix();
+	glTranslatef(game->button[6].r.centerx, game->button[6].r.centery, 0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-50, -50);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-50, 50);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( 50, 50);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( 50,-50);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_2D);
+    } else if (!game->muted) {
+	glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[6]);
+	glPushMatrix();
+	glTranslatef(game->button[6].r.centerx, game->button[6].r.centery, 0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2i(-50, -50);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2i(-50, 50);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2i( 50, 50);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2i( 50,-50);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_2D);
     }
 }
 
 void render_gameover_menu_buttons(Game *game)
 {
-    Rect r;
-    //draw gameover menu buttons
-    glBindTexture(GL_TEXTURE_2D, 0);
     for (int i=10; i<13; i++) {
         if (game->button[i].over) {
             int w=2;
@@ -493,24 +605,34 @@ void render_gameover_menu_buttons(Game *game)
             glEnd();
             glLineWidth(1);
         }
-        glColor3fv(game->button[i].color);
+        glBindTexture(GL_TEXTURE_2D, game->buttonT->buttonTexture[i]);
+        glPushMatrix();
+        glTranslatef(game->button[i].r.centerx, game->button[i].r.centery, 0);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.0f);
+        glColor4ub(255,255,255,255);
         glBegin(GL_QUADS);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.bot);
-        glVertex2i(game->button[i].r.left,  game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.top);
-        glVertex2i(game->button[i].r.right, game->button[i].r.bot);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2i(-50, -50);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2i(-50, 50);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2i( 50, 50);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2i( 50,-50);
         glEnd();
-        r.left = game->button[i].r.centerx;
-        r.bot  = game->button[i].r.centery-8;
-        r.center = 1;
-        ggprint16(&r, 0, game->button[i].text_color, game->button[i].text);
+        glPopMatrix();
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
     }
 }
 
 void render_ingame_buttons(Game *game)
 {
     Rect r;
-    //draw in-game buttons
+    //draw in-game sound and help buttons
     glBindTexture(GL_TEXTURE_2D, 0);
     for (int i=13; i<15; i++) {
         if (game->button[i].over) {

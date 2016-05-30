@@ -8,6 +8,7 @@ struct Lilypad;
 struct LilyTexture;
 struct Score;
 struct HighScoreBox;
+struct ButtonTextures;
 struct Circle {
 	float radius;
 	float newPosX;
@@ -123,6 +124,7 @@ struct Game {
 	IntroBG *introbg;
 	PausedBG *pausedbg;
 	GameoverBG *gameoverbg;
+	ButtonTextures *buttonT;
 
 	//highscore display
 	bool highscoreboard;

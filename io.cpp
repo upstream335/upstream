@@ -81,6 +81,11 @@ void check_menu_mouse ( XEvent *e, Game *game )
 	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1) {
 			//Left button is down
+			if ( !game->c.isJumping ) {
+				game->c.isJumping = true;
+				game->c.isStanding = false;
+				game->c.velocity[1] = 15.0;
+			}
 			lbutton=1;
 		}
 		if (e->xbutton.button==3) {
@@ -109,6 +114,8 @@ void check_menu_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 0:
 							//Play
+							game->c.isJumping = false;
+							game->c.isStanding = true;
 							game->main_menu^=true;
 							reset_game(game);
 							break;
@@ -135,7 +142,7 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 2:
 							//High Scores
 							game->credits=false;
-							game->highscoreboard^=true;
+							game->highscoreboard^=true;	
 							break;
 						case 3:
 							//Credits
@@ -295,18 +302,23 @@ int check_keys ( XEvent *e, Game *game )
 	if ( e->type == KeyPress ) {
 		int key = XLookupKeysym ( &e->xkey, 0 );
 		switch ( key ) {
+			case XK_p:
+				game->sub_menu^=true;
+				break;
+			case XK_o:
+				game->gameover^=true;
+				break;
+			case XK_i:
+				reset_game(game);
+				break;
 			case XK_j:
 				game->troll_lilypad ^= 1;
 				break;
-            case XK_f:
-                game->showfps ^= 1;
-                break;
 			case XK_h:
 				game->help_menu ^= true;
 				break;
 			case XK_k:
 				game->stresstest ^= 1;
-				game->showfps = 0;
 				break;
 			case XK_s:
 				game->swarmOn ^= 1;

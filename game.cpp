@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <stdlib.h>
+#include "quyN.h"
 #include "jonathanD.h"
 #include "game.h"
 
@@ -89,6 +90,7 @@ void init_game ( Game *game )
 	game->pausedbg = new PausedBG;
 	game->gameoverbg = new GameoverBG;
 	game->highscorebg = new highscoreBG;
+	game->buttonT = new ButtonTextures;
 	//Website update score stff
 	char *host = ( char* ) "sleipnir.cs.csub.edu";
 	char *tpage = ( char* )

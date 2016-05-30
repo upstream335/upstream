@@ -321,7 +321,9 @@ void gameOver ( Game *game )
 		} else if (game->lives < 0 ) {
 			game->isHighScore = false;
 			game->showTaunt = true;
-		
+			playSounds ( "./wav/haha.wav", 0.5, false, game->muted );
+
+				
 		}
 		if ( game->lives < 0 ) {
 			game->gameover = true;

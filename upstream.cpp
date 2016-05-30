@@ -32,6 +32,9 @@ int main ( void )
 	initBuffer("./wav/fishsplash.wav");
 	initBuffer("./wav/rocket.wav");
 	initBuffer("./wav/money.wav");
+	initBuffer("./wav/explosion.wav");
+	initBuffer("./wav/haha.wav");
+	initBuffer("./wav/wow.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
 
 	while ( !game.done ) {

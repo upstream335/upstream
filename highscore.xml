@@ -21,6 +21,26 @@
     <mode>hard</mode>
   </player>
   <player>
+    <name>q</name>
+    <score>582</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>450</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>320</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>300</score>
+    <mode>medium</mode>
+  </player>
+  <player>
     <name>test</name>
     <score>180</score>
     <mode>hard</mode>
@@ -31,18 +51,53 @@
     <mode>medium</mode>
   </player>
   <player>
-    <name>test</name>
-    <score>1</score>
-    <mode>hard</mode>
-  </player>
-  <player>
-    <name>test</name>
-    <score>1</score>
+    <name>player</name>
+    <score>220</score>
     <mode>medium</mode>
   </player>
   <player>
-    <name>test3</name>
-    <score>1</score>
-    <mode>easy</mode>
+    <name>player</name>
+    <score>150</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>110</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>90</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>22</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>20</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>20</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>20</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>14</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
+    <score>12</score>
+    <mode>medium</mode>
   </player>
 </players>

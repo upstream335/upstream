@@ -61,7 +61,7 @@ void displayNlily(int nlily)
     r.left = 300;
     r.center = 600;
     ggprint17 ( &r,100,0,"Lily count: %d",
-				nlily );
+            nlily );
 }
 
 void drawRipple(int x, int y)
@@ -143,7 +143,7 @@ void checkLilies(Game *game)
     //game timer for when to spawn new lily
     game->timer++;
     if (game->timer >= game->lilytimer) {
-        if (game->stresstest == 1) {\
+        if (game->stresstest == 1) {
             for (int i = 0; i < 10; i++) {
                 createLily(1,game);
             }
@@ -317,10 +317,10 @@ void drawScore(int s, Game *game,int wid, int xpos, int ypos)
         glPushMatrix();
         glTranslatef(xpos, ypos, 0);
         if (game->isHighScore) {
-			glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
-		} else {
-			glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit+10]);
-		}
+            glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit]);
+        } else {
+            glBindTexture(GL_TEXTURE_2D, game->hscore->scoreTexture[idigit+10]);
+        }
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0.0f);
         glColor4ub(255,255,255,255);
@@ -481,7 +481,7 @@ void getName(XEvent *e, Game *game)
                 game->showTaunt = true;
                 // Kevin's function to write score to site
                 sendScoresToPHP(game->playername, game->tempscore,
-                                game->difficulty);
+                        game->difficulty);
                 game->tempscore = 0;
                 resetName(game);
                 break;
@@ -680,17 +680,17 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
     tmpres = inet_pton(AF_INET, ip, (void *)(&(remote->sin_addr.s_addr)));
     if (tmpres < 0) {
         perror("Can't set remote->sin_addr.s_addr");
-    	return false;
-	} else if (tmpres == 0) {
+        return false;
+    } else if (tmpres == 0) {
         fprintf(stderr, "%s is not a valid IP address\n", ip);
-    	return false;
-	}
+        return false;
+    }
     remote->sin_port = htons(PORT);
 
     if (connect(sock,(struct sockaddr *)remote,sizeof(struct sockaddr)) < 0) {
         perror("Could not connect");
-    	return false;
-	}
+        return false;
+    }
     get = build_get_query(host, page);
     //Send the query to the server
     unsigned int sent = 0;
@@ -698,8 +698,8 @@ bool getHighScore(Game *game,char shost[],char spage[],bool cscore,bool pscore)
         tmpres = send(sock, get+sent, strlen(get)-sent, 0);
         if (tmpres == -1) {
             perror("Can't send query");
-        	return false;
-		}
+            return false;
+        }
         sent += tmpres;
     }
     //download highscore from server into text for processing

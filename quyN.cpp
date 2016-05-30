@@ -6,7 +6,7 @@
 //          Game Attract Mode
 //
 // Purpose: I will be in charge of the game menu, introduction,
-//          attract mode (hard, medium, easy). I will attempt to 
+//          attract mode (hard, medium, easy). I will attempt to
 //          make a generic function for each.
 //
 // 1st goal (week 6): Game Menu and Prompts (checked)
@@ -38,6 +38,7 @@ void reset_game(Game *game)
 {
 	//reset the game
 	game->stresstest=0;
+	game->x= game->windowWidth/2;
 	game->troll_lilypad=0;
 	game->help_menu=false;
 	game->bossGO = false;

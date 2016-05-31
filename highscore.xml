@@ -92,12 +92,12 @@
   </player>
   <player>
     <name>player</name>
-    <score>14</score>
-    <mode>medium</mode>
+    <score>28</score>
+    <mode>2</mode>
   </player>
   <player>
     <name>player</name>
-    <score>12</score>
+    <score>14</score>
     <mode>medium</mode>
   </player>
 </players>

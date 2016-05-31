@@ -5,14 +5,13 @@
 #include </usr/include/AL/alut.h>
 
 /*#ifdef USE_OPENAL_SOUND
-extern void init_sound();
-extern void cleanup_sound();
-extern void play_sound(ALuint source);
+  extern void init_sound();
+  extern void cleanup_sound();
+  extern void play_sound(ALuint source);
 #endif
 */
 
 struct ButtonTextures {
-	Vec pos;
 	Ppmimage *buttonImage[16];
 	GLuint buttonTexture[16];
 	ButtonTextures() {
@@ -33,11 +32,9 @@ struct ButtonTextures {
 		buttonImage[14] = get_image("./images/easy");
 		buttonImage[15] = get_image("./images/hard");
 		for (int i = 0; i < 16; i++) {
-			//create opengl texture elements
 			glGenTextures(1, &buttonTexture[i]);
 			int w = buttonImage[i]->width;
 			int h = buttonImage[i]->height;
-			//
 			glBindTexture(GL_TEXTURE_2D, buttonTexture[i]);
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);

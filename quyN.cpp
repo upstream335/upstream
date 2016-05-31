@@ -207,9 +207,6 @@ void init_buttons(Game *game)
 		game->button[i].r.centery =
 			(game->button[i].r.bot +
 			 game->button[i].r.top) / 2;
-		game->button[i].color[0] = 0.3f;
-		game->button[i].color[1] = 0.7f;
-		game->button[i].color[2] = 0.3f;
 		game->nbuttons++;
 		n+=50;
 	}
@@ -233,9 +230,6 @@ void init_buttons(Game *game)
 		game->button[i].r.centery =
 			(game->button[i].r.bot +
 			 game->button[i].r.top) / 2;
-		game->button[i].color[0] = 0.3f;
-		game->button[i].color[1] = 0.7f;
-		game->button[i].color[2] = 0.3f;
 		game->nbuttons++;
 		n+=50;
 	}
@@ -259,15 +253,12 @@ void init_buttons(Game *game)
 		game->button[i].r.centery =
 			(game->button[i].r.bot +
 			 game->button[i].r.top) / 2;
-		game->button[i].color[0] = 0.3f;
-		game->button[i].color[1] = 0.7f;
-		game->button[i].color[2] = 0.3f;
 		game->nbuttons++;
 		n+=50;
 	}
 
 	n = 0;
-	//difficulty menu buttons
+	//sound and help button in game
 	for (int i=13; i<15; i++) {
 		game->button[i].r.width = 35;
 		game->button[i].r.height = 35;
@@ -364,7 +355,6 @@ void render_main_menu_buttons(Game *game)
 		if (game->button[i].over) {
 			int w=2;
 			glColor3f(1.0f, 1.0f, 0.0f);
-			//draw a highlight around button
 			glLineWidth(3);
 			glBegin(GL_LINE_LOOP);
 			glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
@@ -380,7 +370,6 @@ void render_main_menu_buttons(Game *game)
 			if (game->button[i].over) {
 				int w=2;
 				glColor3f(1.0f, 1.0f, 0.0f);
-				//draw a highlight around button
 				glLineWidth(3);
 				glBegin(GL_LINE_LOOP);
 				glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);
@@ -505,7 +494,6 @@ void render_sub_menu_buttons(Game *game)
 			if (game->button[i].over) {
 				int w=2;
 				glColor3f(1.0f, 1.0f, 0.0f);
-				//draw a highlight around button
 				glLineWidth(3);
 				glBegin(GL_LINE_LOOP);
 				glVertex2i(game->button[i].r.left-w,  game->button[i].r.bot-w);

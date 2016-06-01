@@ -15,6 +15,8 @@
 //buffer/source[6] = explosion
 //buffer/source[7] = haha
 //buffer/source[8] = wow
+//buffer/source[9] = introsound
+//buffer/source[10] = gameoversound
 
 struct Game *g;
 ALuint source[10];
@@ -413,8 +415,8 @@ void render_help_menu(Game *game)
 	ggprint13 ( &r, 30, 0, "K -- Stress Test" );
 	r.left = 235;
 	ggprint13 ( &r, 30, 0, "S -- Swarm (Spawns Mass Baby Flys)" );
-	ggprint40(&r, 50, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
-	ggprint40(&r, 50, 0, "FROG x: %f", game->windowWidth - game->c.newPosX);
+	//ggprint40(&r, 50, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
+	//ggprint40(&r, 50, 0, "FROG x: %f", game->windowWidth - game->c.newPosX);
 }
 
 void check_help_mouse(XEvent *e, Game *game)

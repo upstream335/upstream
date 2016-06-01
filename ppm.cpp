@@ -87,7 +87,7 @@ Ppmimage *ppm1GetImage(const char *filename)
 			break;
 		//read until newline
 		ntries=0;
-		while(1) {
+		while (1) {
 			//to avoid infinite loop...
 			if (++ntries > 10000) {
 				printf("ERROR: too many blank lines in **%s**\n", filename);

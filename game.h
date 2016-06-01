@@ -145,7 +145,7 @@ struct Game {
 	Game()
 	{
 		//game resolution
-	      	windowWidth = 600;
+		windowWidth = 600;
 		windowHeight = 760;
 
 		done = false;

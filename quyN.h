@@ -4,13 +4,6 @@
 #include "game.h"
 #include </usr/include/AL/alut.h>
 
-/*#ifdef USE_OPENAL_SOUND
-  extern void init_sound();
-  extern void cleanup_sound();
-  extern void play_sound(ALuint source);
-#endif
-*/
-
 struct ButtonTextures {
 	Ppmimage *buttonImage[16];
 	GLuint buttonTexture[16];
@@ -58,5 +51,9 @@ extern void render_gameover_menu_buttons(Game *game);
 extern void render_ingame_buttons(Game *game);
 extern void render_highscore(Game *game);
 extern void render_credits(Game *game);
+
+extern void check_menu_mouse(XEvent *e, Game *game);
+extern void check_paused_mouse(XEvent *e, Game *game);
+extern void check_gameover_mouse(XEvent *e, Game *game);
 
 #endif

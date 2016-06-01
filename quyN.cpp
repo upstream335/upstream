@@ -11,8 +11,8 @@
 //
 // 1st goal (week 6): Game Menu and Prompts (checked)
 // 2nd goal (week 7): Game Introduction (checked)
-// 3rd goal (week 8): Game Attract Mode
-// 4th goal (week 9): Fix bugs
+// 3rd goal (week 8): Game Load button textures (checked)
+// 4th goal (week 9): Fix bugs; edit io.cpp; added introduction sound
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -43,10 +43,10 @@ void reset_game(Game *game)
 	game->help_menu=false;
 	game->bossGO = false;
 	game->lives = 1;
-	//game->demo.on = false;
-	//game->demo.jump     =   0;
-	//game->demo.moveLeft =   0;
-	//game->demo.moveRight =  0;
+	game->demo.on = false;
+	game->demo.jump     =   0;
+	game->demo.moveLeft =   0;
+	game->demo.moveRight =  0;
 	game->score = 0;
 	game->scoreCount = 0;
 	game->n = 0;
@@ -71,8 +71,6 @@ void render_main_menu(Game *game)
 {
 	glClear ( GL_COLOR_BUFFER_BIT );
 	game->introbg->render();
-	game->frog->render();
-	game->frog->render();
 	game->frog->render();
 	render_main_menu_buttons(game);
 	if (game->highscoreboard)
@@ -640,4 +638,262 @@ void render_ingame_buttons(Game *game)
 		r.center = 1;
 		ggprint16(&r, 0, game->button[i].text_color, game->button[i].text);
 	}
+}
+
+void check_menu_mouse ( XEvent *e, Game *game )
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	//int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			if ( !game->c.isJumping ) {
+				game->c.isJumping = true;
+				game->c.isStanding = false;
+				game->c.velocity[1] = 15.0;
+			}
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			//rbutton=1;
+			//if (rbutton){}
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = game->windowHeight - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<game->nbuttons; i++) {
+		game->button[i].over=0;
+		if (x >= game->button[i].r.left &&
+				x <= game->button[i].r.right &&
+				y >= game->button[i].r.bot &&
+				y <= game->button[i].r.top) {
+			game->button[i].over=1;
+			if (game->button[i].over) {
+				if (lbutton) {
+					switch (i) {
+						case 0:
+							//Play
+							reset_game(game);
+							game->c.isJumping = false;
+							game->c.isStanding = true;
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->main_menu^=true;
+							muteIntroSound(game);
+							game->credits=false;
+							game->highscoreboard=false;
+							break;
+						case 1:
+							//Difficulty
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->difficulty++;
+							if (game->difficulty > 3)
+								game->difficulty = EASY;
+							game->count++;
+							if (game->count == 1) {
+								strcpy(game->button[1].text, "EASY");
+								std::cout << "easy mode ON" << std::endl;
+							}
+							if (game->count == 2) {
+								strcpy(game->button[1].text, "MEDIUM");
+								std::cout << "medium mode ON" << std::endl;
+							}
+							if (game->count == 3) {
+								strcpy(game->button[1].text, "HARD");
+								std::cout << "hard mode ON" << std::endl;
+								game->count = 0;
+							}
+							break;
+						case 2:
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							//High Scores
+							game->credits=false;
+							game->highscoreboard^=true;
+							break;
+						case 3:
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							//Credits
+							game->highscoreboard=false;
+							game->credits^=true;
+							break;
+						case 4:
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							//Exit Game
+							game->done^=true;
+							game->main_menu^=true;
+							break;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
+
+void check_paused_mouse ( XEvent *e, Game *game )
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			rbutton=1;
+			if (rbutton){}
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = game->windowHeight - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<game->nbuttons; i++) {
+		game->button[i].over=0;
+		if (x >= game->button[i].r.left &&
+				x <= game->button[i].r.right &&
+				y >= game->button[i].r.bot &&
+				y <= game->button[i].r.top) {
+			game->button[i].over=1;
+			if (game->button[i].over) {
+				if (lbutton) {
+					switch (i) {
+						case 5:
+							//Resmue
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->sub_menu^=true;
+							break;
+						case 6:
+							//Sound
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							muteSounds(game);
+							break;
+						case 7:
+							//restart game
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->sub_menu^=true;
+							reset_game(game);
+							break;
+						case 8:
+							//main menu
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->sub_menu^=true;
+							game->main_menu^=true;
+							reset_game(game);
+							muteIntroSound(game);
+							break;
+						case 9:
+							//Exit Game
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->done^=true;
+							game->sub_menu^=true;
+							break;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
+
+void check_gameover_mouse ( XEvent *e, Game *game )
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			rbutton=1;
+			if (rbutton){}
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = game->windowHeight - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<game->nbuttons; i++) {
+		game->button[i].over=0;
+		if (x >= game->button[i].r.left &&
+				x <= game->button[i].r.right &&
+				y >= game->button[i].r.bot &&
+				y <= game->button[i].r.top) {
+			game->button[i].over=1;
+			if (game->button[i].over) {
+				if (lbutton) {
+					switch (i) {
+						case 10:
+							//Play again
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->gameover^=true;
+							reset_game(game);
+							break;
+						case 11:
+							//Main menu
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->gameover^=true;
+							game->main_menu^=true;
+							break;
+						case 12:
+							//Exit
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
+							game->done^=true;
+							game->gameover^=true;
+							break;
+					}
+				}
+			}
+		}
+	}
+	return;
 }

@@ -97,6 +97,9 @@ int getSource(const char * sound)
 	else if (strcmp(sound,"./wav/introSound.wav") == 0) {
 		return 9;
 	}
+	else if (strcmp(sound,"./wav/gameoverSound.wav") == 0) {
+		return 10;
+	}
 	else {
 		printf("%s hasn't been initialized\n\n", sound);
 		return -1;

@@ -338,11 +338,10 @@ void gameOver ( Game *game )
             game->isHighScore = false;
             game->showTaunt = true;
             playSounds ( "./wav/haha.wav", 0.5, false, game->muted );
-
-
         }
         if ( game->lives < 0 ) {
             game->gameover = true;
+	    //playSounds ( "./wav/gameoverSound.wav",1.0f, false, game->muted );
             game->lives = 1;
         }
         game->hschecked = false;

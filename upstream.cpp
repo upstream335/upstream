@@ -33,8 +33,9 @@ int main ( void )
 	initBuffer("./wav/haha.wav");
 	initBuffer("./wav/wow.wav");
 	initBuffer("./wav/introSound.wav");
+	initBuffer("./wav/gamoverSound.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
-	playSounds ( "./wav/introSound.wav", 0.1f, true, game.muted );
+	playSounds ( "./wav/introSound.wav", 0.1f, true, game.intromuted );
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	while ( !game.done ) {
 		while ( XPending ( dpy ) ) {
@@ -52,6 +53,7 @@ int main ( void )
 				checkResize ( &e, &game );
 				check_menu_mouse ( &e, &game );
 			}
+			playSounds ( "./wav/background.wav", 0.1f, false, game.muted );
 			game.demo.on=true;
 			demo ( &game );
 			physics ( &game );
@@ -129,7 +131,7 @@ int main ( void )
 			timeCopy(&timeStart, &timeCurrent);
 		}
 	}
-	//cleanUpSound();
+	cleanUpSound();
 	cleanupXWindows();
 	return 0;
 }

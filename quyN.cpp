@@ -79,6 +79,18 @@ void render_main_menu(Game *game)
 		render_credits(game);
 }
 
+void render_sub_menu(Game *game)
+{
+	game->pausedbg->render();
+	render_sub_menu_buttons(game);
+}
+
+void render_gameover_menu(Game *game)
+{
+	game->gameoverbg->render();
+	render_gameover_menu_buttons(game);
+}
+
 void render_highscore(Game *game)
 {
 	Rect r;
@@ -115,18 +127,6 @@ void render_credits(Game *game)
 	ggprint13 ( &r, 40, 1, "QUY NGUYEN");
 	r.left = 400;
 	ggprint13 ( &r, 40, 1, "KEVIN JENKIN");
-}
-
-void render_sub_menu(Game *game)
-{
-	game->pausedbg->render();
-	render_sub_menu_buttons(game);
-}
-
-void render_gameover_menu(Game *game)
-{
-	game->gameoverbg->render();
-	render_gameover_menu_buttons(game);
 }
 
 void IntroBG::render(void)
@@ -687,8 +687,8 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 0:
 							//Play
 							reset_game(game);
-							game->c.isJumping = false;
-							game->c.isStanding = true;
+							//game->c.isJumping = false;
+							//game->c.isStanding = true;
 							playSounds ( "./wav/tick.wav",1.0f,
 									false, game->muted );
 							game->main_menu^=true;
@@ -880,6 +880,7 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 							//Main menu
 							playSounds ( "./wav/tick.wav",1.0f,
 									false, game->muted );
+							muteIntroSound(game);
 							game->gameover^=true;
 							game->main_menu^=true;
 							break;

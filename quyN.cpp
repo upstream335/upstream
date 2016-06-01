@@ -38,7 +38,7 @@ void reset_game(Game *game)
 {
 	//reset the game
 	game->stresstest=0;
-	game->x= game->windowWidth/2;
+	game->x = game->windowWidth/2;
 	game->troll_lilypad=0;
 	game->help_menu=false;
 	game->bossGO = false;
@@ -100,6 +100,8 @@ void render_highscore(Game *game)
 	game->highscorebg->render();
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 	r.bot = game->windowHeight - 220;
+	r.left = 220;
+	ggprint16 ( &r, 40, 0, "HIGHSCORES: TOP 10");
 	for ( int i=0; i<10; i++ ) {
 		game->highScores[i] = loadScores ( i );
 		ss.str("");
@@ -118,7 +120,7 @@ void render_credits(Game *game)
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 	r.bot = game->windowHeight - 220;
 	r.left = 400;
-	ggprint13 ( &r, 40, 1, "CREDITS:");
+	ggprint16 ( &r, 40, 1, "CREDITS:");
 	r.left = 400;
 	ggprint13 ( &r, 40, 1, "JONATHAN DINH");
 	r.left = 400;
@@ -687,8 +689,12 @@ void check_menu_mouse ( XEvent *e, Game *game )
 						case 0:
 							//Play
 							reset_game(game);
-							//game->c.isJumping = false;
-							//game->c.isStanding = true;
+							if ( game->c.isJumping ) {
+							  game->c.isJumping = false;
+							  game->c.isStanding = true;
+							  game->c.velocity[1] = 0.0;
+							}
+							game->c.isStanding = true;
 							playSounds ( "./wav/tick.wav",1.0f,
 									false, game->muted );
 							game->main_menu^=true;
@@ -802,13 +808,15 @@ void check_paused_mouse ( XEvent *e, Game *game )
 							//restart game
 							playSounds ( "./wav/tick.wav",1.0f,
 									false, game->muted );
-							game->sub_menu^=true;
 							reset_game(game);
+							game->sub_menu^=true;
 							break;
 						case 8:
 							//main menu
 							playSounds ( "./wav/tick.wav",1.0f,
 									false, game->muted );
+							if ( game->frog->rocket() )
+							    game->frog->resetRocket();
 							game->sub_menu^=true;
 							game->main_menu^=true;
 							reset_game(game);

@@ -14,11 +14,12 @@ void check_mouse ( XEvent *e, Game *game )
 	if ( e->type == ButtonPress ) {
 		if ( e->xbutton.button==1 ) {
 			//Left button was pressed
-			lbutton=1;
+			lbutton=0;
 			if ( !game->c.isJumping ) {
 				game->c.isJumping = true;
 				game->c.isStanding = false;
 				game->c.velocity[1] = 15.0;
+				lbutton=1;
 			}
 		}
 		if ( e->xbutton.button==3 ) {
@@ -54,10 +55,10 @@ void check_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 13:
 							//Sound
-							playSounds ( "./wav/tick.wav",1.0f,
-									false, game->muted );
 							game->c.isJumping = false;
 							game->c.isStanding = false;
+							playSounds ( "./wav/tick.wav",1.0f,
+									false, game->muted );
 							muteSounds(game);
 							break;
 						case 14:

@@ -34,6 +34,39 @@
 #include "quyN.h"
 #include "kevinJ.h"
 
+void reset_game(Game *game)
+{
+	//reset the game
+	game->stresstest=0;
+	game->x= game->windowWidth/2;
+	game->troll_lilypad=0;
+	game->help_menu=false;
+	game->bossGO = false;
+	game->lives = 1;
+	//game->demo.on = false;
+	//game->demo.jump     =   0;
+	//game->demo.moveLeft =   0;
+	//game->demo.moveRight =  0;
+	game->score = 0;
+	game->scoreCount = 0;
+	game->n = 0;
+	game->ihead = NULL;
+	game->nlily = 0;
+	game->timer = 0;
+	game->maxtimer = 35;
+	game->lilytimer = 35;
+	game->lilyspawnpoint = game->windowHeight + 15;
+	game->c.radius = 15.0;
+	game->c.center[0] = game->windowWidth/2.0;
+	game->c.center[1] = 15;
+	game->c.detail = 150;
+	game->c.jumpSpeed = 0;
+	game->c.jumpSpeedMax = 25;
+	game->playing=true;
+	game->frog->resetRocket();
+	game->frog->move(WIDTH/2,40,0,0);
+}
+
 void render_main_menu(Game *game)
 {
 	glClear ( GL_COLOR_BUFFER_BIT );
@@ -96,39 +129,6 @@ void render_gameover_menu(Game *game)
 {
 	game->gameoverbg->render();
 	render_gameover_menu_buttons(game);
-}
-
-void reset_game(Game *game)
-{
-	//reset the game
-	game->stresstest=0;
-	game->x= game->windowWidth/2;
-	game->troll_lilypad=0;
-	game->help_menu=false;
-	game->bossGO = false;
-	game->lives = 1;
-	game->demo.on = false;
-	game->demo.jump     =   0;
-	game->demo.moveLeft =   0;
-	game->demo.moveRight =  0;
-	game->score = 0;
-	game->scoreCount = 0;
-	game->n = 0;
-	game->ihead = NULL;
-	game->nlily = 0;
-	game->timer = 0;
-	game->maxtimer = 35;
-	game->lilytimer = 35;
-	game->lilyspawnpoint = game->windowHeight + 15;
-	game->c.radius = 15.0;
-	game->c.center[0] = game->windowWidth/2.0;
-	game->c.center[1] = 15;
-	game->c.detail = 150;
-	game->c.jumpSpeed = 0;
-	game->c.jumpSpeedMax = 25;
-	game->playing=true;
-	game->frog->resetRocket();
-	game->frog->move(WIDTH/2,40,0,0);
 }
 
 void IntroBG::render(void)

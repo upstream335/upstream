@@ -100,15 +100,15 @@ void render_highscore(Game *game)
 	game->highscorebg->render();
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 	r.bot = game->windowHeight - 220;
-	r.left = 220;
-	ggprint16 ( &r, 40, 0, "HIGHSCORES: TOP 10");
+	r.left = 400;
+	ggfrog40b( &r, 40, 0, "HIGHSCORES:TOP10");
 	for ( int i=0; i<10; i++ ) {
 		game->highScores[i] = loadScores ( i );
 		ss.str("");
 		ss<<"player#"<<i+1<<" = "<<game->highScores[i];
 		s = ss.str();
 		c = s.c_str();
-		r.left = 220;
+		r.left = 350;
 		ggprint13 ( &r, 30, 0, c);
 	}
 }
@@ -120,7 +120,7 @@ void render_credits(Game *game)
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 	r.bot = game->windowHeight - 220;
 	r.left = 400;
-	ggprint16 ( &r, 40, 1, "CREDITS:");
+	ggfrog40b(  &r, 40, 1, "CREDITS:");
 	r.left = 400;
 	ggprint13 ( &r, 40, 1, "JONATHAN DINH");
 	r.left = 400;

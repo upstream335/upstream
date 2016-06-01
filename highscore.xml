@@ -26,6 +26,11 @@
     <mode>medium</mode>
   </player>
   <player>
+    <name>ones111111</name>
+    <score>1111</score>
+    <mode>2</mode>
+  </player>
+  <player>
     <name>player</name>
     <score>450</score>
     <mode>medium</mode>
@@ -72,6 +77,11 @@
   </player>
   <player>
     <name>player</name>
+    <score>28</score>
+    <mode>medium</mode>
+  </player>
+  <player>
+    <name>player</name>
     <score>22</score>
     <mode>medium</mode>
   </player>
@@ -88,16 +98,6 @@
   <player>
     <name>player</name>
     <score>20</score>
-    <mode>medium</mode>
-  </player>
-  <player>
-    <name>player</name>
-    <score>28</score>
-    <mode>2</mode>
-  </player>
-  <player>
-    <name>player</name>
-    <score>14</score>
     <mode>medium</mode>
   </player>
 </players>

@@ -34,6 +34,70 @@
 #include "quyN.h"
 #include "kevinJ.h"
 
+void render_main_menu(Game *game)
+{
+	glClear ( GL_COLOR_BUFFER_BIT );
+	game->introbg->render();
+	game->frog->render();
+	game->frog->render();
+	game->frog->render();
+	render_main_menu_buttons(game);
+	if (game->highscoreboard)
+		render_highscore(game);
+	if (game->credits)
+		render_credits(game);
+}
+
+void render_highscore(Game *game)
+{
+	Rect r;
+	stringstream ss;
+	string s;
+	const char* c;
+	game->highscorebg->render();
+	glBindTexture ( GL_TEXTURE_2D, 0 );
+	r.bot = game->windowHeight - 220;
+	for ( int i=0; i<10; i++ ) {
+		game->highScores[i] = loadScores ( i );
+		ss.str("");
+		ss<<"player#"<<i+1<<" = "<<game->highScores[i];
+		s = ss.str();
+		c = s.c_str();
+		r.left = 220;
+		ggprint13 ( &r, 30, 0, c);
+	}
+}
+
+void render_credits(Game *game)
+{
+	Rect r;
+	game->highscorebg->render();
+	glBindTexture ( GL_TEXTURE_2D, 0 );
+	r.bot = game->windowHeight - 220;
+	r.left = 400;
+	ggprint13 ( &r, 40, 1, "CREDITS:");
+	r.left = 400;
+	ggprint13 ( &r, 40, 1, "JONATHAN DINH");
+	r.left = 400;
+	ggprint13 ( &r, 40, 1, "JOHN HARGREAVES");
+	r.left = 400;
+	ggprint13 ( &r, 40, 1, "QUY NGUYEN");
+	r.left = 400;
+	ggprint13 ( &r, 40, 1, "KEVIN JENKIN");
+}
+
+void render_sub_menu(Game *game)
+{
+	game->pausedbg->render();
+	render_sub_menu_buttons(game);
+}
+
+void render_gameover_menu(Game *game)
+{
+	game->gameoverbg->render();
+	render_gameover_menu_buttons(game);
+}
+
 void reset_game(Game *game)
 {
 	//reset the game
@@ -277,68 +341,6 @@ void init_buttons(Game *game)
 	}
 	strcpy(game->button[13].text, "S");
 	strcpy(game->button[14].text, "Help");
-}
-
-void render_main_menu(Game *game)
-{
-	glClear ( GL_COLOR_BUFFER_BIT );
-	game->introbg->render();
-	game->frog->render();
-	render_main_menu_buttons(game);
-	if (game->highscoreboard)
-		render_highscore(game);
-	if (game->credits)
-		render_credits(game);
-}
-
-void render_highscore(Game *game)
-{
-	Rect r;
-	stringstream ss;
-	string s;
-	const char* c;
-	game->highscorebg->render();
-	glBindTexture ( GL_TEXTURE_2D, 0 );
-	r.bot = game->windowHeight - 220;
-	for ( int i=0; i<10; i++ ) {
-		game->highScores[i] = loadScores ( i );
-		ss.str("");
-		ss<<"player#"<<i+1<<" = "<<game->highScores[i];
-		s = ss.str();
-		c = s.c_str();
-		r.left = 220;
-		ggprint13 ( &r, 30, 0, c);
-	}
-}
-
-void render_credits(Game *game)
-{
-	Rect r;
-	game->highscorebg->render();
-	glBindTexture ( GL_TEXTURE_2D, 0 );
-	r.bot = game->windowHeight - 220;
-	r.left = 400;
-	ggprint13 ( &r, 40, 1, "CREDITS:");
-	r.left = 400;
-	ggprint13 ( &r, 40, 1, "JONATHAN DINH");
-	r.left = 400;
-	ggprint13 ( &r, 40, 1, "JOHN HARGREAVES");
-	r.left = 400;
-	ggprint13 ( &r, 40, 1, "QUY NGUYEN");
-	r.left = 400;
-	ggprint13 ( &r, 40, 1, "KEVIN JENKIN");
-}
-
-void render_sub_menu(Game *game)
-{
-	game->pausedbg->render();
-	render_sub_menu_buttons(game);
-}
-
-void render_gameover_menu(Game *game)
-{
-	game->gameoverbg->render();
-	render_gameover_menu_buttons(game);
 }
 
 void render_main_menu_buttons(Game *game)

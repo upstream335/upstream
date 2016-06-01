@@ -125,6 +125,7 @@ struct Game {
 	PausedBG *pausedbg;
 	GameoverBG *gameoverbg;
 	ButtonTextures *buttonT;
+	bool intromuted;
 
 	//highscore display
 	bool highscoreboard;
@@ -166,6 +167,7 @@ struct Game {
 		count = 2;
 		// buttons count
 		nbuttons = 0;
+		intromuted = false;
 	}
 };
 

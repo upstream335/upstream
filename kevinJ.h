@@ -21,6 +21,10 @@ using namespace std;
 #define rnd() (((double)rand())/(double)RAND_MAX)
 #define PI 3.141592
 
+extern void muteIntroSound(Game *game);
+extern void stopIntroSound(void);
+extern void playIntroSound(void);
+
 extern void playSounds(const char * sound, float gain, bool loop, bool muted);
 extern void muteSounds(Game *game);
 extern void initSounds();

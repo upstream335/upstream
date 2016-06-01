@@ -53,10 +53,16 @@ void check_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 13:
 							//Sound
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+							game->c.isJumping = false;
+							game->c.isStanding = false;
 							muteSounds(game);
 							break;
 						case 14:
 							//Help
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
+							game->c.isJumping = false;
+							game->c.isStanding = false;
 							game->help_menu ^= true;
 							break;
 					}
@@ -112,11 +118,18 @@ void check_menu_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 0:
 							//Play
+							game->c.isJumping = false;
+							game->c.isStanding = false;
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->main_menu^=true;
 							reset_game(game);
+							muteIntroSound(game);
+							game->credits=false;
+							game->highscoreboard=false;
 							break;
 						case 1:
 							//Difficulty
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->difficulty++;
 							if (game->difficulty > 3)
 								game->difficulty = EASY;
@@ -136,16 +149,19 @@ void check_menu_mouse ( XEvent *e, Game *game )
 							}
 							break;
 						case 2:
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							//High Scores
 							game->credits=false;
 							game->highscoreboard^=true;
 							break;
 						case 3:
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							//Credits
 							game->highscoreboard=false;
 							game->credits^=true;
 							break;
 						case 4:
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							//Exit Game
 							game->done^=true;
 							game->main_menu^=true;
@@ -199,25 +215,31 @@ void check_paused_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 5:
 							//Resmue
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->sub_menu^=true;
 							break;
 						case 6:
 							//Sound
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							muteSounds(game);
 							break;
 						case 7:
 							//restart game
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->sub_menu^=true;
 							reset_game(game);
 							break;
 						case 8:
 							//main menu
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->sub_menu^=true;
 							game->main_menu^=true;
 							reset_game(game);
+							muteIntroSound(game);
 							break;
 						case 9:
 							//Exit Game
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->done^=true;
 							game->sub_menu^=true;
 							break;
@@ -271,16 +293,19 @@ void check_gameover_mouse ( XEvent *e, Game *game )
 					switch (i) {
 						case 10:
 							//Play again
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->gameover^=true;
 							reset_game(game);
 							break;
 						case 11:
 							//Main menu
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->gameover^=true;
 							game->main_menu^=true;
 							break;
 						case 12:
 							//Exit
+							playSounds ( "./wav/tick.wav",1.0f, false, game->muted );
 							game->done^=true;
 							game->gameover^=true;
 							break;

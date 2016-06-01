@@ -94,6 +94,9 @@ int getSource(const char * sound)
 	else if (strcmp(sound,"./wav/wow.wav") == 0) {
 		return 8;
 	}
+	else if (strcmp(sound,"./wav/introSound.wav") == 0) {
+		return 9;
+	}
 	else {
 		printf("%s hasn't been initialized\n\n", sound);
 		return -1;
@@ -129,6 +132,18 @@ void muteSounds(Game *game)
 	}
 }
 
+void muteIntroSound(Game *game)
+{
+	game->intromuted ^= 1;
+	if ( game->intromuted ) {
+		stopIntroSound();
+		printf ( "Sounds OFF\n" );
+	} else {
+		playIntroSound();
+		printf ( "Sounds ON\n" );
+	}
+}
+
 void cleanUpSound()
 {
 	for (int i = 0; i < 10; i++) {
@@ -152,6 +167,16 @@ void stopMusic()
 void playMusic()
 {
 	alSourcePlay(source[0]);
+}
+
+void stopIntroSound()
+{
+	alSourceStop(source[9]);
+}
+
+void playIntroSound()
+{
+	alSourcePlay(source[9]);
 }
 
 double timeDiff(struct timespec *start, struct timespec *end)

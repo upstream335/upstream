@@ -32,7 +32,9 @@ int main ( void )
 	initBuffer("./wav/explosion.wav");
 	initBuffer("./wav/haha.wav");
 	initBuffer("./wav/wow.wav");
+	initBuffer("./wav/introSound.wav");
 	playSounds ( "./wav/background.wav", 0.1f, true, game.muted );
+	playSounds ( "./wav/introSound.wav", 0.1f, true, game.muted );
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	while ( !game.done ) {
 		while ( XPending ( dpy ) ) {

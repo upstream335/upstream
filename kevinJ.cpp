@@ -2,9 +2,11 @@
 //Project: Upstream
 //May 2016
 //Basic Function: Play and Cleanup sound files && how to score the game
-
-#include "kevinJ.h"
-
+//My file also connects to our website and send scores to the PhP file, so they
+//can be displayed.
+//For my button press I added a Monster mode with animation and bullets. If the
+//frog collides with a bullet, you explode.
+//
 //Global Sound Variable to set Background music source and buffer.
 //buffer/source[0] = background music
 //buffer/source[1] = boing
@@ -18,6 +20,14 @@
 //buffer/source[9] = introsound
 //buffer/source[10] = gameoversound
 
+#include "kevinJ.h"
+#define HOST "coding.debuntu.org"
+#define PAGE "/"
+#define PORT 80
+#define USERAGENT "HTMLGET 1.0"
+#define rnd() (((double)rand())/(double)RAND_MAX)
+#define PI 3.141592
+
 struct Game *g;
 ALuint source[10];
 ALuint buffer[10];
@@ -27,7 +37,6 @@ ALuint playSource[10];
 int bufferCount = 0;
 int sourceCount = 0;
 const double oobillion = 1.0 / 1e9;
-
 
 void initBuffer(const char * sound)
 {
@@ -415,6 +424,8 @@ void render_help_menu(Game *game)
 	ggprint13 ( &r, 30, 0, "K -- Stress Test" );
 	r.left = 235;
 	ggprint13 ( &r, 30, 0, "S -- Swarm (Spawns Mass Baby Flys)" );
+	r.left = 197;
+	ggprint13 ( &r, 30, 0, "B -- Boss Mode (Very Hard)" );
 	//ggprint40(&r, 50, 0, "FROG Y: %f", game->windowHeight - game->c.newPosY);
 	//ggprint40(&r, 50, 0, "FROG x: %f", game->windowWidth - game->c.newPosX);
 }
@@ -442,7 +453,6 @@ void Monster::render ( void )
 		current.x_vel = -2;
 
 	current.x_pos += current.x_vel;
-
 
 	glColor3f ( 1.0, 1.0, 1.0 );
 	glPushMatrix();
@@ -509,6 +519,7 @@ void drawBullet(Game *g)
 	spawnBullet(g);
 	for (int i=0; i<g->nbullets; i++) {
 		Bullet *b = &g->barr[i];
+		//black square to represent bullet
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_QUADS);
 		glVertex2f(b->pos[0] - 5, b->pos[1] - 5);
@@ -531,8 +542,6 @@ void updateBullet(Game *game)
 	clock_gettime(CLOCK_REALTIME, &bt);
 	for (int i=0; i<game->nbullets; i++) {
 		Bullet *b = &game->barr[i];
-		//How long has bullet been alive?
-		//double ts = timeDiff(&b->time, &bt);
 		//move the bullet
 		b->pos[0] += b->vel[0];
 		b->pos[1] += b->vel[1];
@@ -550,14 +559,14 @@ void updateBullet(Game *game)
 			deleteBullet(game, b);
 		}
 	}
-
 }
 
 void spawnBullet(Game *g)
 {
 	//spawn another bullet after its off the screen
+	//only one bullet on the screen at a time
 	if (g->nbullets < 1) {
-		//shoot a bullet...
+		//shoot a bullet from monster position
 		Bullet *b = &g->barr[g->nbullets];
 		b->pos[0] = g->monster->getXpos();
 		b->pos[1] = g->monster->getYpos();

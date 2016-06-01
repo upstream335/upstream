@@ -4,22 +4,11 @@
 #include <AL/al.h>
 #include <AL/alut.h>
 #include "game.h"
-#include "quyN.h"
-#include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <netdb.h>
-#include <string.h>
-#include <unistd.h>
 using namespace std;
-
-#define HOST "coding.debuntu.org"
-#define PAGE "/"
-#define PORT 80
-#define USERAGENT "HTMLGET 1.0"
-#define rnd() (((double)rand())/(double)RAND_MAX)
-#define PI 3.141592
 
 extern void muteIntroSound(Game *game);
 extern void stopIntroSound(void);
@@ -47,7 +36,6 @@ int create_tcp_socket();
 char *get_ip(char *host);
 char *build_get_query(char *host, char *page);
 void usage();
-
 
 #endif
 

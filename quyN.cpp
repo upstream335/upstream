@@ -202,11 +202,9 @@ void init_buttons(Game *game)
 			game->button[i].r.bot +
 			game->button[i].r.height;
 		game->button[i].r.centerx =
-			(game->button[i].r.left +
-			 game->button[i].r.right) / 2;
+			(game->button[i].r.left + game->button[i].r.right) / 2;
 		game->button[i].r.centery =
-			(game->button[i].r.bot +
-			 game->button[i].r.top) / 2;
+			(game->button[i].r.bot + game->button[i].r.top) / 2;
 		game->nbuttons++;
 		n+=50;
 	}
@@ -225,11 +223,9 @@ void init_buttons(Game *game)
 			game->button[i].r.bot +
 			game->button[i].r.height;
 		game->button[i].r.centerx =
-			(game->button[i].r.left +
-			 game->button[i].r.right) / 2;
+			(game->button[i].r.left + game->button[i].r.right) / 2;
 		game->button[i].r.centery =
-			(game->button[i].r.bot +
-			 game->button[i].r.top) / 2;
+			(game->button[i].r.bot + game->button[i].r.top) / 2;
 		game->nbuttons++;
 		n+=50;
 	}
@@ -248,11 +244,9 @@ void init_buttons(Game *game)
 			game->button[i].r.bot +
 			game->button[i].r.height;
 		game->button[i].r.centerx =
-			(game->button[i].r.left +
-			 game->button[i].r.right) / 2;
+			(game->button[i].r.left + game->button[i].r.right) / 2;
 		game->button[i].r.centery =
-			(game->button[i].r.bot +
-			 game->button[i].r.top) / 2;
+			(game->button[i].r.bot + game->button[i].r.top) / 2;
 		game->nbuttons++;
 		n+=50;
 	}
@@ -271,11 +265,9 @@ void init_buttons(Game *game)
 			game->button[i].r.bot +
 			game->button[i].r.height;
 		game->button[i].r.centerx =
-			(game->button[i].r.left +
-			 game->button[i].r.right) / 2;
+			(game->button[i].r.left + game->button[i].r.right) / 2;
 		game->button[i].r.centery =
-			(game->button[i].r.bot +
-			 game->button[i].r.top) / 2;
+			(game->button[i].r.bot + game->button[i].r.top) / 2;
 		game->button[i].color[0] = 0.3f;
 		game->button[i].color[1] = 0.7f;
 		game->button[i].color[2] = 0.3f;
